@@ -1,13 +1,18 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {categorySlice} from "./reducers/categorySlice";
+import {productAPI} from "./services/productService";
 
 const rootReducer = combineReducers({
-    category: categorySlice.reducer
+    category: categorySlice.reducer,
+    [productAPI.reducerPath]: productAPI.reducer
 });
 
 const setupStore = () => {
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) => {
+            return getDefaultMiddleware().concat(productAPI.middleware)
+        }
     });
 };
 
