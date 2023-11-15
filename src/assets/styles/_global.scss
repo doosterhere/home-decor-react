@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 html, body {
   margin: 0;
@@ -12,7 +13,7 @@ html, body {
   flex-direction: column;
   min-height: 100vh;
 
-  div {
+  & > div {
     flex-grow: 1;
   }
 }
@@ -170,6 +171,14 @@ a.button {
 
     a {
       cursor: pointer;
+
+      &.inactive {
+        cursor: default;
+
+        svg path {
+          fill: $color-text-dark-gray;
+        }
+      }
     }
   }
 }
