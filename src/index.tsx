@@ -5,7 +5,8 @@ import {Provider} from "react-redux";
 import './assets/styles/styles.scss';
 
 import App from './app/App';
-import {setupStore} from "./app/store/store";
+
+import {setupStore} from "./app/store";
 
 const store = setupStore();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

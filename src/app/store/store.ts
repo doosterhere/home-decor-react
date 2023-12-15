@@ -1,18 +1,29 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {categorySlice} from "./reducers/categorySlice";
-import {productAPI} from "./services/productService";
+
+import {categoryReducer} from "./reducers/categoryReducer";
+import {cartReducer} from "./reducers/cartReducer";
+import {productAPI} from "./api/productApi";
+import {cartAPI} from "./api/cartApi";
+import {typeApi} from "./api/typeApi";
 
 const rootReducer = combineReducers({
-    category: categorySlice.reducer,
-    [productAPI.reducerPath]: productAPI.reducer
+    category: categoryReducer.reducer,
+    cart: cartReducer.reducer,
+    [productAPI.reducerPath]: productAPI.reducer,
+    [cartAPI.reducerPath]: cartAPI.reducer,
+    [typeApi.reducerPath]: typeApi.reducer
 });
 
 const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
-        middleware: (getDefaultMiddleware) => {
-            return getDefaultMiddleware().concat(productAPI.middleware)
-        }
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware()
+                .concat(
+                    productAPI.middleware,
+                    cartAPI.middleware,
+                    typeApi.middleware
+                )
     });
 };
 

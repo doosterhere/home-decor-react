@@ -13,6 +13,9 @@ export function useScrollToAnchor() {
                     element.scrollIntoView({behavior: 'smooth'});
                 }
             }, 0);
+            return;
         }
+
+        window.scrollTo(0, 0);
     }, [pathname, hash, key]);
 }

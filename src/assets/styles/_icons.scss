@@ -1,0 +1,78 @@
+.icon {
+  &-humidity,
+  &-lighting,
+  &-temperature {
+    width: 53px;
+    height: 55px;
+  }
+
+  &-heart {
+    width: 17px;
+    height: 15px;
+  }
+
+  &-heart-filled {
+    width: 16px;
+    height: 15px;
+  }
+
+  &-close-cross {
+    width: 16px;
+    height: 17px;
+  }
+
+  &-list {
+    width: 20px;
+    height: 21px;
+  }
+
+  &-list-short {
+    width: 16px;
+    height: 8px;
+  }
+
+  &-arrow-backward,
+  &-arrow-forward {
+    width: 24px;
+    height: 25px;
+  }
+
+  &-minus {
+    width: 10px;
+    height: 3px;
+  }
+
+  &-plus {
+    width: 13px;
+    height: 12px;
+  }
+
+  &-vk,
+  &-fb,
+  &-instagram,
+  &-profile,
+  &-heart-big,
+  &-heart-big-filled,
+  &-cart {
+    width: 24px;
+    height: 24px;
+  }
+
+  &-swiper-backward,
+  &-swiper-backward-gray,
+  &-swiper-forward,
+  &-swiper-forward-gray {
+    width: 16px;
+    height: 16px;
+  }
+
+  &-dots {
+    width: 18px;
+    height: 4px;
+  }
+
+  &-login {
+    width: 23px;
+    height: 23px;
+  }
+}

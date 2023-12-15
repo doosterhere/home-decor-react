@@ -1,42 +1,5 @@
 export const config = {
     deliveryCost: 10,
-    // bestSwiperConfig: {
-    //     spaceBetween: 25,
-    //     grabCursor: true,
-    //     speed: 700,
-    //     breakpoints: {
-    //         320: {
-    //             slidesPerView: 1
-    //         },
-    //         607: {
-    //             slidesPerView: 2
-    //         },
-    //         923: {
-    //             slidesPerView: 3
-    //         },
-    //         1300: {
-    //             slidesPerView: 4
-    //         }
-    //     }
-    // },
-    // reviewSwiperConfig: {
-    //     spaceBetween: 26,
-    //     grabCursor: true,
-    //     speed: 700,
-    //     loop: true,
-    //     breakpoints: {
-    //         320: {
-    //             slidesPerView: 1
-    //         },
-    //         818: {
-    //             slidesPerView: 2,
-    //             spaceBetween: 0
-    //         },
-    //         1240: {
-    //             slidesPerView: 3
-    //         }
-    //     }
-    // },
     reviews: [
         {
             id: 1,

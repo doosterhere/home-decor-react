@@ -172,12 +172,30 @@ a.button {
     a {
       cursor: pointer;
 
+      .icon-swiper-backward,
+      .icon-swiper-forward {
+        display: block;
+      }
+
+      .icon-swiper-backward-gray,
+      .icon-swiper-forward-gray {
+        display: none;
+      }
+
+
       &.inactive {
         cursor: default;
 
-        svg path {
-          fill: $color-text-dark-gray;
+        .icon-swiper-backward,
+        .icon-swiper-forward {
+          display: none;
         }
+
+        .icon-swiper-backward-gray,
+        .icon-swiper-forward-gray {
+          display: block;
+        }
+
       }
     }
   }
@@ -229,12 +247,14 @@ a.button {
 
 [type='radio']:not(:checked) + label:after {
   opacity: 0;
+  transform: scale(0);
   -webkit-transform: scale(0);
   scale: 0;
 }
 
 [type='radio']:checked + label:after {
   opacity: 1;
+  transform: scale(1);
   -webkit-transform: scale(1);
   scale: 1;
 }
