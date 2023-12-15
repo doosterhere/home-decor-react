@@ -1,0 +1,132 @@
+import React, {FC, PropsWithChildren, SetStateAction, useEffect, useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
+
+import './ProductCard.scss';
+
+import {ROUTES, SERVER_STATIC_PATH} from "../../constants/constants";
+
+import {ICartItem} from "../../store";
+
+import {ProductType} from "../../types/product.type";
+import {IconName} from "../../types/icon-name.type";
+
+import CountSelector from "../CountSelector/CountSelector";
+import Icon from "../Icon/Icon";
+
+interface IProductCardProps extends PropsWithChildren {
+    product: ProductType | null;
+    isLogged?: boolean;
+    isLight?: boolean;
+    countInCart?: number;
+    updateCart?: (cartItem: ICartItem) => void;
+    updateFavorites?: () => void;
+}
+
+const ProductCard: FC<IProductCardProps> =
+    ({
+         product,
+         isLogged,
+         isLight,
+         countInCart = 0,
+         updateCart
+     }) => {
+        const [count, setCount] = useState(1);
+        const navigator = useNavigate();
+
+        const navigate = () => {
+            if (isLight && product) {
+                navigator(`${ROUTES.PRODUCT}/${product.url}`);
+            }
+        };
+
+        const updateCount = (value: SetStateAction<number>) => {
+            setCount(value);
+            if (countInCart) {
+                addToCart();
+            }
+        };
+
+        const updateFavorites = () => {
+        };
+
+        const addToCart = () => {
+            if (product && updateCart) {
+                updateCart({
+                    productId: product.id,
+                    quantity: count
+                });
+                countInCart = count;
+            }
+        };
+
+        const removeFromCart = () => {
+            if (product && updateCart) {
+                updateCart({
+                    productId: product.id,
+                    quantity: 0
+                });
+                countInCart = 0;
+                setCount(1);
+            }
+        };
+
+
+        useEffect(() => {
+            if (countInCart) {
+                setCount(countInCart);
+            }
+        }, []);
+
+        if (product) {
+            return (
+                <div onClick={navigate}
+                     className={isLight ? 'product-card is-light' : 'product-card'}>
+                    {(isLogged && !isLight) &&
+                        <div className='product-card__favorite' onClick={updateFavorites}>
+                            {!product.inFavorites &&
+                                <Icon name={IconName.heartBig}/>
+                            }
+                            {product.inFavorites &&
+                                <Icon name={IconName.heartBigFilled}/>
+                            }
+                        </div>
+                    }
+                    <div className='product-card__image'
+                         style={{backgroundImage: `url(${SERVER_STATIC_PATH + product.image})`}}></div>
+                    <div className='product-card__name'>{product.name}</div>
+                    {!isLight &&
+                        <div className='product-card__info'>
+                            <div className='product-card__price'>{product.price} BYN</div>
+                            <div className='product-card__action'>
+                                {countInCart === 0 &&
+                                    <button className='button' onClick={addToCart}>В корзину</button>
+                                }
+                                {countInCart > 0 &&
+                                    <button className='button button_transparent button_in-cart'
+                                            onClick={removeFromCart}>
+                                        <span>В корзине</span>
+                                        <span>Удалить</span>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                    {!isLight &&
+                        <div className='product-card__extra'>
+                            <CountSelector count={count} updateCount={updateCount}/>
+                            <Link to={`${ROUTES.PRODUCT}/${product.url}`} className='product-card__detail'>
+                                <Icon name={IconName.dots} needParentHover={true}/>
+                                <span>Подробнее</span>
+                            </Link>
+                        </div>
+                    }
+                </div>
+            );
+        }
+
+        return (
+            <div></div>
+        );
+    };
+
+export default ProductCard;

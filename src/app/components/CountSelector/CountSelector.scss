@@ -1,5 +1,3 @@
-@import "../../../assets/styles/variables";
-
 .count-selector {
   width: 97px;
   display: flex;
@@ -16,10 +14,6 @@
 
     &:first-child {
       width: 12px;
-    }
-
-    &:hover path {
-      fill: $color-primary-light;
     }
   }
 }
