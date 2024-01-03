@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 import {ROUTES} from "../constants/constants";
 
@@ -16,6 +16,7 @@ const AppRouter = () => (
             <Route path={ROUTES.HOME} element={<Main/>}/>
             <Route path={ROUTES.CATALOG} element={<Catalog/>}/>
             <Route path={`${ROUTES.PRODUCT}/:url`} element={<Detail/>}/>
+            <Route path='*' element={<Navigate replace to={ROUTES.HOME}/>}/>
         </Routes>
         <Footer/>
     </BrowserRouter>

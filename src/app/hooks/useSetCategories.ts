@@ -43,5 +43,5 @@ export function useSetCategories() {
 
     useEffect(() => {
         dispatch(setCategoriesWithTypes(categories));
-    }, [types]);
+    }, [dispatch, types]);
 }

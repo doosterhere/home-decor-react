@@ -1,8 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 import {BASE_API} from "../../constants/constants";
+
 import {ProductType} from "../../types/product.type";
-import {ActiveParamsType} from "../../types/active-params.type";
 
 export const productAPI = createApi({
     reducerPath: 'productAPI',
@@ -15,12 +15,9 @@ export const productAPI = createApi({
             }),
             providesTags: ['product']
         }),
-        getProducts: builder.query<{ totalCount: number, pages: number, items: ProductType[] }, ActiveParamsType>({
-            query: (params: ActiveParamsType) => ({
-                url: 'products/',
-                params: {
-                    params
-                }
+        getProducts: builder.query<{ totalCount: number, pages: number, items: ProductType[] }, string>({
+            query: (params: string) => ({
+                url: 'products' + params
             }),
             providesTags: ['product']
         }),

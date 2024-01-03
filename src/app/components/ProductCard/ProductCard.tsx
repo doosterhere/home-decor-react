@@ -75,7 +75,7 @@ const ProductCard: FC<IProductCardProps> =
             if (countInCart) {
                 setCount(countInCart);
             }
-        }, []);
+        }, [countInCart]);
 
         if (product) {
             return (
@@ -115,7 +115,7 @@ const ProductCard: FC<IProductCardProps> =
                         <div className='product-card__extra'>
                             <CountSelector count={count} updateCount={updateCount}/>
                             <Link to={`${ROUTES.PRODUCT}/${product.url}`} className='product-card__detail'>
-                                <Icon name={IconName.dots} needParentHover={true}/>
+                                <Icon name={IconName.dots} needParentHover/>
                                 <span>Подробнее</span>
                             </Link>
                         </div>

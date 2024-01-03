@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 import {Menu, MenuItem} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import './Header.scss';
 
-import {ROUTES, MENU} from "../../../constants/constants";
-
+import {MENU, ROUTES} from "../../../constants/constants";
 import {useAppSelector} from "../../../hooks/redux";
 import {useSetCategories} from "../../../hooks/useSetCategories";
 import makeTypesQueryString from "../../../utils/makeTypesQueryString";
@@ -19,10 +20,30 @@ const Header = () => {
     const {categories} = useAppSelector(state => state.category);
     const [count, setCount] = useState(0);
     const [isLogged, setIsLogged] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(0);
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
     const navigator = useNavigate();
 
     const [anchorMenuEl, setAnchorMenuEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorMenuEl);
+
+    useEffect(() => {
+        setScreenWidth(window.innerWidth);
+        window.addEventListener('resize', () => setScreenWidth(window.innerWidth));
+
+        return () => {
+            window.removeEventListener('resize', () => setScreenWidth(window.innerWidth));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMenuVisible) {
+            disableScroll();
+            return;
+        }
+
+        enableScroll();
+    }, [isMenuVisible]);
 
     const handleUserClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         setAnchorMenuEl(event.currentTarget);
@@ -41,6 +62,26 @@ const Header = () => {
         setAnchorMenuEl(null);
     };
 
+    const changeMenuVisibility = () => {
+        if (screenWidth < 1024) {
+            setIsMenuVisible(current => !current);
+        }
+    };
+
+    const disableScroll = () => {
+        const scrollTop: number = document.documentElement.scrollTop;
+        const scrollLeft: number = document.documentElement.scrollLeft;
+
+        window.onscroll = function (): void {
+            window.scrollTo(scrollLeft, scrollTop);
+        }
+    }
+
+    const enableScroll = () => {
+        window.onscroll = function (): void {
+        };
+    }
+
     useSetCategories();
 
     return (
@@ -51,14 +92,39 @@ const Header = () => {
                 </Link>
                 <div className='header__content'>
                     <div className='header__top'>
-                        <div className='header__top-menu'>
+                        <div className="header__top-mobile-menu-button"
+                             onClick={changeMenuVisibility}
+                        >
+                            <MenuIcon
+                                style={{
+                                    'display': screenWidth > 1023 || (screenWidth <= 1023 && isMenuVisible)
+                                        ? 'none' : 'block'
+                                }}
+                            />
+                        </div>
+                        <div className='header__top-menu'
+                             style={{
+                                 'display': screenWidth > 1023 || (screenWidth <= 1023 && isMenuVisible)
+                                     ? 'block' : 'none'
+                             }}
+                        >
                             <nav>
+                                <div className="header__top-menu-cross"
+                                     onClick={changeMenuVisibility}
+                                >
+                                    <CloseIcon/>
+                                </div>
                                 <ul>
                                     {
                                         MENU.map(item => {
                                             return (
                                                 <li key={item.name}>
-                                                    <Link to={item.link}>{item.name}</Link>
+                                                    <Link
+                                                        to={item.link}
+                                                        onClick={changeMenuVisibility}
+                                                    >
+                                                        {item.name}
+                                                    </Link>
                                                 </li>
                                             )
                                         })
@@ -74,7 +140,7 @@ const Header = () => {
                                 </Link>
                             }
                             {isLogged &&
-                                <a
+                                <span
                                     id='user-button'
                                     aria-controls={open ? 'user-menu' : undefined}
                                     aria-haspopup='true'
@@ -82,7 +148,7 @@ const Header = () => {
                                     onClick={handleUserClick}
                                 >
                                     <Icon name={IconName.profile}/>
-                                </a>
+                                </span>
                             }
                             <Menu
                                 id='user-menu'

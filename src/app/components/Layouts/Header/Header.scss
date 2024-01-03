@@ -19,7 +19,7 @@
 
         font-weight: 500;
 
-        .header__top-mobile-menu {
+        .header__top-mobile-menu-button {
           margin-right: auto;
           width: 42px;
           height: 42px;
@@ -27,7 +27,7 @@
           justify-content: center;
           align-items: center;
 
-          .mat-icon {
+          svg {
             width: 42px;
             height: 42px;
 
@@ -45,7 +45,9 @@
               top: 20px;
               right: 20px;
 
-              .mat-icon {
+              display: none;
+
+              svg {
                 width: 50px;
                 height: 50px;
 
@@ -99,7 +101,7 @@
           align-items: center;
           justify-content: flex-end;
 
-          a {
+          a, & > span {
             position: relative;
 
             margin-right: 8px;
@@ -334,7 +336,7 @@
         .header__top {
           justify-content: flex-end;
 
-          .header__top-mobile-menu {
+          .header__top-mobile-menu-button {
             display: flex;
           }
 
@@ -346,21 +348,27 @@
 
             background: rgba(0, 0, 0, 0.8);
 
-            nav ul {
-              min-width: 100vw;
-              min-height: 100vh;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              gap: 30px;
+            nav {
+              .header__top-menu-cross {
+                display: block;
+              }
 
-              li {
-                margin-right: unset;
-                border-bottom: none;
+              ul {
+                min-width: 100vw;
+                min-height: 100vh;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
 
-                a {
-                  font-size: 36px;
-                  color: $color-white;
+                li {
+                  margin-right: unset;
+                  border-bottom: none;
+
+                  a {
+                    font-size: 36px;
+                    color: $color-white;
+                  }
                 }
               }
             }
@@ -393,7 +401,7 @@
           padding-top: 25px;
           justify-content: space-between;
 
-          .header__top-mobile-menu {
+          .header__top-mobile-menu-button {
             margin-right: unset;
           }
 

@@ -78,20 +78,20 @@ const SliderButtons: FC<ISliderButtons> =
 
         return (
             <div className={wrapperClass}>
-                <a className={(!backwardEnabled && !withLoop) ? "move-backward inactive" : "move-backward"}
+                <span className={(!backwardEnabled && !withLoop) ? "move-backward inactive" : "move-backward"}
                    onClick={handlePrev}>
                     <Icon name={IconName.swiperBackward}/>
                     {!withLoop &&
                         <Icon name={IconName.swiperBackwardGray}/>
                     }
-                </a>
-                <a className={(!forwardEnabled && !withLoop) ? "move-forward inactive" : "move-forward"}
+                </span>
+                <span className={(!forwardEnabled && !withLoop) ? "move-forward inactive" : "move-forward"}
                    onClick={handleNext}>
                     <Icon name={IconName.swiperForward}/>
                     {!withLoop &&
                         <Icon name={IconName.swiperForwardGray}/>
                     }
-                </a>
+                </span>
             </div>
         );
     };

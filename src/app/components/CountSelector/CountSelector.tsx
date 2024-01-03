@@ -29,13 +29,13 @@ const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {
     return (
         <div className='count-selector'>
             <div onClick={decreaseCounter}>
-                <Icon name={IconName.minus} needHover={true}/>
+                <Icon name={IconName.minus} needHover/>
             </div>
             <input type="text" name="counter" className='small-input'
                    value={count}
                    onChange={(e) => onChangeHandler(e)}/>
             <div onClick={increaseCounter}>
-                <Icon name={IconName.plus} needHover={true}/>
+                <Icon name={IconName.plus} needHover/>
             </div>
         </div>
     );

@@ -3,8 +3,7 @@ import {Link} from "react-router-dom";
 
 import "./Footer.scss";
 
-import {ROUTES, MENU} from "../../../constants/constants";
-
+import {MENU, ROUTES} from "../../../constants/constants";
 import {useAppSelector} from "../../../hooks/redux";
 import makeTypesQueryString from "../../../utils/makeTypesQueryString";
 
@@ -62,13 +61,13 @@ const Footer = () => {
                     <div className='footer-block__name'>Мы в социальных сетях</div>
                     <div className='footer-block__social'>
                         <a href="https://vk.com/" target="_blank" rel="noreferrer">
-                            <Icon name={IconName.vk} needHover={true}/>
+                            <Icon name={IconName.vk} needHover/>
                         </a>
                         <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
-                            <Icon name={IconName.fb} needHover={true}/>
+                            <Icon name={IconName.fb} needHover/>
                         </a>
                         <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-                            <Icon name={IconName.instagram} needHover={true}/>
+                            <Icon name={IconName.instagram} needHover/>
                         </a>
                     </div>
                     <div className='footer-block__payment'>

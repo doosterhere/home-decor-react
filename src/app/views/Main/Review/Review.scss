@@ -58,7 +58,7 @@
       .review__arrows {
         display: flex;
 
-        a {
+        span {
           position: absolute;
           top: calc(50% - 8px);
 
@@ -86,7 +86,7 @@
     .container {
       .review__carousel {
         .review__arrows {
-          a {
+          span {
             z-index: 1;
 
             $width: 396px;
@@ -117,7 +117,7 @@
     .container {
       .review__carousel {
         .review__arrows {
-          a {
+          span {
             $width: 396px;
             $margin: calc((100% - $width) / 2);
 

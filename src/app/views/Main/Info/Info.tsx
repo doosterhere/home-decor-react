@@ -30,7 +30,7 @@ const Info = () =>
                         </div>
                     </div>
                 </div>
-                <div className='info__text info__payment'>
+                <div className='info__item info__payment'>
                     <div className='info__image'>
                         <img src="/images/page/payment.png" alt="payment"/>
                     </div>

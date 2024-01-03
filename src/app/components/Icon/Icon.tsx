@@ -2,7 +2,7 @@ import React, {FC, useEffect, useRef, useState} from 'react';
 
 import {IconName} from "../../types/icon-name.type";
 
-type Icon = {
+type IconType = {
     name: IconName;
     width?: string;
     height?: string;
@@ -16,7 +16,7 @@ type Icon = {
     needParentHover?: boolean;
 };
 
-const Icon: FC<Icon> = ({
+const Icon: FC<IconType> = ({
                             name,
                             width,
                             height,
@@ -35,26 +35,28 @@ const Icon: FC<Icon> = ({
     }
 
     useEffect(() => {
+        const svg = ref.current;
+
         if (needHover) {
-            ref.current?.addEventListener('mouseenter', mouseIn);
-            ref.current?.addEventListener('mouseleave', mouseOut);
+            svg?.addEventListener('mouseenter', mouseIn);
+            svg?.addEventListener('mouseleave', mouseOut);
 
             return () => {
-                ref.current?.removeEventListener('mouseenter', mouseIn);
-                ref.current?.removeEventListener('mouseleave', mouseOut);
+                svg?.removeEventListener('mouseenter', mouseIn);
+                svg?.removeEventListener('mouseleave', mouseOut);
             };
         }
 
         if (needParentHover) {
-            ref.current?.parentNode?.addEventListener('mouseenter', mouseIn);
-            ref.current?.parentNode?.addEventListener('mouseleave', mouseOut);
+            svg?.parentNode?.addEventListener('mouseenter', mouseIn);
+            svg?.parentNode?.addEventListener('mouseleave', mouseOut);
 
             return () => {
-                ref.current?.parentNode?.removeEventListener('mouseenter', mouseIn);
-                ref.current?.parentNode?.removeEventListener('mouseleave', mouseOut);
+                svg?.parentNode?.removeEventListener('mouseenter', mouseIn);
+                svg?.parentNode?.removeEventListener('mouseleave', mouseOut);
             };
         }
-    }, []);
+    }, [needHover, needParentHover]);
 
     if (!needHover && !needParentHover) {
         return (
