@@ -1,0 +1,134 @@
+@import '../../../../assets/styles/variables';
+
+.catalog__head {
+  margin-left: 317px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  align-items: baseline;
+
+  .catalog__applied-filters {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    .catalog__applied-filter {
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      border: 1px solid $color-secondary-04;
+      border-radius: 50px;
+
+      font-size: 16px;
+      color: $color-text-secondary;
+
+      span:last-child {
+        margin-left: 8px;
+        display: flex;
+
+        cursor: pointer;
+
+        &:hover svg g line {
+          stroke: $color-button-hover;
+        }
+      }
+    }
+  }
+
+  .catalog__sorting {
+    position: relative;
+
+    width: 270px;
+    min-width: 270px;
+    box-sizing: border-box;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    .catalog__sorting-head {
+      padding: 12px 23px 12px 23px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      color: $color-text-secondary;
+
+      span {
+        margin-right: 16px;
+      }
+
+      &:hover {
+        border-radius: 5px;
+
+        background-color: $color-gray;
+      }
+    }
+
+    .catalog__sorting-body {
+      position: absolute;
+      z-index: 3;
+
+      padding: 12px 23px;
+      width: 100%;
+      display: none;
+      box-sizing: border-box;
+      border-radius: 0 0 5px 5px;
+
+      color: $color-text-dark-gray;
+
+      background-color: #F5F5F5;
+
+      .catalog__sorting-item {
+        margin-bottom: 14px;
+
+        &:hover {
+          color: $color-secondary-02;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &.active {
+          color: #313131;
+        }
+      }
+    }
+
+    &.open {
+      .catalog__sorting-head {
+        border-radius: 5px 5px 0 0;
+
+        color: $color-black;
+
+        background: $color-gray;
+
+        svg {
+          rotate: 180deg;
+        }
+      }
+
+      .catalog__sorting-body {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .catalog__head {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .catalog__head {
+    flex-direction: column;
+
+    .catalog__sorting {
+      margin-left: auto;
+    }
+  }
+}

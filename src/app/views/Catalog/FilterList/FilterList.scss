@@ -1,0 +1,28 @@
+.catalog__filters {
+  margin-right: 58px;
+  width: 257px;
+  min-width: 257px;
+}
+
+@media screen and (max-width: 1300px) {
+  .catalog__filters {
+    margin-right: 48px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .catalog__filters {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .catalog__filters {
+    //margin-bottom: 30px;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,0 +1,53 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+.catalog {
+  padding-top: 100px;
+  padding-bottom: 110px;
+
+  .container {
+    .catalog__title {
+      margin-bottom: 33px;
+      margin-left: 317px;
+
+      @include header-lora-36;
+      color: $color-primary;
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .catalog {
+    padding-top: 90px;
+    padding-bottom: 100px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .catalog {
+    padding-top: 80px;
+    padding-bottom: 80px;
+
+    .container {
+      .catalog__title {
+        margin-left: 0;
+
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .catalog {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .catalog {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}

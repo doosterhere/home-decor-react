@@ -1,0 +1,68 @@
+@import "../../../../../../assets/styles/variables";
+
+.detail__info-items {
+  margin-bottom: 51px;
+
+  .detail__info-item {
+    margin-top: 20px;
+    padding-top: 20px;
+    display: flex;
+    border-top: 1px solid $color-secondary-04;
+
+    &:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .detail__info-item-text {
+      margin-left: 22px;
+      width: 528px;
+
+      .detail__info-item-title {
+        margin-bottom: 15px;
+
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 130%;
+        color: $color-primary;
+      }
+
+      .detail__info-item-description {
+        font-size: 16px;
+        line-height: 130%;
+        color: $color-text-secondary;
+        text-align: justify;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .detail__info-items {
+    .detail__info-item {
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .detail__info-items {
+    .detail__info-item {
+      .detail__info-item-text {
+        margin-left: 6px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .detail__info-items {
+    .detail__info-item {
+      .detail__info-item-text {
+        margin-left: 0;
+      }
+    }
+  }
+}
