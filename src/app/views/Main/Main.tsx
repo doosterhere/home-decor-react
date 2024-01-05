@@ -5,11 +5,11 @@ import './Main.scss';
 
 import {useScrollToAnchor} from "../../hooks/useScrollToAnchor";
 
-import Offers from "./Offers/Offers";
-import Info from "./Info/Info";
-import Review from "./Review/Review";
-import BestProducts from "./BestProducts/BestProducts";
-import Map from "./Map/Map";
+import MainOffers from "./MainOffers";
+import MainBestProducts from "./MainBestProducts";
+import MainInfo from "./MainInfo";
+import MainReview from "./MainReview";
+import MainMap from "./MainMap";
 
 const Main = () => {
 
@@ -31,11 +31,11 @@ const Main = () => {
                     </div>
                 </div>
             </section>
-            <Offers/>
-            <BestProducts isLogged={isLogged}/>
-            <Info/>
-            <Review/>
-            <Map/>
+            <MainOffers/>
+            <MainBestProducts isLogged={isLogged}/>
+            <MainInfo/>
+            <MainReview/>
+            <MainMap/>
         </div>
     );
 };

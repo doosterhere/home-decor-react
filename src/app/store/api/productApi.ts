@@ -28,17 +28,12 @@ export const productAPI = createApi({
             providesTags: ['product']
         }),
         searchProducts: builder.query<ProductType[], string>({
-            query: (searchPhrase: string) => ({
-                url: 'products/search?query=' + searchPhrase
-            }),
+            query: (searchString: string) => {
+                return ({
+                    url: 'products/search?query=' + searchString
+                });
+            },
             providesTags: ['product']
         }),
     })
 });
-
-export const {
-    useGetProductQuery,
-    useGetProductsQuery,
-    useGetBestProductsQuery,
-    useSearchProductsQuery
-} = productAPI;

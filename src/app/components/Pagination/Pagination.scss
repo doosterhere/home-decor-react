@@ -1,0 +1,81 @@
+@import "../../../assets/styles/variables";
+
+.pagination {
+  margin-top: 79px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  nav.MuiPagination-root {
+    ul {
+      gap: 15px;
+
+      li button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        color: $color-text-secondary;
+
+        &:hover {
+          background-color: $color-secondary-04;
+        }
+
+        &[aria-current='true'] {
+          background-color: $color-secondary-03;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .pagination {
+    nav.MuiPagination-root {
+      ul {
+        gap: 5px;
+
+        li button {
+          width: 40px;
+          height: 40px;
+
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .pagination {
+    margin-top: 69px;
+
+    nav.MuiPagination-root {
+      ul {
+        gap: 0;
+
+        li button {
+          width: 34px;
+          height: 34px;
+
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .pagination {
+    nav.MuiPagination-root {
+      ul {
+        li button {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

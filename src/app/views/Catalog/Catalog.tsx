@@ -11,14 +11,9 @@ import {FavoritesType} from "../../types/favorites.type";
 import {ProductType} from "../../types/product.type";
 import {ActiveParamsType} from "../../types/active-params.type";
 
-import CatalogHead from "./CatalogHead/CatalogHead";
-import CatalogLayout from "./CatalogLayout/CatalogLayout";
-import Pagination from "./Pagination/Pagination";
-
-export interface IActiveParams {
-    activeParams: ActiveParamsType;
-    setParams: (state: ActiveParamsType | ((prevState: ActiveParamsType) => ActiveParamsType)) => void;
-}
+import CatalogHead from "./CatalogHead";
+import CatalogLayout from "./CatalogLayout";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Catalog = () => {
     const [favorites, setFavorites] = useState<FavoritesType[] | null>(null);

@@ -101,7 +101,7 @@
           align-items: center;
           justify-content: flex-end;
 
-          a, & > span {
+          #user-button, a {
             position: relative;
 
             margin-right: 8px;
@@ -129,7 +129,7 @@
               font-size: 9px;
               color: $color-primary;
 
-              background-color: #B6D5B9;
+              background-color: $color-secondary-03;
             }
           }
         }
@@ -177,14 +177,60 @@
         .header__bottom-search {
           position: relative;
 
+          .header__bottom-search-reset {
+            position: absolute;
+            top: 12px;
+            right: 10px;
+
+            width: 25px;
+            height: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: $color-white;
+            cursor: pointer;
+            user-select: none;
+
+            svg path {
+              fill: $color-button-default;
+            }
+
+            &:hover svg path {
+              fill: $color-button-hover;
+            }
+
+            &:after {
+              position: absolute;
+              top: -21px;
+              right: 5px;
+
+              padding: 0 3px;
+              display: none;
+              border: 1px solid $color-blackish;
+              border-radius: 5px;
+              content: 'очистить';
+
+              font-family: 'Montserrat', sans-serif;
+              font-size: 14px;
+
+              background-color: $color-white;
+            }
+
+            &:hover:after {
+              display: block;
+            }
+          }
+
           input {
             width: 214px;
             height: 41px;
-            padding: 10px 10px 10px 43px;
+            padding: 10px 36px 10px 43px;
             border: 1px solid $color-primary;
             border-radius: 30px;
             box-sizing: border-box;
 
+            font-family: 'Montserrat', sans-serif;
             font-size: 16px;
             color: $color-primary;
 
@@ -199,7 +245,6 @@
 
             width: 16px;
             height: 16px;
-
             content: "";
 
             background-image: url("../../../../../public/images/icons/search.png");
@@ -304,6 +349,7 @@
               li {
                 margin-right: 25px;
                 align-self: center;
+                text-align: center;
               }
             }
           }

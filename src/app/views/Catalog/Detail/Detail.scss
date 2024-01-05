@@ -27,6 +27,107 @@
         background-position: center;
         background-repeat: no-repeat;
       }
+
+      .detail__info {
+        width: 602px;
+
+        .detail__info-items {
+          margin-bottom: 51px;
+
+          .detail__info-item {
+            margin-top: 20px;
+            padding-top: 20px;
+            display: flex;
+            border-top: 1px solid $color-secondary-04;
+
+            &:first-child {
+              margin-top: 0;
+              padding-top: 0;
+              border-top: 0;
+            }
+
+            .detail__info-item-text {
+              margin-left: 22px;
+              width: 528px;
+
+              .detail__info-item-title {
+                margin-bottom: 15px;
+
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 130%;
+                color: $color-primary;
+              }
+
+              .detail__info-item-description {
+                font-size: 16px;
+                line-height: 130%;
+                color: $color-text-secondary;
+                text-align: justify;
+              }
+            }
+          }
+        }
+
+        .detail__info-param {
+          margin-top: 12px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          font-size: 16px;
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          .detail__info-param-name {
+            font-weight: 500;
+          }
+        }
+
+        .detail__info-params {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .detail__info-params-count {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            span {
+              font-weight: 500;
+              font-size: 16px;
+            }
+          }
+
+          .detail__info-params-price {
+            font-weight: 700;
+            font-size: 40px;
+            color: #313131;
+
+            user-select: none;
+          }
+        }
+
+        .detail__info-actions {
+          margin-top: 22px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 10px;
+
+          .button {
+            width: 290px;
+
+            &.button_transparent.button_with-icon {
+              width: 307px;
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -63,6 +164,39 @@
           width: 385px;
           height: 385px;
         }
+
+        .detail__info {
+          width: 100%;
+
+          .detail__info-items {
+            .detail__info-item {
+              justify-content: center;
+
+              .detail__info-item-text {
+                .detail__info-item-description {
+                  text-align: left;
+                }
+              }
+            }
+          }
+
+          .detail__info-params {
+            .detail__info-params-price {
+              font-size: 32px;
+              line-height: 1.5;
+            }
+          }
+
+          .detail__info-actions {
+            .button {
+              width: 100%;
+
+              &.button_transparent.button_with-icon {
+                width: 100%;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -79,6 +213,22 @@
           width: 345px;
           height: 345px;
         }
+
+        .detail__info {
+          .detail__info-items {
+            .detail__info-item {
+              .detail__info-item-text {
+                margin-left: 6px;
+              }
+            }
+          }
+
+          .detail__info-params {
+            .detail__info-params-price {
+              font-size: 28px;
+            }
+          }
+        }
       }
     }
   }
@@ -91,6 +241,37 @@
         .detail__image {
           width: 290px;
           height: 290px;
+        }
+
+        .detail__info {
+          .detail__info-items {
+            .detail__info-item {
+              .detail__info-item-text {
+                margin-left: 0;
+              }
+            }
+          }
+
+          .detail__info-params {
+            flex-wrap: wrap;
+
+            .detail__info-params-count {
+              width: 100%;
+              justify-content: space-between;
+
+              line-height: 2.9;
+            }
+
+            .detail__info-params-price {
+              width: 100%;
+
+              text-align: right;
+            }
+          }
+
+          .detail__info-actions {
+            flex-direction: column;
+          }
         }
       }
     }

@@ -1,0 +1,27 @@
+.filter-list {
+  margin-right: 58px;
+  width: 257px;
+  min-width: 257px;
+}
+
+@media screen and (max-width: 1300px) {
+  .filter-list {
+    margin-right: 48px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .filter-list {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .filter-list {
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

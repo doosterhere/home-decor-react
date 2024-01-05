@@ -6,7 +6,7 @@ import './CategoryFilter.scss';
 import {CategoryWithTypesType} from "../../types/categoryWithTypes.type";
 import {IconName} from "../../types/icon-name.type";
 import {ActiveParamsType} from "../../types/active-params.type";
-import {IActiveParams} from "../../views/Catalog/Catalog";
+import {IActiveParams} from "../../types/iactive-params.interface";
 
 import Icon from "../Icon/Icon";
 
@@ -211,16 +211,16 @@ const CategoryFilter: FC<ICategoryFilter> =
         };
 
         return (
-            <div className={open ? 'catalog__filter open' : 'catalog__filter'}>
-                <div className='catalog__filter-head' onClick={toggle}>
+            <div className={open ? 'filter open' : 'filter'}>
+                <div className='filter__head' onClick={toggle}>
                     <span>{title()}</span>
                     <Icon name={IconName.listShort}/>
                 </div>
-                <div className='catalog__filter-body'>
+                <div className='filter__body'>
                     {!!category &&
                         category.types.map(type => {
                             return (
-                                <label className='catalog__filter-checkbox' key={type.id}>
+                                <label className='filter__body-checkbox' key={type.id}>
                                     <input
                                         type="checkbox"
                                         name={type.name}
@@ -237,7 +237,7 @@ const CategoryFilter: FC<ICategoryFilter> =
                         })
                     }
                     {!!type &&
-                        <div className='catalog__filter-from-to'>
+                        <div className='filter__body-from-to'>
                             <span>от</span>
                             <input type="number"
                                    min="0"

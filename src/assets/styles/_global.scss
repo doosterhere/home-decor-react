@@ -147,7 +147,7 @@ a.button {
   display: inline-block;
 }
 
-.MuiMenu-list .mat-mdc-menu-item {
+.mat-mdc-menu-item[role='menuitem'] {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   color: $color-text-secondary;

@@ -9,8 +9,8 @@ import {SERVER_STATIC_PATH} from "../../../constants/constants";
 import {useScrollToAnchor} from "../../../hooks/useScrollToAnchor";
 
 import Loader from "../../../components/Loader/Loader";
-import RecommendedProducts from "./RecommendedProducts/RecommendedProducts";
-import DetailInfo from "./DetailInfo/DetailInfo";
+import DetailRecommendedProducts from "./DetailRecommendedProducts";
+import DetailInfo from "./DetailInfo";
 
 export interface IDetailInfo {
     isLogged: boolean;
@@ -40,7 +40,7 @@ const Detail = () => {
                             />
                         </div>
                     </div>
-                    <RecommendedProducts
+                    <DetailRecommendedProducts
                         isLogged={isLogged}
                     />
                 </div>

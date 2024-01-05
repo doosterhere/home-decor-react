@@ -1,13 +1,13 @@
 @import "../../../assets/styles/variables";
 
-.catalog__filter {
+.filter {
   margin-bottom: 12px;
   border-radius: 5px;
 
   font-size: 16px;
   color: $color-text-secondary;
 
-  .catalog__filter-head {
+  .filter__head {
     padding: 12px 23px;
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@
     }
   }
 
-  &.open .catalog__filter-head {
+  &.open .filter__head {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
@@ -31,13 +31,13 @@
     }
   }
 
-  .catalog__filter-body {
+  .filter__body {
     padding: 12px 16px;
     display: none;
     border: 1px solid $color-secondary-03;
     border-radius: 0 0 5px 5px;
 
-    .catalog__filter-checkbox {
+    .filter__body-checkbox {
       margin-bottom: 19px;
       display: flex;
       align-items: baseline;
@@ -57,7 +57,7 @@
       }
     }
 
-    .catalog__filter-from-to {
+    .filter__body-from-to {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -65,14 +65,14 @@
     }
   }
 
-  &.open .catalog__filter-body {
+  &.open .filter__body {
     display: block;
   }
 }
 
 
 @media screen and (max-width: 767px) {
-  .catalog__filter {
+  .filter {
     width: 291px;
   }
 }
