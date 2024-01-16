@@ -1,4 +1,4 @@
-import React, {FC, useRef} from 'react';
+import React, {useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
@@ -7,11 +7,7 @@ import {productAPI} from "../../../store";
 import SliderButtons from "../../../components/SliderButtons/SliderButtons";
 import ProductCard from "../../../components/ProductCard/ProductCard";
 
-interface IRecommendedProducts {
-    isLogged: boolean;
-}
-
-const DetailRecommendedProducts: FC<IRecommendedProducts> = ({isLogged}) => {
+const DetailRecommendedProducts = () => {
     const {data: recommendedProducts} = productAPI.useGetBestProductsQuery();
 
     const swiperRecommendedRef = useRef<SwiperRef>(null);
@@ -51,7 +47,7 @@ const DetailRecommendedProducts: FC<IRecommendedProducts> = ({isLogged}) => {
                         recommendedProducts?.map(product => {
                             return (
                                 <SwiperSlide key={product.id}>
-                                    <ProductCard product={product} isLogged={isLogged}/>
+                                    <ProductCard product={product}/>
                                 </SwiperSlide>
                             );
                         })

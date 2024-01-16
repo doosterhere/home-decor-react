@@ -3,9 +3,10 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {ROUTES, SERVER_STATIC_PATH} from "../../constants/constants";
+import {ICartItem, selectIsLogged} from "../../store";
 
-import {ICartItem} from "../../store";
+import {ROUTES, SERVER_STATIC_PATH} from "../../constants/constants";
+import {useAppSelector} from "../../hooks/redux";
 
 import {ProductType} from "../../types/product.type";
 import {IconName} from "../../types/icon-name.type";
@@ -15,7 +16,6 @@ import Icon from "../Icon/Icon";
 
 interface IProductCardProps extends PropsWithChildren {
     product: ProductType | null;
-    isLogged?: boolean;
     isLight?: boolean;
     countInCart?: number;
     updateCart?: (cartItem: ICartItem) => void;
@@ -25,11 +25,11 @@ interface IProductCardProps extends PropsWithChildren {
 const ProductCard: FC<IProductCardProps> =
     ({
          product,
-         isLogged,
          isLight,
          countInCart = 0,
          updateCart
      }) => {
+        const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(1);
         const navigator = useNavigate();
 

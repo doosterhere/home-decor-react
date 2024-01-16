@@ -1,15 +1,17 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {useParams} from "react-router-dom";
 
-import {productAPI} from "../../../store";
+import {productAPI, selectIsLogged} from "../../../store";
+
+import {useAppSelector} from "../../../hooks/redux";
 
 import {IconName} from "../../../types/icon-name.type";
-import {IDetailInfo} from "./Detail";
 
 import Icon from "../../../components/Icon/Icon";
 
-const DetailInfoActions: FC<IDetailInfo> = ({isLogged}) => {
+const DetailInfoActions = () => {
     const params = useParams();
+    const isLogged = useAppSelector(selectIsLogged);
     const {data: product} = productAPI.useGetProductQuery(params['url'] as string);
 
     const handleUpdateFavorite = () => {

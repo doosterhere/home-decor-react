@@ -2,6 +2,8 @@ import React, {FC} from 'react';
 
 import './FilterList.scss';
 
+import {selectCategories} from "../../store";
+
 import {useAppSelector} from "../../hooks/redux";
 
 import {IActiveParams} from "../../types/iactive-params.interface";
@@ -13,7 +15,7 @@ const FilterList: FC<IActiveParams> =
          activeParams,
          setParams
      }) => {
-        const {categories} = useAppSelector(state => state.category);
+        const {categories} = useAppSelector(selectCategories);
 
         return (
             <div className='filter-list'>

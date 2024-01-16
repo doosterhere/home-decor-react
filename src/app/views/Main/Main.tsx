@@ -12,9 +12,6 @@ import MainReview from "./MainReview";
 import MainMap from "./MainMap";
 
 const Main = () => {
-
-    const isLogged: boolean = false;
-
     useScrollToAnchor();
 
     return (
@@ -32,7 +29,7 @@ const Main = () => {
                 </div>
             </section>
             <MainOffers/>
-            <MainBestProducts isLogged={isLogged}/>
+            <MainBestProducts/>
             <MainInfo/>
             <MainReview/>
             <MainMap/>

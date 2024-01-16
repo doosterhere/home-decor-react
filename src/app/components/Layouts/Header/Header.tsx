@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 
 import './Header.scss';
+
 import {useSetCategories} from "../../../hooks/useSetCategories";
 
-import Logo, {colorType} from "../../Logo/Logo";
+import Logo from "../../Logo/Logo";
 import HeaderTopMenu from "./HeaderTopMenu";
 import HeaderActions from "./HeaderActions";
 import HeaderBottomMenu from "./HeaderBottomMenu";

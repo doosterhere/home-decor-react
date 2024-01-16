@@ -12,14 +12,9 @@ import Loader from "../../../components/Loader/Loader";
 import DetailRecommendedProducts from "./DetailRecommendedProducts";
 import DetailInfo from "./DetailInfo";
 
-export interface IDetailInfo {
-    isLogged: boolean;
-}
-
 const Detail = () => {
     const params = useParams();
     const {data: product, isLoading} = productAPI.useGetProductQuery(params['url'] as string);
-    const isLogged: boolean = false;
 
     useScrollToAnchor();
 
@@ -35,14 +30,10 @@ const Detail = () => {
                                 className='detail__image'
                                 style={{backgroundImage: `url(${SERVER_STATIC_PATH}${product.image})`}}
                             />
-                            <DetailInfo
-                                isLogged={isLogged}
-                            />
+                            <DetailInfo/>
                         </div>
                     </div>
-                    <DetailRecommendedProducts
-                        isLogged={isLogged}
-                    />
+                    <DetailRecommendedProducts/>
                 </div>
             }
         </div>

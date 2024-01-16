@@ -1,12 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
+import {selectCategories} from "../../../store";
+
 import {ROUTES} from "../../../constants/constants";
 import {useAppSelector} from "../../../hooks/redux";
 import makeTypesQueryString from "../../../utils/makeTypesQueryString";
 
 const HeaderBottomMenu = () => {
-    const {categories} = useAppSelector(state => state.category);
+    const {categories} = useAppSelector(selectCategories);
 
     return (
         <div className='header__bottom-menu'>

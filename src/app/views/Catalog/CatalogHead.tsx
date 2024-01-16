@@ -1,5 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 
+import {selectCategories} from "../../store";
+
 import {SORTING_OPTIONS} from "../../constants/constants";
 import {useAppSelector} from "../../hooks/redux";
 
@@ -22,8 +24,7 @@ const CatalogHead: FC<ICatalogHead> =
          setSortingState,
          sortingOpen
      }) => {
-        const {categories} = useAppSelector(state => state.category);
-
+        const {categories} = useAppSelector(selectCategories);
         const [appliedFilters, setAppliedFilters] = useState<AppliedFilterType[]>([]);
 
         useEffect(() => {
@@ -131,7 +132,7 @@ const CatalogHead: FC<ICatalogHead> =
             }
 
             setParams((current) => {
-                const {page, ...rest} = {...current};
+                const {page, ...rest} = current;
 
                 if (rest.types) {
                     rest.types = rest.types.filter(item => item !== appliedFilter.urlParam);

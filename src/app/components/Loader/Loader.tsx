@@ -9,7 +9,6 @@ interface ILoader {
 }
 
 const Loader: FC<ILoader> = ({isLoading}) => {
-
     return (
         <div className='overlay' style={{display: isLoading ? 'flex' : 'none'}}>
             <CircularProgress/>

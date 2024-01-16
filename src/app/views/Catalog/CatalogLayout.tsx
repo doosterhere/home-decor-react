@@ -6,29 +6,21 @@ import {cartAPI, productAPI} from "../../store";
 import {CartType} from "../../types/cart.type";
 import {IActiveParams} from "../../types/iactive-params.interface";
 
-
 import ProductCard from "../../components/ProductCard/ProductCard";
 import FilterList from "../../components/FilterList/FilterList";
 
-interface ICatalogLayout extends IActiveParams {
-    isLogged: boolean;
-}
-
-const CatalogLayout: FC<ICatalogLayout> =
+const CatalogLayout: FC<IActiveParams> =
     ({
          activeParams,
-         setParams,
-         isLogged
+         setParams
      }) => {
         const search = useLocation().search;
-
         const [updateCart] = cartAPI.useUpdateCartMutation();
+        const [cart, setCart] = useState<CartType | null>(null);
         const {
             data: productsData,
             isSuccess: productsRequestSuccess,
         } = productAPI.useGetProductsQuery(search);
-
-        const [cart, setCart] = useState<CartType | null>(null);
 
         return (
             <div className='catalog__layout'>
@@ -43,7 +35,6 @@ const CatalogLayout: FC<ICatalogLayout> =
                                 <ProductCard
                                     key={item.id}
                                     product={item}
-                                    isLogged={isLogged}
                                     countInCart={!!item.countInCart ? item.countInCart : 0}
                                     updateCart={updateCart}/>
                             )

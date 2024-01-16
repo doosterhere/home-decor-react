@@ -23,7 +23,10 @@ const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {
     };
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        updateCount(parseInt(e.target.value, 10) || count);
+        updateCount(parseInt(e.target.value, 10) > 0
+            ? parseInt(e.target.value, 10)
+            : 1
+        );
     };
 
     return (

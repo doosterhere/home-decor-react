@@ -84,7 +84,7 @@ const HeaderSearch = () => {
                 id='search-input'
                 placeholder="Начните искать"
                 autoComplete='off'
-                value={searchValue || ''}
+                value={searchValue ?? ''}
                 onChange={(e) => setSearchValue(e.target.value)}
             />
             {isSearchResultVisible && !!searchResult?.length &&

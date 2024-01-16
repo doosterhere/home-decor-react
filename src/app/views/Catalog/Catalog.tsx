@@ -18,7 +18,6 @@ import Pagination from "../../components/Pagination/Pagination";
 const Catalog = () => {
     const [favorites, setFavorites] = useState<FavoritesType[] | null>(null);
     const [products, setProducts] = useState<ProductType[]>([]);
-    const [isLogged, setIsLogged] = useState(false);
     const [activeParams, setActiveParams] = useState<ActiveParamsType>({});
     const [searchParams, setSearchParams] = useSearchParams();
     const debouncedActiveParams = useDebounceValue<ActiveParamsType>(activeParams, 750);
@@ -69,7 +68,6 @@ const Catalog = () => {
                     setParams={setParams}
                 />
                 <CatalogLayout
-                    isLogged={isLogged}
                     activeParams={activeParams}
                     setParams={setParams}
                 />

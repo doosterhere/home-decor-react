@@ -63,7 +63,7 @@ const CategoryFilter: FC<ICategoryFilter> =
                 setOpen(true);
             }
 
-            if (isNotFirstRender && type && type === 'height') {
+            if (isNotFirstRender && type === 'height') {
                 if (activeParams.heightFrom || activeParams.heightTo) {
                     setOpen(true);
                 }
@@ -72,7 +72,7 @@ const CategoryFilter: FC<ICategoryFilter> =
                 return;
             }
 
-            if (isNotFirstRender && type && type === 'diameter') {
+            if (isNotFirstRender && type === 'diameter') {
                 if (activeParams.diameterFrom || activeParams.diameterTo) {
                     setOpen(true);
                 }
@@ -127,11 +127,11 @@ const CategoryFilter: FC<ICategoryFilter> =
                 return category.name;
             }
 
-            if (type && type === 'height') {
+            if (type === 'height') {
                 return 'Высота';
             }
 
-            if (type && type === 'diameter') {
+            if (type === 'diameter') {
                 return 'Диаметр';
             }
 
