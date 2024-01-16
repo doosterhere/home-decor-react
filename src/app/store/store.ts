@@ -1,33 +1,67 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+    REHYDRATE
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import {categoryReducer} from "./reducers/categoryReducer";
+import {messageReducer} from "./reducers/messageReducer";
+import {authReducer} from "./reducers/authReducer";
 import {cartReducer} from "./reducers/cartReducer";
 import {productAPI} from "./api/productApi";
-import {cartAPI} from "./api/cartApi";
 import {typeApi} from "./api/typeApi";
+import {authApi} from "./api/authApi";
+import {cartAPI} from "./api/cartApi";
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: [
+        messageReducer.reducerPath,
+        productAPI.reducerPath,
+        typeApi.reducerPath,
+        authApi.reducerPath,
+        cartAPI.reducerPath
+    ]
+}
 
 const rootReducer = combineReducers({
-    category: categoryReducer.reducer,
+    categories: categoryReducer.reducer,
+    message: messageReducer.reducer,
+    auth: authReducer.reducer,
     cart: cartReducer.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
+    [typeApi.reducerPath]: typeApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     [cartAPI.reducerPath]: cartAPI.reducer,
-    [typeApi.reducerPath]: typeApi.reducer
 });
 
-const setupStore = () => {
-    return configureStore({
-        reducer: rootReducer,
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware()
-                .concat(
-                    productAPI.middleware,
-                    cartAPI.middleware,
-                    typeApi.middleware
-                )
-    });
-};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export {setupStore};
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+            }
+        }).concat(
+            productAPI.middleware,
+            typeApi.middleware,
+            authApi.middleware,
+            cartAPI.middleware,
+        )
+});
+
+const persistor = persistStore(store);
+
+export {store, persistor};
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
-export type AppDispatch = AppStore['dispatch'];
+export type AppDispatch = typeof store.dispatch;
