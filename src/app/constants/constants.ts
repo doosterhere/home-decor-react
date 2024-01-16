@@ -5,9 +5,11 @@ export const ROUTES = {
     CATALOG: '/catalog',
     PRODUCT: '/product',
     LOGIN: '/login',
+    SIGNUP: '/signup',
     PROFILE: '/profile',
     FAVORITES: '/favorites',
-    CART: '/cart'
+    CART: '/cart',
+    TERMS: '/terms'
 }
 
 export const MENU = [

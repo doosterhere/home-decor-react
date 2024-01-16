@@ -2,13 +2,24 @@ import React from 'react';
 
 import "./Footer.scss";
 
+import {closeMessage} from "../../../store";
+
+import {useAppDispatch} from "../../../hooks/redux";
+
 import Logo, {colorType} from "../../Logo/Logo";
 import FooterMenu from "./FooterMenu";
 import FooterCategory from "./FooterCategory";
 import FooterInfo from "./FooterInfo";
 import FooterContacts from "./FooterContacts";
+import Message from "../../Message/Message";
 
 const Footer = () => {
+    const dispatcher = useAppDispatch();
+
+    const handleClose = () => {
+        dispatcher(closeMessage());
+    }
+
     return (
         <footer className='footer'>
             <div className='container'>
@@ -17,6 +28,9 @@ const Footer = () => {
                 <FooterCategory/>
                 <FooterInfo/>
                 <FooterContacts/>
+                <Message
+                    closeMessage={handleClose}
+                />
             </div>
         </footer>
     );

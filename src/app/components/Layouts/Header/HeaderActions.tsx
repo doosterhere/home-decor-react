@@ -1,28 +1,54 @@
 import React, {useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import {Menu, MenuItem} from "@mui/material";
 
+import {
+    setIsLogged,
+    removeAccessToken,
+    removeRefreshToken,
+    selectIsLogged,
+    selectRefreshToken,
+    showSuccessMessage
+} from "../../../store";
+import {authApi} from "../../../store/api/authApi";
+
 import {ROUTES} from "../../../constants/constants";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
 import {IconName} from "../../../types/icon-name.type";
 
 import Icon from "../../Icon/Icon";
 
 const HeaderActions = () => {
-    let isLogged = true;
+    const isLogged = useAppSelector(selectIsLogged);
+    const refreshToken = useAppSelector(selectRefreshToken);
+    const [logout] = authApi.useLogoutMutation();
+    const dispatcher = useAppDispatch();
     const [count, setCount] = useState(0);
     const navigator = useNavigate();
-    const [anchorMenuEl, setAnchorMenuEl] = React.useState<null | HTMLDivElement>(null);
+    const currentLocation = useLocation().pathname;
+    const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorMenuEl(event.currentTarget);
     };
 
-    const handleLogoutClick = () => {
-        //logout code
+    const handleLogoutClick = async () => {
         handleCloseClick();
+
+        try {
+            if (refreshToken) {
+                await logout({refreshToken});
+            }
+        } finally {
+            dispatcher(removeAccessToken());
+            dispatcher(removeRefreshToken());
+            dispatcher(setIsLogged(false));
+            dispatcher(showSuccessMessage('Вы вышли из системы'));
+            navigator(currentLocation);
+        }
     };
 
     const handleProfileClick = () => {

@@ -1,0 +1,236 @@
+@import "../../../../assets/styles/variables";
+
+.login {
+  .container {
+    display: flex;
+
+    .auth-form {
+      margin-top: 50px;
+      margin-bottom: 90px;
+      width: 422px;
+
+      .auth-form__title {
+        margin-bottom: 35px;
+
+        font-family: 'Lora', sans-serif;
+        font-weight: 400;
+        font-size: 36px;
+        color: $color-primary;
+      }
+
+      .auth-form__inputs {
+        margin-bottom: 10px;
+
+        .auth-form__input {
+          position: relative;
+
+          margin-bottom: 8px;
+
+          .input {
+            width: 100%;
+          }
+
+          &:nth-child(n+2) {
+            .input {
+              padding-right: 50px;
+            }
+          }
+
+          .hint {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: $color-mistake;
+          }
+
+          .password-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+
+            cursor: pointer;
+
+            path {
+              fill: $color-button-default;
+            }
+
+            &:hover {
+              path {
+                fill: $color-button-hover;
+              }
+            }
+          }
+        }
+
+        .auth-form__checkbox {
+          max-width: 422px;
+          display: flex;
+          align-items: flex-start;
+
+          label {
+            input {
+              margin: 0;
+
+              cursor: pointer;
+            }
+
+            span {
+              cursor: pointer;
+            }
+          }
+
+          div {
+            font-size: 16px;
+            line-height: 130%;
+            color: $color-text-secondary;
+
+            user-select: none;
+
+            a {
+              color: $color-primary-light;
+              text-decoration: none;
+
+              &:hover {
+                color: $color-secondary-02;
+              }
+            }
+          }
+        }
+      }
+
+      .auth-form__button {
+        margin-top: 30px;
+
+        button.button {
+          width: 422px;
+        }
+      }
+
+      .auth-form__link {
+        margin-top: 8px;
+
+        font-size: 16px;
+        color: $color-text-secondary;
+
+        a {
+          margin-left: 5px;
+
+          color: $color_primary-light;
+          text-decoration: none;
+
+          &:hover {
+            color: $color-secondary-02;
+          }
+        }
+      }
+    }
+
+    .page-image {
+      margin-left: 49px;
+
+      &.signup-image {
+        margin-left: 222px;
+      }
+
+      img {
+        vertical-align: bottom;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .login {
+    .container {
+      overflow: hidden;
+
+      .page-image .signup-image {
+        margin-left: 100px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .login {
+    .container {
+      overflow: hidden;
+
+      .page-image {
+        margin-left: 0;
+
+        &.signup-image {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .login {
+    justify-content: center;
+
+    .container {
+      overflow: unset;
+
+      .auth-form {
+        margin-top: 30px;
+        margin-bottom: 80px;
+        width: 385px;
+
+        .auth-form__title {
+          text-align: center;
+        }
+
+        .auth-form__button {
+          margin-top: 30px;
+
+          button.button {
+            width: 100%;
+          }
+        }
+      }
+
+      .page-image {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .login {
+    .container {
+      .auth-form {
+        margin-top: 20px;
+        margin-bottom: 70px;
+        width: 100%;
+
+        .auth-form__inputs {
+          .auth-form__checkbox {
+            label {
+              font-size: 14px;
+            }
+          }
+        }
+
+        .auth-form__link {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .login {
+    .container {
+      .auth-form {
+        .auth-form__title {
+          font-size: 32px;
+        }
+      }
+    }
+  }
+}

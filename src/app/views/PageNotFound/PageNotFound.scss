@@ -1,0 +1,59 @@
+@import "../../../assets/styles/variables";
+
+.page-not-found {
+  .container {
+    margin-bottom: 49px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+
+    font-family: 'Lora', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    color: $color-text-gray;
+    text-align: center;
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        font-family: "Montserrat", sans-serif;
+        font-size: 18px;
+        color: $color-primary;
+        text-decoration: none;
+
+        cursor: pointer;
+
+        &:hover {
+          color: $color-black;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .page-not-found {
+    .container {
+      font-size: 50px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page-not-found {
+    .container {
+      font-size: 42px;
+    }
+  }
+}

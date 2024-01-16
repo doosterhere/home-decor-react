@@ -4,14 +4,15 @@
 html, body {
   margin: 0;
   padding: 0;
+
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
 }
 
 #root > div {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 
   & > div {
     flex-grow: 1;
@@ -24,10 +25,11 @@ html, body {
 }
 
 .input {
-  box-sizing: border-box;
   padding: 17px 20px;
+  box-sizing: border-box;
   border: 2px solid $color-input-default;
   border-radius: 3px;
+
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -39,17 +41,18 @@ html, body {
 }
 
 .small-input {
-  border: 1px solid $color-input-default;
-  border-radius: 5px;
-  text-align: center;
-  padding: 2px;
-  box-sizing: border-box;
   width: 40px;
   height: 28px;
+  padding: 2px;
+  border: 1px solid $color-input-default;
+  border-radius: 5px;
+  box-sizing: border-box;
+
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: $color-primary;
+  text-align: center;
 }
 
 .input, .small-input {
@@ -64,8 +67,9 @@ html, body {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
   margin: 0;
+
+  -webkit-appearance: none;
 }
 
 input[type='number'] {
@@ -73,24 +77,28 @@ input[type='number'] {
 }
 
 .button {
-  text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
-  background: $color-button-default;
-  border-radius: 5px;
   box-sizing: border-box;
-  cursor: pointer;
   border: 1px solid transparent;
+  border-radius: 5px;
+
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: $color-white;
+  text-align: center;
+
+  background: $color-button-default;
+  cursor: pointer;
   user-select: none;
 
   &.button_transparent {
-    background-color: transparent;
     border: 1px solid $color-button-hover;
+
     color: $color-primary;
+
+    background-color: transparent;
 
     &:hover {
       color: $color-white;
@@ -143,8 +151,9 @@ input[type='number'] {
 }
 
 a.button {
-  text-decoration: none;
   display: inline-block;
+
+  text-decoration: none;
 }
 
 .mat-mdc-menu-item[role='menuitem'] {
@@ -154,10 +163,10 @@ a.button {
 }
 
 .carousel__header {
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 50px;
 
   .carousel__title {
     @include header-lora-32;
@@ -210,37 +219,45 @@ input[type='radio']:not(:checked), {
 input[type='radio']:checked + label,
 input[type='radio']:not(:checked) + label {
   position: relative;
+
   padding-left: 28px;
-  cursor: pointer;
-  line-height: 20px;
   display: inline-block;
+
+  line-height: 20px;
   color: #666;
+
+  cursor: pointer;
 }
 
 input[type='radio']:checked + label:before,
 input[type='radio']:not(:checked) + label:before {
-  content: '';
   position: absolute;
   left: 0;
   top: 0;
+
   width: 18px;
   height: 18px;
+  box-sizing: border-box;
   border: 2px solid $color-secondary-01;
   border-radius: 100%;
-  background: $color-white;
-  box-sizing: border-box;
+  content: '';
+
+  background-color: $color-white;
 }
 
 input[type='radio']:checked + label:after,
 input[type='radio']:not(:checked) + label:after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: $color-secondary-01;
   position: absolute;
   top: 5px;
   left: 5px;
+
+  width: 8px;
+  height: 8px;
   border-radius: 100%;
+  content: '';
+
+  background: $color-secondary-01;
+
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
@@ -264,25 +281,26 @@ input[type='text']:disabled {
 input[type='checkbox'] {
   position: absolute;
   z-index: -1;
+
   opacity: 0;
 }
 
 input[type='checkbox'] + span {
   display: inline-flex;
   align-items: flex-start;
+
   user-select: none;
 }
 
 input[type='checkbox'] + span::before {
-  content: '';
-  display: inline-block;
   width: 1em;
   height: 1em;
-  flex-shrink: 0;
-  flex-grow: 0;
+  margin-right: 0.5em;
+  display: inline-block;
   border: 1px solid $color-secondary-03;
   border-radius: 0.25em;
-  margin-right: 0.5em;
+  content: '';
+
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
@@ -293,8 +311,8 @@ input[type='checkbox']:not(:disabled):not(:checked) + span:hover::before {
 }
 
 input[type='checkbox']:not(:disabled):active + span::before {
-  background-color: $color-secondary-01;
   border-color: $color-input-action;
+  background-color: $color-secondary-01;
 }
 
 input[type='checkbox']:focus + span::before {

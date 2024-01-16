@@ -12,7 +12,7 @@ export const typeApi = createApi({
             query: () => ({
                 url: 'types'
             })
-        })
+        }),
     })
 });
 
