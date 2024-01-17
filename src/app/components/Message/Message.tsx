@@ -3,8 +3,7 @@ import React, {FC} from 'react';
 import {Alert, Snackbar} from "@mui/material";
 
 import {selectMessageState} from "../../store";
-
-import {useAppSelector} from "../../hooks/redux";
+import {useAppSelector} from "../../hooks";
 
 interface IMessage {
     closeMessage: () => void

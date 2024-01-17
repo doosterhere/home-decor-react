@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-import {MENU} from "../../../constants/constants";
+import {MENU} from "../../../constants";
 
 const FooterMenu = () => {
     return (

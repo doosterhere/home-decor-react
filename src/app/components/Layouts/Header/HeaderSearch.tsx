@@ -4,11 +4,10 @@ import {useNavigate} from "react-router-dom";
 import {LocalFlorist} from "@mui/icons-material";
 
 import {productAPI} from "../../../store";
+import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
+import {useDebounceValue} from "../../../hooks";
 
-import {ROUTES, SERVER_STATIC_PATH} from "../../../constants/constants";
-import {useDebounceValue} from "../../../hooks/useDebounce";
-
-import {ProductType} from "../../../types/product.type";
+import {ProductType} from "../../../types";
 
 const HeaderSearch = () => {
     const navigator = useNavigate();

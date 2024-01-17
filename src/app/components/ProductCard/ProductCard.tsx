@@ -4,12 +4,10 @@ import {Link, useNavigate} from "react-router-dom";
 import './ProductCard.scss';
 
 import {ICartItem, selectIsLogged} from "../../store";
+import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
+import {useAppSelector} from "../../hooks";
 
-import {ROUTES, SERVER_STATIC_PATH} from "../../constants/constants";
-import {useAppSelector} from "../../hooks/redux";
-
-import {ProductType} from "../../types/product.type";
-import {IconName} from "../../types/icon-name.type";
+import {IconName, ProductType} from "../../types";
 
 import CountSelector from "../CountSelector/CountSelector";
 import Icon from "../Icon/Icon";

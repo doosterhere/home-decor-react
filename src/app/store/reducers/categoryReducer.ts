@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {CategoryWithTypesType} from "../../types/categoryWithTypes.type";
+import {CategoryWithTypesType} from "../../types";
 
 interface ICategoriesState {
     categories: CategoryWithTypesType[];

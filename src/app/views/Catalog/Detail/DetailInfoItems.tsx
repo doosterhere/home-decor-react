@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 
 import {productAPI} from "../../../store";
 
-import {IconName} from "../../../types/icon-name.type";
+import {IconName} from "../../../types";
 
 import Icon from "../../../components/Icon/Icon";
 

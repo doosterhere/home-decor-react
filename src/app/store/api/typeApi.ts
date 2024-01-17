@@ -1,8 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
-import {BASE_API} from "../../constants/constants";
+import {BASE_API} from "../../constants";
 
-import {TypeType} from "../../types/type.type";
+import {TypeType} from "../../types";
 
 export const typeApi = createApi({
     reducerPath: 'typeApi',

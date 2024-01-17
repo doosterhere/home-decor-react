@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Terms.scss';
 
-import {useScrollToAnchor} from "../../../hooks/useScrollToAnchor";
+import {useScrollToAnchor} from "../../../hooks";
 
 const Terms = () => {
     useScrollToAnchor();

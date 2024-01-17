@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Link} from "react-router-dom";
 
-import {ROUTES} from "../../constants/constants";
+import {ROUTES} from "../../constants";
 
 export enum colorType {
     white = 'white',

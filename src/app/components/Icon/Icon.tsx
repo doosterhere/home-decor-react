@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 
-import {IconName} from "../../types/icon-name.type";
+import {IconName} from "../../types";
 
 type IconType = {
     name: IconName;
@@ -17,12 +17,12 @@ type IconType = {
 };
 
 const Icon: FC<IconType> = ({
-                            name,
-                            width,
-                            height,
-                            needHover,
-                            needParentHover
-                        }) => {
+                                name,
+                                width,
+                                height,
+                                needHover,
+                                needParentHover
+                            }) => {
     const ref = useRef<SVGSVGElement>(null);
     const [hovered, setHovered] = useState(false);
 

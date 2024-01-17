@@ -6,7 +6,7 @@ import HomeRounded from '@mui/icons-material/HomeRounded';
 
 import './PageNotFound.scss';
 
-import {ROUTES} from "../../constants/constants";
+import {ROUTES} from "../../constants";
 
 const PageNotFound = () => {
     const navigator = useNavigate();

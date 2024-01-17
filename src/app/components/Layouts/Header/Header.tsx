@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import './Header.scss';
 
-import {useSetCategories} from "../../../hooks/useSetCategories";
+import {useSetCategories} from "../../../hooks";
 
 import Logo from "../../Logo/Logo";
 import HeaderTopMenu from "./HeaderTopMenu";

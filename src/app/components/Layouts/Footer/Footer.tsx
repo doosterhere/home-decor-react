@@ -3,8 +3,7 @@ import React from 'react';
 import "./Footer.scss";
 
 import {closeMessage} from "../../../store";
-
-import {useAppDispatch} from "../../../hooks/redux";
+import {useAppDispatch} from "../../../hooks";
 
 import Logo, {colorType} from "../../Logo/Logo";
 import FooterMenu from "./FooterMenu";

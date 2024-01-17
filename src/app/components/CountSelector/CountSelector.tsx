@@ -2,7 +2,7 @@ import React, {FC, PropsWithChildren, SetStateAction} from 'react';
 
 import './CountSelector.scss';
 
-import {IconName} from "../../types/icon-name.type";
+import {IconName} from "../../types";
 
 import Icon from "../Icon/Icon";
 

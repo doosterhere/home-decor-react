@@ -2,7 +2,7 @@ import React, {FC, RefObject, useEffect, useState} from 'react';
 
 import {SwiperRef} from "swiper/react";
 
-import {IconName} from "../../types/icon-name.type";
+import {IconName} from "../../types";
 
 import Icon from "../Icon/Icon";
 

@@ -3,8 +3,7 @@ import {useLocation} from "react-router-dom";
 
 import {cartAPI, productAPI} from "../../store";
 
-import {CartType} from "../../types/cart.type";
-import {IActiveParams} from "../../types/iactive-params.interface";
+import {CartType, IActiveParams} from "../../types";
 
 import ProductCard from "../../components/ProductCard/ProductCard";
 import FilterList from "../../components/FilterList/FilterList";

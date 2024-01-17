@@ -1,6 +1,6 @@
-import {ActiveParamsType} from "../types/active-params.type";
+import {ActiveParamsType} from "../types";
 
-export function getActiveParams(params: URLSearchParams,) {
+export const getActiveParams = (params: URLSearchParams) => {
     const activeParams: ActiveParamsType = {};
 
     if (params.get('types') && !Object.hasOwn(activeParams, 'types')) {

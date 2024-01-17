@@ -3,13 +3,10 @@ import {useSearchParams} from "react-router-dom";
 
 import './Catalog.scss';
 
-import {useDebounceValue} from "../../hooks/useDebounce";
-import {getActiveParams} from "../../utils/getActiveParams";
-import {serializeActiveParams} from "../../utils/serializeActiveParams";
+import {useDebounceValue} from "../../hooks";
+import {getActiveParams, serializeActiveParams} from "../../utils";
 
-import {FavoritesType} from "../../types/favorites.type";
-import {ProductType} from "../../types/product.type";
-import {ActiveParamsType} from "../../types/active-params.type";
+import {FavoritesType, ProductType, ActiveParamsType} from "../../types";
 
 import CatalogHead from "./CatalogHead";
 import CatalogLayout from "./CatalogLayout";

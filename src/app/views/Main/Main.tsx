@@ -3,7 +3,7 @@ import React from 'react';
 import 'swiper/css';
 import './Main.scss';
 
-import {useScrollToAnchor} from "../../hooks/useScrollToAnchor";
+import {useScrollToAnchor} from "../../hooks";
 
 import MainOffers from "./MainOffers";
 import MainBestProducts from "./MainBestProducts";

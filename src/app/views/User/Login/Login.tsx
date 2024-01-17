@@ -7,14 +7,18 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import './Login.scss';
 
-import {setAccessToken, setIsLogged, setRefreshToken, showErrorMessage, showSuccessMessage} from "../../../store";
-import {authApi} from "../../../store/api/authApi";
+import {
+    setAccessToken,
+    setIsLogged,
+    setRefreshToken,
+    showErrorMessage,
+    showSuccessMessage,
+    authApi
+} from "../../../store";
+import {ROUTES} from "../../../constants";
+import {useAppDispatch} from "../../../hooks";
 
-import {ROUTES} from "../../../constants/constants";
-import {useAppDispatch} from "../../../hooks/redux";
-
-import {LoginResponseType} from "../../../types/login-response.type";
-import {DefaultResponseType} from "../../../types/defaultResponse.type";
+import {LoginResponseType, DefaultResponseType} from "../../../types";
 
 const Login = () => {
     const isSignupPage = useLocation().pathname.slice(1) === 'signup';

@@ -3,10 +3,9 @@ import React, {FC} from 'react';
 import './FilterList.scss';
 
 import {selectCategories} from "../../store";
+import {useAppSelector} from "../../hooks";
 
-import {useAppSelector} from "../../hooks/redux";
-
-import {IActiveParams} from "../../types/iactive-params.interface";
+import {IActiveParams} from "../../types";
 
 import CategoryFilter from "../CategoryFilter/CategoryFilter";
 

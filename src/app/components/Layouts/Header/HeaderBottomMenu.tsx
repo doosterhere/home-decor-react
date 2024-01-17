@@ -3,9 +3,9 @@ import {Link} from "react-router-dom";
 
 import {selectCategories} from "../../../store";
 
-import {ROUTES} from "../../../constants/constants";
-import {useAppSelector} from "../../../hooks/redux";
-import makeTypesQueryString from "../../../utils/makeTypesQueryString";
+import {ROUTES} from "../../../constants";
+import {useAppSelector} from "../../../hooks";
+import {makeTypesQueryString} from "../../../utils";
 
 const HeaderBottomMenu = () => {
     const {categories} = useAppSelector(selectCategories);

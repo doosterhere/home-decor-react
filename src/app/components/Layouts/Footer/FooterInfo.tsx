@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {IconName} from "../../../types/icon-name.type";
+import {IconName} from "../../../types";
 
 import Icon from "../../Icon/Icon";
 

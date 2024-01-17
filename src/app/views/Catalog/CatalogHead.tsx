@@ -1,14 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
 
 import {selectCategories} from "../../store";
+import {SORTING_OPTIONS} from "../../constants";
+import {useAppSelector} from "../../hooks";
 
-import {SORTING_OPTIONS} from "../../constants/constants";
-import {useAppSelector} from "../../hooks/redux";
-
-import {IconName} from "../../types/icon-name.type";
-import {AppliedFilterType} from "../../types/applied-filter.type";
-import {ActiveParamsType} from "../../types/active-params.type";
-import {IActiveParams} from "../../types/iactive-params.interface";
+import {IconName, AppliedFilterType, ActiveParamsType, IActiveParams} from "../../types";
 
 import Icon from "../../components/Icon/Icon";
 

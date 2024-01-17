@@ -4,9 +4,8 @@ import {useParams} from "react-router-dom";
 import './Detail.scss';
 
 import {productAPI} from "../../../store";
-
-import {SERVER_STATIC_PATH} from "../../../constants/constants";
-import {useScrollToAnchor} from "../../../hooks/useScrollToAnchor";
+import {SERVER_STATIC_PATH} from "../../../constants";
+import {useScrollToAnchor} from "../../../hooks";
 
 import Loader from "../../../components/Loader/Loader";
 import DetailRecommendedProducts from "./DetailRecommendedProducts";

@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {setCategoriesWithTypes, useGetTypesQuery} from "../store";
 import {useAppDispatch} from "./redux";
 
-import {CategoryWithTypesType} from "../types/categoryWithTypes.type";
+import {CategoryWithTypesType} from "../types";
 
 export function useSetCategories() {
     const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-import {ROUTES} from "../../constants/constants";
+import {ROUTES} from "../../constants";
 
 const MainOffers = () => (
     <section className='offers'>

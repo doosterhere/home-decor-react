@@ -3,10 +3,7 @@ import {useSearchParams} from "react-router-dom";
 
 import './CategoryFilter.scss';
 
-import {CategoryWithTypesType} from "../../types/categoryWithTypes.type";
-import {IconName} from "../../types/icon-name.type";
-import {ActiveParamsType} from "../../types/active-params.type";
-import {IActiveParams} from "../../types/iactive-params.interface";
+import {CategoryWithTypesType, IconName, ActiveParamsType, IActiveParams} from "../../types";
 
 import Icon from "../Icon/Icon";
 

@@ -7,7 +7,7 @@ import './Pagination.scss';
 
 import {productAPI} from "../../store";
 
-import {IActiveParams} from "../../types/iactive-params.interface";
+import {IActiveParams} from "../../types";
 
 const Pagination: FC<IActiveParams> =
     ({

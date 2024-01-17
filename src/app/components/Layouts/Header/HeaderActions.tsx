@@ -9,14 +9,13 @@ import {
     removeRefreshToken,
     selectIsLogged,
     selectRefreshToken,
-    showSuccessMessage
+    showSuccessMessage,
+    authApi
 } from "../../../store";
-import {authApi} from "../../../store/api/authApi";
+import {useAppDispatch, useAppSelector} from "../../../hooks";
+import {ROUTES} from "../../../constants";
 
-import {ROUTES} from "../../../constants/constants";
-import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-
-import {IconName} from "../../../types/icon-name.type";
+import {IconName} from "../../../types";
 
 import Icon from "../../Icon/Icon";
 

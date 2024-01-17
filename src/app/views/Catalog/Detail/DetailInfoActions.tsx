@@ -2,10 +2,9 @@ import React from 'react';
 import {useParams} from "react-router-dom";
 
 import {productAPI, selectIsLogged} from "../../../store";
+import {useAppSelector} from "../../../hooks";
 
-import {useAppSelector} from "../../../hooks/redux";
-
-import {IconName} from "../../../types/icon-name.type";
+import {IconName} from "../../../types";
 
 import Icon from "../../../components/Icon/Icon";
 

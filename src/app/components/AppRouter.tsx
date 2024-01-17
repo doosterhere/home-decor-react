@@ -2,9 +2,8 @@ import React from 'react';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 import {selectIsLogged} from "../store";
-
-import {ROUTES} from "../constants/constants";
-import {useAppSelector} from "../hooks/redux";
+import {ROUTES} from "../constants";
+import {useAppSelector} from "../hooks";
 
 import Main from "../views/Main/Main";
 import Header from "./Layouts/Header/Header";

@@ -1,4 +1,4 @@
-import {ActiveParamsType} from "../types/active-params.type";
+import {ActiveParamsType} from "../types";
 
 export const serializeActiveParams = (activeParams: ActiveParamsType) => {
     let searchString = '?';

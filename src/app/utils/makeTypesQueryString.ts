@@ -1,7 +1,5 @@
-import {TypeType} from "../types/type.type";
+import {TypeType} from "../types";
 
-function makeTypesQueryString(paramsArray: Partial<TypeType>[]): string {
+export const makeTypesQueryString = (paramsArray: Partial<TypeType>[]): string => {
     return '?' + paramsArray.map(param => 'types=' + param.url).join('&');
 }
-
-export default makeTypesQueryString;
