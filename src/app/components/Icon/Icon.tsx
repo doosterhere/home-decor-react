@@ -62,7 +62,7 @@ const Icon: FC<IconType> = ({
         return (
             <svg className={`icon icon-${name}`} style={{width, height}} ref={ref}>
                 <use
-                    xlinkHref={`${process.env.PUBLIC_URL}/images/sprite.svg#${name}`}
+                    xlinkHref={`./images/sprite.svg#${name}`}
                 ></use>
             </svg>
         );
@@ -72,11 +72,11 @@ const Icon: FC<IconType> = ({
         <svg className={`icon icon-${name}`} style={{width, height}} ref={ref}>
             <use
                 style={{display: hovered ? 'none' : 'block'}}
-                xlinkHref={`${process.env.PUBLIC_URL}/images/sprite.svg#${name}`}
+                xlinkHref={`./images/sprite.svg#${name}`}
             />
             <use
                 style={{display: hovered ? 'block' : 'none'}}
-                xlinkHref={`${process.env.PUBLIC_URL}/images/sprite.svg#${name}-hovered`}
+                xlinkHref={`./images/sprite.svg#${name}-hovered`}
             />
         </svg>
     );
