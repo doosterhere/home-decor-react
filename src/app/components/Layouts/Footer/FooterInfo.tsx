@@ -2,7 +2,7 @@ import React from 'react';
 
 import {IconName} from "../../../types";
 
-import {Icon} from "../../../components";
+import {Icon} from "../../Icon/Icon";
 
 const FooterInfo = () => {
     return (

@@ -44,3 +44,5 @@ export const SORTING_OPTIONS: { name: string, value: string }[] = [
     {name: 'По возрастанию цены', value: 'price-asc'},
     {name: 'По убыванию цены', value: 'price-desc'},
 ];
+
+export const BURGER_POINT = 1024;

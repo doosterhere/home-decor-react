@@ -3,23 +3,26 @@ import React, {useEffect, useState} from 'react';
 import './Header.scss';
 
 import {useSetCategories} from "../../../hooks";
+import {BURGER_POINT} from "../../../constants";
 
-import {Logo} from "../../../components";
+import {Logo} from "../../Logo/Logo";
 import HeaderTopMenu from "./HeaderTopMenu";
 import HeaderActions from "./HeaderActions";
 import HeaderBottomMenu from "./HeaderBottomMenu";
 import HeaderSearch from "./HeaderSearch";
 
 export const Header = () => {
-    const [screenWidth, setScreenWidth] = useState(0);
+    const [isDesktop, setIsDesktop] = useState(false);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
     useEffect(() => {
-        setScreenWidth(window.innerWidth);
-        window.addEventListener('resize', () => setScreenWidth(window.innerWidth));
+        setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches);
+        window.addEventListener('resize', () =>
+            setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches));
 
         return () => {
-            window.removeEventListener('resize', () => setScreenWidth(window.innerWidth));
+            window.removeEventListener('resize', () =>
+                setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches));
         }
     }, []);
 
@@ -33,7 +36,7 @@ export const Header = () => {
     }, [isMenuVisible]);
 
     const toggleMenuVisibility = () => {
-        if (screenWidth < 1024) {
+        if (!isDesktop) {
             setIsMenuVisible(current => !current);
         }
     };
@@ -63,7 +66,7 @@ export const Header = () => {
                         <HeaderTopMenu
                             isMenuVisible={isMenuVisible}
                             toggleMenuVisibility={toggleMenuVisibility}
-                            screenWidth={screenWidth}
+                            isDesktop={isDesktop}
                         />
                         <HeaderActions/>
                     </div>

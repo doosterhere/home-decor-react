@@ -9,14 +9,14 @@ import {MENU} from "../../../constants";
 interface ITopMenu {
     isMenuVisible: boolean;
     toggleMenuVisibility: () => void;
-    screenWidth: number;
+    isDesktop: boolean
 }
 
 const HeaderTopMenu: FC<ITopMenu> =
     ({
          isMenuVisible,
          toggleMenuVisibility,
-         screenWidth
+         isDesktop
      }) => {
         return (
             <>
@@ -25,14 +25,14 @@ const HeaderTopMenu: FC<ITopMenu> =
                 >
                     <MenuIcon
                         style={{
-                            'display': screenWidth > 1023 || (screenWidth <= 1023 && isMenuVisible)
+                            'display': isDesktop || (!isDesktop && isMenuVisible)
                                 ? 'none' : 'block'
                         }}
                     />
                 </div>
                 <div className='header__top-menu'
                      style={{
-                         'display': screenWidth > 1023 || (screenWidth <= 1023 && isMenuVisible)
+                         'display': isDesktop || (!isDesktop && isMenuVisible)
                              ? 'block' : 'none'
                      }}
                 >
