@@ -7,9 +7,9 @@ import {useAppSelector} from "../../hooks";
 
 import {IActiveParams} from "../../types";
 
-import CategoryFilter from "../CategoryFilter/CategoryFilter";
+import {CategoryFilter} from "../../components";
 
-const FilterList: FC<IActiveParams> =
+export const FilterList: FC<IActiveParams> =
     ({
          activeParams,
          setParams
@@ -41,5 +41,3 @@ const FilterList: FC<IActiveParams> =
             </div>
         );
     };
-
-export default FilterList;

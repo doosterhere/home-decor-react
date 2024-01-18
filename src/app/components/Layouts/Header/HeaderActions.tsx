@@ -17,7 +17,7 @@ import {ROUTES} from "../../../constants";
 
 import {IconName} from "../../../types";
 
-import Icon from "../../Icon/Icon";
+import {Icon} from "../../../components";
 
 const HeaderActions = () => {
     const isLogged = useAppSelector(selectIsLogged);

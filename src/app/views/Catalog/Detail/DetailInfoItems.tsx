@@ -5,7 +5,7 @@ import {productAPI} from "../../../store";
 
 import {IconName} from "../../../types";
 
-import Icon from "../../../components/Icon/Icon";
+import {Icon} from "../../../components";
 
 const DetailInfoItems = () => {
     const params = useParams();

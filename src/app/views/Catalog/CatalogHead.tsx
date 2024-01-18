@@ -6,7 +6,7 @@ import {useAppSelector} from "../../hooks";
 
 import {IconName, AppliedFilterType, ActiveParamsType, IActiveParams} from "../../types";
 
-import Icon from "../../components/Icon/Icon";
+import {Icon} from "../../components";
 
 interface ICatalogHead extends IActiveParams {
     sortingOpen: boolean;

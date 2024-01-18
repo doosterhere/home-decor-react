@@ -6,7 +6,7 @@ import {useAppSelector} from "../../../hooks";
 
 import {IconName} from "../../../types";
 
-import Icon from "../../../components/Icon/Icon";
+import {Icon} from '../../../components';
 
 const DetailInfoActions = () => {
     const params = useParams();

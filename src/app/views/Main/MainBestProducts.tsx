@@ -4,8 +4,7 @@ import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
 import {productAPI} from "../../store";
 
-import SliderButtons from "../../components/SliderButtons/SliderButtons";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import {ProductCard, SliderButtons} from "../../components";
 
 const MainBestProducts = () => {
     const {data: bestProducts} = productAPI.useGetBestProductsQuery();

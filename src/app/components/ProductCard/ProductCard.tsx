@@ -9,8 +9,7 @@ import {useAppSelector} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
-import CountSelector from "../CountSelector/CountSelector";
-import Icon from "../Icon/Icon";
+import {CountSelector, Icon} from "../../components";
 
 interface IProductCardProps extends PropsWithChildren {
     product: ProductType | null;
@@ -20,7 +19,7 @@ interface IProductCardProps extends PropsWithChildren {
     updateFavorites?: () => void;
 }
 
-const ProductCard: FC<IProductCardProps> =
+export const ProductCard: FC<IProductCardProps> =
     ({
          product,
          isLight,
@@ -126,5 +125,3 @@ const ProductCard: FC<IProductCardProps> =
             <div></div>
         );
     };
-
-export default ProductCard;

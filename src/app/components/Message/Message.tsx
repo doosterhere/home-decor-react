@@ -9,7 +9,7 @@ interface IMessage {
     closeMessage: () => void
 }
 
-const Message: FC<IMessage> =
+export const Message: FC<IMessage> =
     ({
          closeMessage
      }) => {
@@ -33,5 +33,3 @@ const Message: FC<IMessage> =
             </>
         );
     };
-
-export default Message;

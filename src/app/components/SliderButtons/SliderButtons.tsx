@@ -4,7 +4,7 @@ import {SwiperRef} from "swiper/react";
 
 import {IconName} from "../../types";
 
-import Icon from "../Icon/Icon";
+import {Icon} from "../../components";
 
 interface ISliderButtons {
     wrapperClass: string;
@@ -12,7 +12,7 @@ interface ISliderButtons {
     withLoop: boolean;
 }
 
-const SliderButtons: FC<ISliderButtons> =
+export const SliderButtons: FC<ISliderButtons> =
     ({
          wrapperClass,
          swiperRef,
@@ -79,14 +79,14 @@ const SliderButtons: FC<ISliderButtons> =
         return (
             <div className={wrapperClass}>
                 <span className={(!backwardEnabled && !withLoop) ? "move-backward inactive" : "move-backward"}
-                   onClick={handlePrev}>
+                      onClick={handlePrev}>
                     <Icon name={IconName.swiperBackward}/>
                     {!withLoop &&
                         <Icon name={IconName.swiperBackwardGray}/>
                     }
                 </span>
                 <span className={(!forwardEnabled && !withLoop) ? "move-forward inactive" : "move-forward"}
-                   onClick={handleNext}>
+                      onClick={handleNext}>
                     <Icon name={IconName.swiperForward}/>
                     {!withLoop &&
                         <Icon name={IconName.swiperForwardGray}/>
@@ -95,5 +95,3 @@ const SliderButtons: FC<ISliderButtons> =
             </div>
         );
     };
-
-export default SliderButtons;

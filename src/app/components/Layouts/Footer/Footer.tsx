@@ -5,14 +5,13 @@ import "./Footer.scss";
 import {closeMessage} from "../../../store";
 import {useAppDispatch} from "../../../hooks";
 
-import Logo, {colorType} from "../../Logo/Logo";
 import FooterMenu from "./FooterMenu";
 import FooterCategory from "./FooterCategory";
 import FooterInfo from "./FooterInfo";
 import FooterContacts from "./FooterContacts";
-import Message from "../../Message/Message";
+import {Logo, colorType, Message} from '../../../components';
 
-const Footer = () => {
+export const Footer = () => {
     const dispatcher = useAppDispatch();
 
     const handleClose = () => {
@@ -34,5 +33,3 @@ const Footer = () => {
         </footer>
     );
 };
-
-export default Footer;

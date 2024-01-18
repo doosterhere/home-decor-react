@@ -4,14 +4,14 @@ import './CountSelector.scss';
 
 import {IconName} from "../../types";
 
-import Icon from "../Icon/Icon";
+import {Icon} from "../../components";
 
 interface ICounterProps extends PropsWithChildren {
     count: number;
     updateCount: (value: SetStateAction<number>) => void;
 }
 
-const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {
+export const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {
     const increaseCounter = () => {
         updateCount(count + 1);
     };
@@ -43,5 +43,3 @@ const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {
         </div>
     );
 };
-
-export default CountSelector;

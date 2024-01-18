@@ -4,13 +4,13 @@ import './Header.scss';
 
 import {useSetCategories} from "../../../hooks";
 
-import Logo from "../../Logo/Logo";
+import {Logo} from "../../../components";
 import HeaderTopMenu from "./HeaderTopMenu";
 import HeaderActions from "./HeaderActions";
 import HeaderBottomMenu from "./HeaderBottomMenu";
 import HeaderSearch from "./HeaderSearch";
 
-const Header = () => {
+export const Header = () => {
     const [screenWidth, setScreenWidth] = useState(0);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -77,5 +77,3 @@ const Header = () => {
         </header>
     );
 };
-
-export default Header;

@@ -5,8 +5,7 @@ import {cartAPI, productAPI} from "../../store";
 
 import {CartType, IActiveParams} from "../../types";
 
-import ProductCard from "../../components/ProductCard/ProductCard";
-import FilterList from "../../components/FilterList/FilterList";
+import {FilterList, ProductCard} from "../../components";
 
 const CatalogLayout: FC<IActiveParams> =
     ({

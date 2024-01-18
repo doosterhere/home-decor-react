@@ -13,7 +13,7 @@ interface ILogo {
     className: string;
 }
 
-const Logo: FC<ILogo> =
+export const Logo: FC<ILogo> =
     ({
          color = colorType.white,
          className
@@ -28,5 +28,3 @@ const Logo: FC<ILogo> =
         )
             ;
     };
-
-export default Logo;

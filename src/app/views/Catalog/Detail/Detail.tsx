@@ -7,11 +7,11 @@ import {productAPI} from "../../../store";
 import {SERVER_STATIC_PATH} from "../../../constants";
 import {useScrollToAnchor} from "../../../hooks";
 
-import Loader from "../../../components/Loader/Loader";
+import {Loader} from "../../../components";
 import DetailRecommendedProducts from "./DetailRecommendedProducts";
 import DetailInfo from "./DetailInfo";
 
-const Detail = () => {
+export const Detail = () => {
     const params = useParams();
     const {data: product, isLoading} = productAPI.useGetProductQuery(params['url'] as string);
 
@@ -38,5 +38,3 @@ const Detail = () => {
         </div>
     );
 };
-
-export default Detail;

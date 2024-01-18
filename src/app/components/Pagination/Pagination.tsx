@@ -9,7 +9,7 @@ import {productAPI} from "../../store";
 
 import {IActiveParams} from "../../types";
 
-const Pagination: FC<IActiveParams> =
+export const Pagination: FC<IActiveParams> =
     ({
          activeParams,
          setParams
@@ -73,5 +73,3 @@ const Pagination: FC<IActiveParams> =
             <div></div>
         )
     };
-
-export default Pagination;

@@ -5,16 +5,10 @@ import {selectIsLogged} from "../store";
 import {ROUTES} from "../constants";
 import {useAppSelector} from "../hooks";
 
-import Main from "../views/Main/Main";
-import Header from "./Layouts/Header/Header";
-import Footer from "./Layouts/Footer/Footer";
-import Detail from "../views/Catalog/Detail/Detail";
-import Catalog from "../views/Catalog/Catalog";
-import Login from "../views/User/Login/Login";
-import Terms from "../views/User/Terms/Terms";
-import PageNotFound from "../views/PageNotFound/PageNotFound";
+import {Footer, Header} from "../components";
+import {Main, Catalog, Detail, Login, PageNotFound, Terms} from "../views";
 
-const AppRouter = () => {
+export const AppRouter = () => {
     const isLogged = useAppSelector(selectIsLogged);
 
     return (
@@ -39,5 +33,3 @@ const AppRouter = () => {
         </BrowserRouter>
     );
 }
-
-export default AppRouter;

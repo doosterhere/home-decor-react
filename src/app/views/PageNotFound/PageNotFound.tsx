@@ -8,7 +8,7 @@ import './PageNotFound.scss';
 
 import {ROUTES} from "../../constants";
 
-const PageNotFound = () => {
+export const PageNotFound = () => {
     const navigator = useNavigate();
 
     const handlerBack = (e: React.MouseEvent<HTMLAnchorElement | MouseEvent>) => {
@@ -34,5 +34,3 @@ const PageNotFound = () => {
         </div>
     );
 };
-
-export default PageNotFound;

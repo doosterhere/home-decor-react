@@ -4,7 +4,7 @@ import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
 import {config} from "../../config/config";
 
-import SliderButtons from "../../components/SliderButtons/SliderButtons";
+import {SliderButtons} from "../../components";
 
 const MainReview = () => {
     const reviews: { id: number, name: string, image: string, text: string }[] = config.reviews;

@@ -16,7 +16,7 @@ type IconType = {
     needParentHover?: boolean;
 };
 
-const Icon: FC<IconType> = ({
+export const Icon: FC<IconType> = ({
                                 name,
                                 width,
                                 height,
@@ -81,5 +81,3 @@ const Icon: FC<IconType> = ({
         </svg>
     );
 };
-
-export default Icon;

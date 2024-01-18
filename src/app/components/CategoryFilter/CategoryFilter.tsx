@@ -5,7 +5,7 @@ import './CategoryFilter.scss';
 
 import {CategoryWithTypesType, IconName, ActiveParamsType, IActiveParams} from "../../types";
 
-import Icon from "../Icon/Icon";
+import {Icon} from "../../components";
 
 interface ICategoryFilter extends IActiveParams {
     category?: CategoryWithTypesType | null;
@@ -25,7 +25,7 @@ const fillCheckboxesInitialState = (category: CategoryWithTypesType | null): ICa
     return null;
 }
 
-const CategoryFilter: FC<ICategoryFilter> =
+export const CategoryFilter: FC<ICategoryFilter> =
     ({
          category = null,
          type = null,
@@ -262,5 +262,3 @@ const CategoryFilter: FC<ICategoryFilter> =
             </div>
         );
     };
-
-export default CategoryFilter;

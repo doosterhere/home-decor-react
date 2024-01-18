@@ -8,11 +8,12 @@ import {getActiveParams, serializeActiveParams} from "../../utils";
 
 import {FavoritesType, ProductType, ActiveParamsType} from "../../types";
 
+import {Pagination} from "../../components";
 import CatalogHead from "./CatalogHead";
 import CatalogLayout from "./CatalogLayout";
-import Pagination from "../../components/Pagination/Pagination";
 
-const Catalog = () => {
+
+export const Catalog = () => {
     const [favorites, setFavorites] = useState<FavoritesType[] | null>(null);
     const [products, setProducts] = useState<ProductType[]>([]);
     const [activeParams, setActiveParams] = useState<ActiveParamsType>({});
@@ -77,5 +78,3 @@ const Catalog = () => {
     )
         ;
 };
-
-export default Catalog;
