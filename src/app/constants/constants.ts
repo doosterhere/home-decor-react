@@ -45,4 +45,8 @@ export const SORTING_OPTIONS: { name: string, value: string }[] = [
     {name: 'По убыванию цены', value: 'price-desc'},
 ];
 
-export const BURGER_POINT = 1024;
+export const queries = [
+    '(max-width: 766px)',
+    '((min-width: 767px) and (max-width: 1023px))',
+    '(min-width: 1024px)'
+];

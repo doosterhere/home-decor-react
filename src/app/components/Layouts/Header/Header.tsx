@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import './Header.scss';
 
-import {useSetCategories} from "../../../hooks";
-import {BURGER_POINT} from "../../../constants";
+import {useMatchMedia, useSetCategories} from "../../../hooks";
 
 import {Logo} from "../../Logo/Logo";
 import HeaderTopMenu from "./HeaderTopMenu";
@@ -12,19 +11,8 @@ import HeaderBottomMenu from "./HeaderBottomMenu";
 import HeaderSearch from "./HeaderSearch";
 
 export const Header = () => {
-    const [isDesktop, setIsDesktop] = useState(false);
+    const {isDesktop} = useMatchMedia();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
-
-    useEffect(() => {
-        setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches);
-        window.addEventListener('resize', () =>
-            setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches));
-
-        return () => {
-            window.removeEventListener('resize', () =>
-                setIsDesktop(matchMedia(`screen and (min-width: ${BURGER_POINT}px)`).matches));
-        }
-    }, []);
 
     useEffect(() => {
         if (isMenuVisible) {
@@ -66,7 +54,6 @@ export const Header = () => {
                         <HeaderTopMenu
                             isMenuVisible={isMenuVisible}
                             toggleMenuVisibility={toggleMenuVisibility}
-                            isDesktop={isDesktop}
                         />
                         <HeaderActions/>
                     </div>

@@ -346,11 +346,10 @@
         margin-bottom: 47px;
 
         font-size: 46px;
-        text-align: center;
       }
 
       .main__text {
-        max-width: unset;
+        max-width: 385px;
       }
     }
   }
@@ -453,6 +452,12 @@
 @media screen and (max-width: 424px) {
   .main {
     padding-bottom: 140px;
+
+    .container {
+      .main__title {
+        text-align: center;
+      }
+    }
   }
 
   .offers {

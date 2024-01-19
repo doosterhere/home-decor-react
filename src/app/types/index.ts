@@ -10,4 +10,5 @@ export * from './login-response.type';
 export * from './login.type';
 export * from './product.type';
 export * from './signup.type';
+export * from './screenMatches.type';
 export * from './type.type';
