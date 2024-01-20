@@ -13,11 +13,11 @@ const initialState: ICategoriesState = {
 export const categoryReducer = createSlice({
     name: 'categories',
     initialState,
-    reducers: {
-        setCategoriesWithTypes: (state, action: PayloadAction<CategoryWithTypesType[]>) => {
+    reducers: (create) => ({
+        setCategoriesWithTypes: create.reducer((state, action: PayloadAction<CategoryWithTypesType[]>) => {
             state.categories = action.payload;
-        },
-    },
+        }),
+    }),
     selectors: {
         selectCategories: (state) => state
     }

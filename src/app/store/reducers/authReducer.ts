@@ -15,23 +15,23 @@ const initialState: IAuthState = {
 export const authReducer = createSlice({
         name: 'auth',
         initialState: initialState,
-        reducers: {
-            setIsLogged: (state, action: PayloadAction<boolean>) => {
+        reducers: (create) => ({
+            setIsLogged: create.reducer((state, action: PayloadAction<boolean>) => {
                 state.isLogged = action.payload;
-            },
-            setAccessToken: (state, action: PayloadAction<string>) => {
+            }),
+            setAccessToken: create.reducer((state, action: PayloadAction<string>) => {
                 state.accessToken = action.payload;
-            },
-            removeAccessToken: (state) => {
+            }),
+            removeAccessToken: create.reducer((state) => {
                 state.accessToken = null;
-            },
-            setRefreshToken: (state, action: PayloadAction<string>) => {
+            }),
+            setRefreshToken: create.reducer((state, action: PayloadAction<string>) => {
                 state.refreshToken = action.payload;
-            },
-            removeRefreshToken: (state) => {
+            }),
+            removeRefreshToken: create.reducer((state) => {
                 state.refreshToken = null;
-            },
-        },
+            }),
+        }),
         selectors: {
             selectIsLogged: (state) => state.isLogged,
             selectAuthToken: (state) => state.accessToken,

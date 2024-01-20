@@ -15,21 +15,21 @@ const initialState: IMessageState = {
 export const messageReducer = createSlice({
     name: 'message',
     initialState,
-    reducers: {
-        showSuccessMessage: (state, action: PayloadAction<string>) => {
+    reducers: (create) => ({
+        showSuccessMessage: create.reducer((state, action: PayloadAction<string>) => {
             state.isMessageOpen = true;
             state.severity = "success";
             state.messageText = action.payload;
-        },
-        showErrorMessage: (state, action: PayloadAction<string>) => {
+        }),
+        showErrorMessage: create.reducer((state, action: PayloadAction<string>) => {
             state.isMessageOpen = true;
             state.severity = "error";
             state.messageText = action.payload;
-        },
-        closeMessage: (state) => {
+        }),
+        closeMessage: create.reducer((state) => {
             state.isMessageOpen = false;
-        }
-    },
+        })
+    }),
     selectors: {
         selectMessageState: (state) => state
     }
