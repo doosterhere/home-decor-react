@@ -5,5 +5,6 @@ export * from './reducers/categoryReducer';
 export * from './reducers/messageReducer';
 export * from './api/authApi';
 export * from './api/cartApi';
+export * from './api/favoritesApi';
 export * from './api/productApi';
 export * from './api/typeApi';
