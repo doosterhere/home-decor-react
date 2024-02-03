@@ -1,39 +1,53 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
+export interface ISingleMessage {
+    text: string;
+    severity: 'success' | 'error';
+    key: number;
+}
+
 interface IMessageState {
     isMessageOpen: boolean;
-    messageText: string;
-    severity: 'success' | 'error';
+    messages: ISingleMessage[];
 }
 
 const initialState: IMessageState = {
     isMessageOpen: false,
-    messageText: '',
-    severity: "success"
+    messages: []
 }
 
 export const messageReducer = createSlice({
     name: 'message',
     initialState,
     reducers: (create) => ({
-        showSuccessMessage: create.reducer((state, action: PayloadAction<string>) => {
-            state.isMessageOpen = true;
-            state.severity = "success";
-            state.messageText = action.payload;
+        enqueueSuccessMessage: create.reducer((state, action: PayloadAction<string>) => {
+            state.messages.push({text: action.payload, severity: 'success', key: Date.now()});
         }),
-        showErrorMessage: create.reducer((state, action: PayloadAction<string>) => {
-            state.isMessageOpen = true;
-            state.severity = "error";
-            state.messageText = action.payload;
+        enqueueErrorMessage: create.reducer((state, action: PayloadAction<string>) => {
+            state.messages.push({text: action.payload, severity: 'error', key: Date.now()});
         }),
-        closeMessage: create.reducer((state) => {
+        removeFirstMessage: create.reducer((state) => {
+            state.messages.shift();
+        }),
+        showMessage: create.reducer((state) => {
+            state.isMessageOpen = true;
+        }),
+        hideMessage: create.reducer((state) => {
             state.isMessageOpen = false;
         })
     }),
     selectors: {
-        selectMessageState: (state) => state
+        selectMessageVisibility: (state) => state.isMessageOpen,
+        selectMessages: (state) => state.messages,
+        selectFirstMessage: (state) => state.messages[0]
     }
 });
 
-export const {showSuccessMessage, showErrorMessage, closeMessage} = messageReducer.actions;
-export const {selectMessageState} = messageReducer.selectors;
+export const {
+    enqueueSuccessMessage,
+    enqueueErrorMessage,
+    removeFirstMessage,
+    showMessage,
+    hideMessage
+} = messageReducer.actions;
+export const {selectMessageVisibility, selectMessages, selectFirstMessage} = messageReducer.selectors;

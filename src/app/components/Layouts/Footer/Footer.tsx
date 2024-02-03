@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./Footer.scss";
 
-import {closeMessage} from "../../../store";
+import {hideMessage} from "../../../store";
 import {useAppDispatch} from "../../../hooks";
 
 import FooterMenu from "./FooterMenu";
@@ -15,7 +15,7 @@ export const Footer = () => {
     const dispatcher = useAppDispatch();
 
     const handleClose = () => {
-        dispatcher(closeMessage());
+        dispatcher(hideMessage());
     }
 
     return (

@@ -9,7 +9,7 @@ import {
     removeRefreshToken,
     selectIsLogged,
     selectRefreshToken,
-    showSuccessMessage,
+    enqueueSuccessMessage,
     authApi
 } from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
@@ -45,7 +45,7 @@ const HeaderActions = () => {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
             dispatcher(setIsLogged(false));
-            dispatcher(showSuccessMessage('Вы вышли из системы'));
+            dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
             navigator(currentLocation);
         }
     };

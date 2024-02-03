@@ -11,8 +11,8 @@ import {
     setAccessToken,
     setIsLogged,
     setRefreshToken,
-    showErrorMessage,
-    showSuccessMessage,
+    enqueueErrorMessage,
+    enqueueSuccessMessage,
     authApi
 } from "../../../store";
 import {ROUTES} from "../../../constants";
@@ -77,7 +77,7 @@ export const Login = () => {
                     ? 'Пользователь успешно зарегистрирован'
                     : 'Авторизация прошла успешно';
 
-                dispatcher(showSuccessMessage(message));
+                dispatcher(enqueueSuccessMessage(message));
 
                 if (isSignupPage) {
                     resetFormState();
@@ -97,7 +97,7 @@ export const Login = () => {
                 message = (error as { status: number, data: DefaultResponseType }).data.message;
             }
 
-            dispatcher(showErrorMessage(message));
+            dispatcher(enqueueErrorMessage(message));
         }
     };
 
