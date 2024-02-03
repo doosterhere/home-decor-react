@@ -14,7 +14,11 @@ import {Logo, colorType, Message} from '../../../components';
 export const Footer = () => {
     const dispatcher = useAppDispatch();
 
-    const handleClose = () => {
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
         dispatcher(hideMessage());
     }
 
