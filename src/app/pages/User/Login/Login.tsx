@@ -88,7 +88,7 @@ export const Login = () => {
                 dispatcher(setIsLogged(true));
                 dispatcher(setAccessToken(userData.accessToken));
                 dispatcher(setRefreshToken(userData.refreshToken));
-                navigator(ROUTES.HOME);
+                navigator(-1);
             }
         } catch (error) {
             let message = "Произошла ошибка, попробуйте позже";
