@@ -61,14 +61,14 @@ export const Login = () => {
         try {
             const result = isSignupPage
                 ? await signup({
-                    email: data.email,
-                    password: data.password,
-                    passwordRepeat: data.passwordRepeat
+                    email: String(data.email),
+                    password: String(data.password),
+                    passwordRepeat: String(data.passwordRepeat)
                 }).unwrap()
                 : await login({
-                    email: data.email,
-                    password: data.password,
-                    rememberMe: data.rememberMe
+                    email: String(data.email),
+                    password: String(data.password),
+                    rememberMe: Boolean(data.rememberMe)
                 }).unwrap();
 
             if ((result as LoginResponseType).userId) {
