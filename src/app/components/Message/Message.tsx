@@ -45,13 +45,14 @@ export const Message: FC<IMessage> =
             <>
                 <Snackbar
                     anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-                    autoHideDuration={5000}
+                    autoHideDuration={3000}
                     open={isMessageVisible}
                     onClose={closeMessage}
                     key={message ? message.key : undefined}
                     TransitionProps={{onExited: handleExited}}
                 >
                     <Alert
+                        style={{'border': '1px solid white', 'borderRadius': '6px'}}
                         severity={message ? message.severity : 'info'}
                         variant='filled'
                     >
