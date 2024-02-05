@@ -16,6 +16,10 @@ html, body {
 
   & > div {
     flex-grow: 1;
+
+    &:has(.overlay) {
+      display: flex;
+    }
   }
 }
 
