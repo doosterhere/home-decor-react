@@ -1,16 +1,12 @@
-import React, {FC} from 'react';
+import React from 'react';
 
 import CircularProgress from "@mui/material/CircularProgress";
 
 import './Loader.scss';
 
-interface ILoader {
-    isLoading: boolean;
-}
-
-export const Loader: FC<ILoader> = ({isLoading}) => {
+export const Loader=() => {
     return (
-        <div className='overlay' style={{display: isLoading ? 'flex' : 'none'}}>
+        <div className='overlay'>
             <CircularProgress/>
         </div>
     );
