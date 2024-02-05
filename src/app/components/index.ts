@@ -6,6 +6,7 @@ export {Icon} from './Icon/Icon';
 export {Footer} from './Layout/Footer/Footer';
 export {Header} from './Layout/Header/Header';
 export {Loader} from './Loader/Loader';
+export {Layout} from './Layout/Layout';
 export {Logo, colorType} from './Logo/Logo';
 export {Message} from './Message/Message';
 export {Pagination} from './Pagination/Pagination';
