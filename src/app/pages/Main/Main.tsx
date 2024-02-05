@@ -11,7 +11,7 @@ import MainInfo from "./MainInfo";
 import MainReview from "./MainReview";
 import MainMap from "./MainMap";
 
-export const Main = () => {
+const Main = () => {
     useScrollToAnchor();
 
     return (
@@ -36,3 +36,5 @@ export const Main = () => {
         </div>
     );
 };
+
+export default Main;

@@ -11,7 +11,7 @@ import {Loader} from "../../../components";
 import DetailRecommendedProducts from "./DetailRecommendedProducts";
 import DetailInfo from "./DetailInfo";
 
-export const Detail = () => {
+const Detail = () => {
     const params = useParams();
     const {data: product, isLoading} = productAPI.useGetProductQuery(params['url'] as string);
 
@@ -38,3 +38,5 @@ export const Detail = () => {
         </div>
     );
 };
+
+export default Detail;

@@ -20,7 +20,7 @@ import {useAppDispatch} from "../../../hooks";
 
 import {LoginResponseType, DefaultResponseType} from "../../../types";
 
-export const Login = () => {
+const Login = () => {
     const isSignupPage = useLocation().pathname.slice(1) === 'signup';
     const navigator = useNavigate();
     const [isChecked, setIsChecked] = useState(false);
@@ -242,3 +242,5 @@ export const Login = () => {
         </section>
     );
 };
+
+export default Login;

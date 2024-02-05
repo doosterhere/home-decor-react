@@ -6,7 +6,13 @@ import {ROUTES} from "../constants";
 import {useAppSelector} from "../hooks";
 
 import {Footer, Header} from "../components";
-import {Main, Catalog, Detail, Login, PageNotFound, Terms} from "../pages";
+import Main from "../pages/Main/Main";
+import Catalog from "../pages/Catalog/Catalog";
+import Detail from "../pages/Catalog/Detail/Detail";
+import Login from "../pages/User/Login/Login";
+import Terms from "../pages/User/Terms/Terms";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
+
 
 export const AppRouter = () => {
     const isLogged = useAppSelector(selectIsLogged);

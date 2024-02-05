@@ -13,7 +13,7 @@ import CatalogHead from "./CatalogHead";
 import CatalogLayout from "./CatalogLayout";
 
 
-export const Catalog = () => {
+const Catalog = () => {
     const [favorites, setFavorites] = useState<FavoritesType[] | null>(null);
     const [products, setProducts] = useState<ProductType[]>([]);
     const [activeParams, setActiveParams] = useState<ActiveParamsType>({});
@@ -78,3 +78,5 @@ export const Catalog = () => {
     )
         ;
 };
+
+export default Catalog;

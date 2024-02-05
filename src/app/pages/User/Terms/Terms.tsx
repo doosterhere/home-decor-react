@@ -4,7 +4,7 @@ import './Terms.scss';
 
 import {useScrollToAnchor} from "../../../hooks";
 
-export const Terms = () => {
+const Terms = () => {
     useScrollToAnchor();
 
     return (
@@ -213,3 +213,5 @@ export const Terms = () => {
         </div>
     );
 };
+
+export default Terms;
