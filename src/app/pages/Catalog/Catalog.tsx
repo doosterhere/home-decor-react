@@ -3,7 +3,7 @@ import {useSearchParams} from "react-router-dom";
 
 import './Catalog.scss';
 
-import {useDebounceValue} from "../../hooks";
+import {useDebounceValue, useMatchMedia} from "../../hooks";
 import {getActiveParams, serializeActiveParams} from "../../utils";
 
 import {FavoritesType, ProductType, ActiveParamsType} from "../../types";
@@ -21,6 +21,9 @@ const Catalog = () => {
     const debouncedActiveParams = useDebounceValue<ActiveParamsType>(activeParams, 750);
     const [sortingOpen, setSortingOpen] = useState(false);
     const isNotFirstRender = useRef(false);
+    const titleRef = useRef<HTMLDivElement>(null);
+    const itemsRef = useRef<HTMLDivElement>(null);
+    const {isDesktop} = useMatchMedia();
 
     useEffect(() => {
         setActiveParams(getActiveParams(searchParams));
@@ -58,7 +61,7 @@ const Catalog = () => {
     return (
         <div className='catalog' onClick={() => setSortingOpen(false)}>
             <div className='container'>
-                <div className='catalog__title' id='catalog-title'>Каталог</div>
+                <div className='catalog__title' ref={titleRef}>Каталог</div>
                 <CatalogHead
                     sortingOpen={sortingOpen}
                     setSortingState={setSortingState}
@@ -68,10 +71,12 @@ const Catalog = () => {
                 <CatalogLayout
                     activeParams={activeParams}
                     setParams={setParams}
+                    itemsRef={itemsRef}
                 />
                 <Pagination
                     activeParams={activeParams}
                     setParams={setParams}
+                    scrollRef={isDesktop ? titleRef : itemsRef}
                 />
             </div>
         </div>

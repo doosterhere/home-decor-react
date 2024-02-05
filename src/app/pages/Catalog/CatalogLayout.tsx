@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, RefObject, useState} from 'react';
 import {useLocation} from "react-router-dom";
 
 import {cartAPI, productAPI} from "../../store";
@@ -7,10 +7,15 @@ import {CartType, IActiveParams} from "../../types";
 
 import {FilterList, ProductCard} from "../../components";
 
-const CatalogLayout: FC<IActiveParams> =
+interface ICatalogLayout extends IActiveParams {
+    itemsRef: RefObject<HTMLDivElement>
+}
+
+const CatalogLayout: FC<ICatalogLayout> =
     ({
          activeParams,
-         setParams
+         setParams,
+         itemsRef
      }) => {
         const search = useLocation().search;
         const [updateCart] = cartAPI.useUpdateCartMutation();
@@ -27,7 +32,7 @@ const CatalogLayout: FC<IActiveParams> =
                     setParams={setParams}
                 />
                 {(productsData && productsRequestSuccess) &&
-                    <div className='catalog__items' id='catalog-items'>
+                    <div className='catalog__items' ref={itemsRef}>
                         {
                             productsData.items.map(item =>
                                 <ProductCard

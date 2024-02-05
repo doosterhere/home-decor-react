@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, RefObject, useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 
 import {Pagination as MatPagination} from "@mui/material";
@@ -9,37 +9,28 @@ import {productAPI} from "../../store";
 
 import {IActiveParams} from "../../types";
 
-export const Pagination: FC<IActiveParams> =
+interface IPagination extends IActiveParams {
+    scrollRef: RefObject<HTMLDivElement>
+}
+
+export const Pagination: FC<IPagination> =
     ({
          activeParams,
-         setParams
+         setParams,
+         scrollRef
      }) => {
         const search = useLocation().search;
         const [page, setPage] = useState(1);
-        const [screenWidth, setScreenWidth] = useState(0);
         const {
             data: productsData
         } = productAPI.useGetProductsQuery(search);
 
         useEffect(() => {
-            setScreenWidth(window.innerWidth);
-            window.addEventListener('resize', () => setScreenWidth(window.innerWidth));
-
-            return () => {
-                window.removeEventListener('resize', () => setScreenWidth(window.innerWidth));
-            }
-        }, []);
-
-        useEffect(() => {
             setPage(activeParams.page || 1);
         }, [activeParams.page]);
 
-        const scrollToElement = (id: string) => {
-            const element = document.getElementById(id);
-
-            if (element) {
-                element.scrollIntoView({behavior: 'smooth'});
-            }
+        const scrollToElement = (ref: RefObject<HTMLDivElement>) => {
+            ref.current?.scrollIntoView({behavior: 'smooth'});
         }
 
         const handleOpen = (event: React.ChangeEvent<unknown>, page: number) => {
@@ -47,12 +38,7 @@ export const Pagination: FC<IActiveParams> =
 
             setParams(current => ({...current, page: page}));
 
-            if (screenWidth > 1023) {
-                scrollToElement('catalog-title');
-                return;
-            }
-
-            scrollToElement('catalog-items');
+            scrollToElement(scrollRef);
         }
 
         if (productsData && productsData.pages > 1) {
