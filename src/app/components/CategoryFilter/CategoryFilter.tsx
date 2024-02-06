@@ -66,6 +66,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
                 }
                 setFrom(activeParams.heightFrom ? activeParams.heightFrom.toString() : '');
                 setTo(activeParams.heightTo ? activeParams.heightTo.toString() : '');
+
                 return;
             }
 
@@ -75,6 +76,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
                 }
                 setFrom(activeParams.diameterFrom ? activeParams.diameterFrom.toString() : '');
                 setTo(activeParams.diameterTo ? activeParams.diameterTo.toString() : '');
+
                 return;
             }
 
@@ -146,7 +148,9 @@ export const CategoryFilter: FC<ICategoryFilter> =
                 if (existingTypeInParams && !checked) {
                     setParams((current: ActiveParamsType) => {
                         const filteredTypes = current?.types?.filter(item => item !== typeUrl);
-                        const {page, ...newState} = current;
+                        const newState = {...current};
+                        delete newState.page;
+
                         return {...newState, types: filteredTypes};
                     });
                 }
@@ -154,7 +158,9 @@ export const CategoryFilter: FC<ICategoryFilter> =
                 if (!existingTypeInParams && checked) {
                     setParams((current) => {
                         const types = [...current.types as string[], typeUrl];
-                        const {page, ...newState} = current;
+                        const newState = {...current};
+                        delete newState.page;
+
                         return {...newState, types}
                     });
                 }
@@ -163,7 +169,9 @@ export const CategoryFilter: FC<ICategoryFilter> =
             if (!activeParams.types && checked) {
                 setParams((current) => {
                     const types = [typeUrl];
-                    const {page, ...newState} = current;
+                    const newState = {...current};
+                    delete newState.page;
+
                     return {...newState, types};
                 });
             }
@@ -181,15 +189,21 @@ export const CategoryFilter: FC<ICategoryFilter> =
                     }
 
                     setParams((current) => {
-                        const {[param as keyof ActiveParamsType]: removed, page, ...rest} = current;
-                        return {...rest}
+                        const newState = {...current};
+                        delete newState.page;
+                        delete newState[param as keyof ActiveParamsType];
+
+                        return newState;
                     });
+
                     return;
                 }
 
                 if (value) {
                     setParams((current) => {
-                        const {page, ...newState} = current;
+                        const newState = {...current};
+                        delete newState.page;
+
                         return {
                             ...newState,
                             [param as keyof ActiveParamsType]: Number(value)
