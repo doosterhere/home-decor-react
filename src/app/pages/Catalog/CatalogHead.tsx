@@ -35,14 +35,17 @@ const CatalogHead: FC<ICatalogHead> =
         const handleSorting = (sortOption: string) => {
             if (activeParams.sort && activeParams.sort === sortOption) {
                 setParams((current) => {
-                    const {sort, ...rest} = current;
-                    return {...rest};
+                    const newState = {...current};
+                    delete newState.sort;
+
+                    return newState;
                 });
+
                 return;
             }
 
             setParams((current) => {
-                return {...current, sort: sortOption}
+                return {...current, sort: sortOption};
             });
         };
 
@@ -120,21 +123,25 @@ const CatalogHead: FC<ICatalogHead> =
             if (appliedFilter.urlParam === 'heightFrom' || appliedFilter.urlParam === 'heightTo' ||
                 appliedFilter.urlParam === 'diameterFrom' || appliedFilter.urlParam === 'diameterTo') {
                 setParams((current) => {
-                    const {[appliedFilter.urlParam as keyof ActiveParamsType]: removedFilter, page, ...rest} = current;
-                    return {...rest};
+                    const newState = {...current};
+                    delete newState.page;
+                    delete newState[appliedFilter.urlParam as keyof ActiveParamsType];
+
+                    return newState;
                 });
 
                 return;
             }
 
             setParams((current) => {
-                const {page, ...rest} = current;
+                const newState = {...current};
+                delete newState.page;
 
-                if (rest.types) {
-                    rest.types = rest.types.filter(item => item !== appliedFilter.urlParam);
+                if (newState.types) {
+                    newState.types = newState.types.filter(item => item !== appliedFilter.urlParam);
                 }
 
-                return rest;
+                return newState;
             });
         };
 
