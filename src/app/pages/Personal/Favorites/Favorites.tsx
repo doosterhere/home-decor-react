@@ -1,15 +1,14 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
 
 import './Favorites.scss';
 
 import {favoritesApi} from "../../../store";
-import {ROUTES} from "../../../constants";
 
 import {FavoritesType} from "../../../types";
 
+import FavoritesProductsList from "./FavoritesProductsList";
+
 const Favorites = () => {
-    const navigate = useNavigate();
     const {
         data: requestData,
         isSuccess: isRequestSuccess,
@@ -25,21 +24,10 @@ const Favorites = () => {
                         <div>Не удалось загрузить данные, попробуйте позже</div>
                     </div>
                 }
-                {isRequestSuccess && !(requestData as FavoritesType[]).length &&
-                    <div className="favorites__empty">
-                        <div>Вы ещё ничего не добавили в избранное</div>
-                        <button className="button" onClick={() => navigate(ROUTES.CATALOG)}>Перейти в каталог</button>
-                    </div>
-                }
-                {isRequestSuccess && !!(requestData as FavoritesType[]).length &&
-                    <div className="favorites__products">
-                        {
-                            (requestData as FavoritesType[]).map(product =>
-                                <div>{product.name}</div>
-                            )
-                        }
-                    </div>
-                }
+                <FavoritesProductsList
+                    data={requestData as FavoritesType[]}
+                    isRequestSuccess={isRequestSuccess}
+                />
             </div>
         </div>
     );
