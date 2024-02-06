@@ -5,6 +5,8 @@ import {ROUTES} from "../../../constants";
 
 import {FavoritesType} from "../../../types";
 
+import FavoritesProduct from "./FavoritesProduct";
+
 interface IFavoriteProductList {
     data: FavoritesType[],
     isRequestSuccess: boolean
@@ -31,7 +33,7 @@ const FavoritesProductsList: FC<IFavoriteProductList> =
                         }
                         {!!data.length &&
                             data.map(product =>
-                                <div>{product.name}</div>
+                                <FavoritesProduct key={product.id} product={product}/>
                             )
                         }
                     </div>
