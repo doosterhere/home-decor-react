@@ -6,16 +6,13 @@ import './Catalog.scss';
 import {useDebounceValue, useMatchMedia} from "../../hooks";
 import {getActiveParams, serializeActiveParams} from "../../utils";
 
-import {FavoritesType, ProductType, ActiveParamsType} from "../../types";
+import {ActiveParamsType} from "../../types";
 
 import {Pagination} from "../../components";
 import CatalogHead from "./CatalogHead";
 import CatalogLayout from "./CatalogLayout";
 
-
 const Catalog = () => {
-    const [favorites, setFavorites] = useState<FavoritesType[] | null>(null);
-    const [products, setProducts] = useState<ProductType[]>([]);
     const [activeParams, setActiveParams] = useState<ActiveParamsType>({});
     const [searchParams, setSearchParams] = useSearchParams();
     const debouncedActiveParams = useDebounceValue<ActiveParamsType>(activeParams, 750);
@@ -80,8 +77,7 @@ const Catalog = () => {
                 />
             </div>
         </div>
-    )
-        ;
+    );
 };
 
 export default Catalog;
