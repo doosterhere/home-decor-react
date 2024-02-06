@@ -1,6 +1,8 @@
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
 
+import {enqueueErrorMessage, enqueueSuccessMessage, favoritesApi} from "../../../store";
+import {useAppDispatch} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
 import {FavoritesType, IconName} from "../../../types";
@@ -13,6 +15,8 @@ interface IFavoritesProduct {
 
 const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
     const navigator = useNavigate();
+    const dispatcher = useAppDispatch();
+    const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
 
     //dummy section
     const count = 1;
@@ -26,10 +30,20 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
 
     const removeFromCart = () => {
     };
+    //end dummy section
 
     const handleRemoveFromFavorites = () => {
+        removeFromFavorites(product.id).unwrap()
+            .then(res => {
+                if (!res.error) {
+                    dispatcher(enqueueSuccessMessage('Удалёно из избранного'));
+                }
+            })
+            .catch(() => {
+                dispatcher(enqueueErrorMessage('Ошибка при удалении'));
+            });
+
     };
-    //end dummy section
 
     return (
         <div className="favorites__product">
