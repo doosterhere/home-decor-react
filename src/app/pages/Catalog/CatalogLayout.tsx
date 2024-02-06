@@ -22,7 +22,7 @@ const CatalogLayout: FC<ICatalogLayout> =
         const [cart, setCart] = useState<CartType | null>(null);
         const {
             data: productsData,
-            isSuccess: productsRequestSuccess,
+            isSuccess: isProductsRequestSuccess,
         } = productAPI.useGetProductsQuery(search);
 
         return (
@@ -31,20 +31,20 @@ const CatalogLayout: FC<ICatalogLayout> =
                     activeParams={activeParams}
                     setParams={setParams}
                 />
-                {(productsData && productsRequestSuccess) &&
+                {(productsData && isProductsRequestSuccess) &&
                     <div className='catalog__items' ref={itemsRef}>
                         {
                             productsData.items.map(item =>
                                 <ProductCard
                                     key={item.id}
                                     product={item}
-                                    countInCart={!!item.countInCart ? item.countInCart : 0}
+                                    countInCart={item.countInCart ? item.countInCart : 0}
                                     updateCart={updateCart}/>
                             )
                         }
                     </div>
                 }
-                {(!!productsData && !productsData.totalCount && productsRequestSuccess) &&
+                {(!!productsData && !productsData.totalCount && isProductsRequestSuccess) &&
                     <div>Ничего не найдено. Попробуйте изменить параметры поиска</div>
                 }
             </div>
