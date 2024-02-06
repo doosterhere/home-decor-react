@@ -35,7 +35,7 @@ export const Message: FC<IMessage> =
             } else if (messages.length && message && isMessageVisible) {
                 dispatcher(hideMessage());
             }
-        }, [messages, message, isMessageVisible]);
+        }, [messages, message, isMessageVisible, dispatcher, firstMessage]);
 
         const handleExited = () => {
             setMessage(undefined);
