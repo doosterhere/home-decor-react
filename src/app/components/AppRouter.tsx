@@ -13,6 +13,7 @@ const Detail = lazy(() => import('../pages/Catalog/Detail/Detail'));
 const Login = lazy(() => import('../pages/User/Login/Login'));
 const Terms = lazy(() => import('../pages/User/Terms/Terms'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound/PageNotFound'));
+const Favorites = lazy(() => import('../pages/Personal/Favorites/Favorites'));
 
 export const AppRouter = () => {
     const isLogged = useAppSelector(selectIsLogged);
@@ -37,6 +38,12 @@ export const AppRouter = () => {
                            }
                     />
                     <Route path={ROUTES.TERMS} element={<Terms/>}/>
+                    <Route path={ROUTES.FAVORITES}
+                           element={isLogged
+                               ? <Favorites/>
+                               : <Navigate to={ROUTES.HOME}/>
+                           }
+                    />
                     <Route path='*' element={<PageNotFound/>}/>
                 </Route>
             </Routes>
