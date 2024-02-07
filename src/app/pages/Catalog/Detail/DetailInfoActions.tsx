@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
-import {favoritesApi, productAPI, selectIsLogged} from "../../../store";
-import {useAppSelector} from "../../../hooks";
+import {enqueueErrorMessage, favoritesApi, productAPI, selectIsLogged} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
@@ -18,6 +18,9 @@ const DetailInfoActions = () => {
         isSuccess: isFavoritesRequestSuccess,
         fulfilledTimeStamp
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
+    const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
+    const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
+    const dispatcher = useAppDispatch();
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -27,6 +30,22 @@ const DetailInfoActions = () => {
     }, [favoritesData, fulfilledTimeStamp, isFavoritesRequestSuccess, product?.id]);
 
     const handleUpdateFavorite = () => {
+        if (isInFavorites && product) {
+            removeFromFavorites(product.id)
+                .unwrap()
+                .catch(() => {
+                    dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
+                });
+            return;
+        }
+
+        if (product) {
+            addToFavorites(product.id)
+                .unwrap()
+                .catch(() => {
+                    dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
+                });
+        }
     };
 
     const handleAddToCart = () => {
