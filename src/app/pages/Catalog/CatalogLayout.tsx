@@ -2,6 +2,7 @@ import React, {FC, RefObject, useState} from 'react';
 import {useLocation} from "react-router-dom";
 
 import {cartAPI, productAPI} from "../../store";
+import {useProducts} from "../../hooks/useProducts";
 
 import {CartType, IActiveParams} from "../../types";
 
@@ -24,6 +25,7 @@ const CatalogLayout: FC<ICatalogLayout> =
             data: productsData,
             isSuccess: isProductsRequestSuccess,
         } = productAPI.useGetProductsQuery(search);
+        const products = useProducts(productsData?.items);
 
         return (
             <div className='catalog__layout'>
@@ -34,7 +36,7 @@ const CatalogLayout: FC<ICatalogLayout> =
                 {(productsData && isProductsRequestSuccess) &&
                     <div className='catalog__items' ref={itemsRef}>
                         {
-                            productsData.items.map(item =>
+                            products.map(item =>
                                 <ProductCard
                                     key={item.id}
                                     product={item}
