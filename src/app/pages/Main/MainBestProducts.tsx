@@ -3,11 +3,13 @@ import React, {useRef} from 'react';
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
 import {productAPI} from "../../store";
+import {useProducts} from "../../hooks/useProducts";
 
 import {ProductCard, SliderButtons} from "../../components";
 
 const MainBestProducts = () => {
-    const {data: bestProducts} = productAPI.useGetBestProductsQuery();
+    const {data: bestProductsData} = productAPI.useGetBestProductsQuery();
+    const bestProducts = useProducts(bestProductsData);
     const swiperBestRef = useRef<SwiperRef>(null);
 
     return (

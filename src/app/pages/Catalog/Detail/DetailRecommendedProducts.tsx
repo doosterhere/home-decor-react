@@ -3,11 +3,13 @@ import React, {useRef} from 'react';
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
 import {productAPI} from "../../../store";
+import {useProducts} from "../../../hooks/useProducts";
 
 import {ProductCard, SliderButtons} from "../../../components";
 
 const DetailRecommendedProducts = () => {
-    const {data: recommendedProducts} = productAPI.useGetBestProductsQuery();
+    const {data: recommendedProductsData} = productAPI.useGetBestProductsQuery();
+    const products = useProducts(recommendedProductsData);
 
     const swiperRecommendedRef = useRef<SwiperRef>(null);
 
@@ -43,7 +45,7 @@ const DetailRecommendedProducts = () => {
                     }}
                 >
                     {
-                        recommendedProducts?.map(product => {
+                        products.map(product => {
                             return (
                                 <SwiperSlide key={product.id}>
                                     <ProductCard product={product}/>
