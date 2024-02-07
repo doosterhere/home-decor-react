@@ -6,6 +6,7 @@ export * from './defaultResponse.type';
 export * from './favorites.type';
 export * from './iactive-params.interface';
 export * from './icon-name.type';
+export * from './icart-item.interface';
 export * from './login-response.type';
 export * from './login.type';
 export * from './product.type';
