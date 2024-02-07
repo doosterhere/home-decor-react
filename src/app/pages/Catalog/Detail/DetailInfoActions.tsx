@@ -63,14 +63,14 @@ const DetailInfoActions = () => {
 
                         {!isInFavorites &&
                             <>
-                                <Icon name={IconName.heart}/>
+                                <Icon name={IconName.heart} needParentHover/>
                                 <span>В избранное</span>
                             </>
                         }
 
                         {isInFavorites &&
                             <>
-                                <Icon name={IconName.heartFilled}/>
+                                <Icon name={IconName.heartFilled} needParentHover/>
                                 <span>В избранном</span>
                             </>
                         }
