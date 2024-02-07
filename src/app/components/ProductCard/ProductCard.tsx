@@ -3,9 +3,9 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {selectIsLogged} from "../../store";
+import {enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 
 import {ICartItem, IconName, ProductType} from "../../types";
 
@@ -16,7 +16,6 @@ interface IProductCardProps {
     isLight?: boolean;
     countInCart?: number;
     updateCart?: (cartItem: ICartItem) => void;
-    updateFavorites?: () => void;
 }
 
 export const ProductCard: FC<IProductCardProps> =
@@ -29,6 +28,9 @@ export const ProductCard: FC<IProductCardProps> =
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(1);
         const navigator = useNavigate();
+        const dispatcher = useAppDispatch();
+        const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
+        const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
 
         const navigate = () => {
             if (isLight && product) {
@@ -44,6 +46,22 @@ export const ProductCard: FC<IProductCardProps> =
         };
 
         const updateFavorites = () => {
+            if (product && product.inFavorites) {
+                removeFromFavorites(product.id)
+                    .unwrap()
+                    .catch(() => {
+                        dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
+                    });
+                return;
+            }
+
+            if (product) {
+                addToFavorites(product.id)
+                    .unwrap()
+                    .catch(() => {
+                        dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
+                    });
+            }
         };
 
         const addToCart = () => {
