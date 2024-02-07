@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, SetStateAction, useEffect, useState} from 'react';
+import React, {FC, SetStateAction, useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
@@ -11,7 +11,7 @@ import {ICartItem, IconName, ProductType} from "../../types";
 
 import {CountSelector, Icon} from "../../components";
 
-interface IProductCardProps extends PropsWithChildren {
+interface IProductCardProps {
     product: ProductType | null;
     isLight?: boolean;
     countInCart?: number;
