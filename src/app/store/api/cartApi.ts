@@ -26,7 +26,7 @@ export const cartAPI = createApi({
             }),
             invalidatesTags: ['cart']
         }),
-        getCartCount: builder.query<number | DefaultResponseType, void>({
+        getCartCount: builder.query<{ count: number } | DefaultResponseType, void>({
             query: () => ({
                 headers: {
                     withCredentials: 'true'
