@@ -32,8 +32,7 @@ export const cartAPI = createApi({
                     withCredentials: 'true'
                 },
                 url: 'cart/count'
-            }),
-            providesTags: ['cart']
+            })
         })
     })
 });
