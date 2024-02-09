@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import {Menu, MenuItem} from "@mui/material";
 
 import {
-    setIsLogged,
+    authApi,
+    cartAPI,
+    enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
+    selectCartCount,
     selectIsLogged,
     selectRefreshToken,
-    enqueueSuccessMessage,
-    authApi
+    setCartCount,
+    setIsLogged
 } from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {ROUTES} from "../../../constants";
@@ -24,11 +27,27 @@ const HeaderActions = () => {
     const refreshToken = useAppSelector(selectRefreshToken);
     const [logout] = authApi.useLogoutMutation();
     const dispatcher = useAppDispatch();
-    const [count, setCount] = useState(0);
     const navigator = useNavigate();
     const currentLocation = useLocation().pathname;
     const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
+    const count = useAppSelector(selectCartCount);
+    const {refetch: cartCountRefetch} = cartAPI.useGetCartCountQuery();
+
+    useEffect(() => {
+        async function reFetchCartCountData() {
+            const result = await cartCountRefetch()
+                .unwrap();
+
+            if (result && 'count' in result) {
+                dispatcher(setCartCount(result.count));
+            } else {
+                dispatcher(setCartCount(0));
+            }
+        }
+
+        reFetchCartCountData().catch(fetchCartCountError => console.log(fetchCartCountError));
+    }, [isLogged, dispatcher, cartCountRefetch]);
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorMenuEl(event.currentTarget);
