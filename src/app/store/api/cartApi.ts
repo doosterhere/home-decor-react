@@ -11,9 +11,6 @@ export const cartAPI = createApi({
     endpoints: (builder) => ({
         getCart: builder.query<CartType | DefaultResponseType, void>({
             query: () => ({
-                headers: {
-                    withCredentials: 'true'
-                },
                 url: 'cart'
             }),
             providesTags: ['cart']
@@ -28,9 +25,6 @@ export const cartAPI = createApi({
         }),
         getCartCount: builder.query<{ count: number } | DefaultResponseType, void>({
             query: () => ({
-                headers: {
-                    withCredentials: 'true'
-                },
                 url: 'cart/count'
             })
         })
