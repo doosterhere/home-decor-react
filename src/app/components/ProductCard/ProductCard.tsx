@@ -3,27 +3,29 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
+import {cartAPI, enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 
-import {ICartItem, IconName, ProductType} from "../../types";
+import {CartType, IconName, ProductType} from "../../types";
 
 import {CountSelector, Icon} from "../../components";
 
 interface IProductCardProps {
     product: ProductType | null;
     isLight?: boolean;
-    countInCart?: number;
-    updateCart?: (cartItem: ICartItem) => void;
+    countInCart: number;
+    setCart: (value: SetStateAction<CartType>) => void;
+    setNeedRefetch: (value: SetStateAction<boolean>) => void;
 }
 
 export const ProductCard: FC<IProductCardProps> =
     ({
          product,
          isLight,
-         countInCart = 0,
-         updateCart
+         countInCart,
+         setCart,
+         setNeedRefetch
      }) => {
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(1);
@@ -31,6 +33,7 @@ export const ProductCard: FC<IProductCardProps> =
         const dispatcher = useAppDispatch();
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
+        const [updateCart] = cartAPI.useUpdateCartMutation();
 
         const navigate = () => {
             if (isLight && product) {
@@ -64,13 +67,24 @@ export const ProductCard: FC<IProductCardProps> =
             }
         };
 
-        const addToCart = () => {
+        const addToCart = async (quantity = count) => {
             if (product && updateCart) {
-                updateCart({
+                await updateCart({
                     productId: product.id,
-                    quantity: count
-                });
-                countInCart = count;
+                    quantity: quantity
+                })
+                    .then(res => {
+                        if (res && 'data' in res && 'items' in res.data) {
+                            setCart(res.data);
+                            return;
+                        }
+
+                        setNeedRefetch(true);
+                        dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
+                    })
+                    .catch(() => {
+                        dispatcher(enqueueErrorMessage('Произошла ошибка, попробуйте позже'));
+                    });
             }
         };
 
@@ -84,7 +98,6 @@ export const ProductCard: FC<IProductCardProps> =
                 setCount(1);
             }
         };
-
 
         useEffect(() => {
             if (countInCart) {
@@ -115,7 +128,7 @@ export const ProductCard: FC<IProductCardProps> =
                                 <div className='product-card__price'>{product.price} BYN</div>
                                 <div className='product-card__action'>
                                     {countInCart === 0 &&
-                                        <button className='button' onClick={addToCart}>В корзину</button>
+                                        <button className='button' onClick={() => addToCart()}>В корзину</button>
                                     }
                                     {countInCart > 0 &&
                                         <button className='button button_transparent button_in-cart'
