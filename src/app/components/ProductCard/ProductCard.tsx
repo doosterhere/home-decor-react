@@ -5,7 +5,7 @@ import './ProductCard.scss';
 
 import {cartAPI, enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector, useDebounceValue} from "../../hooks";
 
 import {CartType, IconName, ProductType} from "../../types";
 
@@ -29,22 +29,23 @@ export const ProductCard: FC<IProductCardProps> =
      }) => {
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(1);
+        const debouncedCount = useDebounceValue(count, 500);
         const navigator = useNavigate();
         const dispatcher = useAppDispatch();
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
         const [updateCart] = cartAPI.useUpdateCartMutation();
 
+        useEffect(() => {
+            if (countInCart) {
+                addToCart(debouncedCount)
+                    .catch(err => console.log('err when updated quantity: ' + err));
+            }
+        }, [debouncedCount]);
+
         const navigate = () => {
             if (isLight && product) {
                 navigator(`${ROUTES.PRODUCT}/${product.url}`);
-            }
-        };
-
-        const updateCount = (value: SetStateAction<number>) => {
-            setCount(value);
-            if (countInCart) {
-                addToCart();
             }
         };
 
@@ -88,13 +89,24 @@ export const ProductCard: FC<IProductCardProps> =
             }
         };
 
-        const removeFromCart = () => {
+        const removeFromCart = async () => {
             if (product && updateCart) {
-                updateCart({
+                await updateCart({
                     productId: product.id,
                     quantity: 0
-                });
-                countInCart = 0;
+                })
+                    .then(res => {
+                        if (res && 'data' in res && 'items' in res.data) {
+                            setCart(res.data);
+                            return;
+                        }
+
+                        setNeedRefetch(true);
+                        dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
+                    })
+                    .catch(() => {
+                        dispatcher(enqueueErrorMessage('Произошла ошобка, попробуйте позже'));
+                    });
                 setCount(1);
             }
         };
@@ -140,7 +152,7 @@ export const ProductCard: FC<IProductCardProps> =
                                 </div>
                             </div>
                             <div className='product-card__extra'>
-                                <CountSelector count={count} updateCount={updateCount}/>
+                                <CountSelector count={count} updateCount={setCount}/>
                                 <Link to={`${ROUTES.PRODUCT}/${product.url}`} className='product-card__detail'>
                                     <Icon name={IconName.dots} needParentHover/>
                                     <span>Подробнее</span>
