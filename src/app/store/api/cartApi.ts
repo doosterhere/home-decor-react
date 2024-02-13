@@ -12,8 +12,7 @@ export const cartAPI = createApi({
         getCart: builder.query<CartType | DefaultResponseType, void>({
             query: () => ({
                 url: 'cart'
-            }),
-            providesTags: ['cart']
+            })
         }),
         updateCart: builder.mutation<CartType | DefaultResponseType, ICartItem>({
             query: (patch) => ({
