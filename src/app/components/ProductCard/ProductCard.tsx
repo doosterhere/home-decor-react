@@ -26,6 +26,7 @@ export const ProductCard: FC<IProductCardProps> =
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(countInCart || 1);
         const debouncedCount = useDebounceValue(count, 500);
+        const [previousDebouncedCount, setPreviousDebouncedCount] = useState(debouncedCount);
         const navigator = useNavigate();
         const dispatcher = useAppDispatch();
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
@@ -34,12 +35,13 @@ export const ProductCard: FC<IProductCardProps> =
         const [isFirstRender, setIsFirstRender] = useState(true);
 
         useEffect(() => {
-            if (countInCart && !isFirstRender) {
+            if (countInCart && !isFirstRender && debouncedCount !== previousDebouncedCount) {
                 addToCart(debouncedCount)
                     .catch(err => console.log('err when updated quantity: ' + err));
             }
 
             setIsFirstRender(false);
+            setPreviousDebouncedCount(debouncedCount);
         }, [debouncedCount]);
 
         const navigate = () => {
