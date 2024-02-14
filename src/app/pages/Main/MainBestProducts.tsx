@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
-import {productAPI, selectCart, setCartCount} from "../../store";
+import {productAPI, setCartCount} from "../../store";
 import {useProducts} from "../../hooks/useProducts";
-import {useAppDispatch, useAppSelector, useCart, useCartRefetch} from "../../hooks";
+import {useAppDispatch, useCartRefetch} from "../../hooks";
 
 import {ProductCard, SliderButtons} from "../../components";
 
@@ -13,10 +13,7 @@ const MainBestProducts = () => {
     const bestProducts = useProducts(bestProductsData);
     const swiperBestRef = useRef<SwiperRef>(null);
     const dispatcher = useAppDispatch();
-    const fetchedCart = useAppSelector(selectCart);
-    const cart = useCart(fetchedCart);
-
-    useCartRefetch();
+    const cart = useCartRefetch();
 
     useEffect(() => {
         dispatcher(setCartCount(cart.itemsCount));
