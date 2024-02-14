@@ -3,3 +3,4 @@ export * from './getErrorMessage';
 export * from './makeTypesQueryString';
 export * from './baseQueryWithReAuth';
 export * from './serializeActiveParams';
+export * from './fetchCart';
