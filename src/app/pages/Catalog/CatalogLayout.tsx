@@ -1,10 +1,11 @@
-import React, {FC, RefObject, useState} from 'react';
+import React, {FC, RefObject, useEffect} from 'react';
 import {useLocation} from "react-router-dom";
 
-import {cartAPI, productAPI} from "../../store";
+import {productAPI, setCartCount} from "../../store";
 import {useProducts} from "../../hooks/useProducts";
+import {useAppDispatch, useCartRefetch} from "../../hooks";
 
-import {CartType, IActiveParams} from "../../types";
+import {IActiveParams} from "../../types";
 
 import {FilterList, ProductCard} from "../../components";
 
@@ -19,13 +20,17 @@ const CatalogLayout: FC<ICatalogLayout> =
          itemsRef
      }) => {
         const search = useLocation().search;
-        const [updateCart] = cartAPI.useUpdateCartMutation();
-        const [cart, setCart] = useState<CartType | null>(null);
         const {
             data: productsData,
             isSuccess: isProductsRequestSuccess,
         } = productAPI.useGetProductsQuery(search);
         const products = useProducts(productsData?.items);
+        const dispatcher = useAppDispatch();
+        const cart = useCartRefetch();
+
+        useEffect(() => {
+            dispatcher(setCartCount(cart.itemsCount));
+        }, [cart, dispatcher]);
 
         return (
             <div className='catalog__layout'>
@@ -36,13 +41,18 @@ const CatalogLayout: FC<ICatalogLayout> =
                 {(productsData && isProductsRequestSuccess) &&
                     <div className='catalog__items' ref={itemsRef}>
                         {
-                            products.map(item =>
-                                <ProductCard
-                                    key={item.id}
-                                    product={item}
-                                    countInCart={item.countInCart ? item.countInCart : 0}
-                                    updateCart={updateCart}/>
-                            )
+                            products.map(product => {
+                                const foundItem = cart.items.find(item => item.productId === product.id);
+                                const countInCart = foundItem ? foundItem.quantity : 0;
+
+                                return (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        countInCart={countInCart}
+                                    />
+                                );
+                            })
                         }
                     </div>
                 }
