@@ -1,12 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
-import {cartAPI, productAPI, selectIsLogged, setCartCount} from "../../store";
+import {productAPI, selectCart, setCartCount} from "../../store";
 import {useProducts} from "../../hooks/useProducts";
-import {useAppDispatch, useAppSelector, useCart} from "../../hooks";
-
-import {CartType} from "../../types";
+import {useAppDispatch, useAppSelector, useCart, useCartRefetch} from "../../hooks";
 
 import {ProductCard, SliderButtons} from "../../components";
 
@@ -15,39 +13,14 @@ const MainBestProducts = () => {
     const bestProducts = useProducts(bestProductsData);
     const swiperBestRef = useRef<SwiperRef>(null);
     const dispatcher = useAppDispatch();
-    const cartPromise = dispatcher(cartAPI.endpoints?.getCart.initiate());
-    const refetchCartPromise = cartPromise.refetch.bind(cartPromise);
-    const [fetchedCart, setFetchedCart] = useState<CartType>({items: []});
+    const fetchedCart = useAppSelector(selectCart);
     const cart = useCart(fetchedCart);
-    const isLogged = useAppSelector(selectIsLogged);
-    const [needRefetch, setNeedRefetch] = useState(false);
 
-    useEffect(() => {
-        getCart().catch(error => console.log('error in fetch after login/logout: ', error));
-
-        if (needRefetch) {
-            setNeedRefetch(false);
-        }
-    }, [isLogged, needRefetch]);
+    useCartRefetch();
 
     useEffect(() => {
         dispatcher(setCartCount(cart.itemsCount));
     }, [cart, dispatcher]);
-
-    async function getCart() {
-        await refetchCartPromise()
-            .then(res => {
-                if (res && res.data && 'items' in res.data) {
-                    setFetchedCart(res.data);
-                }
-            }, rej => {
-                console.log('reason for rejection: ' + rej);
-            })
-            .catch((err) => console.log('error when fetching cart data in MainBestProducts: ' + err))
-            .finally(() => {
-                cartPromise.unsubscribe();
-            });
-    }
 
     return (
         <section className="best-products">
@@ -91,8 +64,6 @@ const MainBestProducts = () => {
                                         <ProductCard
                                             product={product}
                                             countInCart={countInCart}
-                                            setCart={setFetchedCart}
-                                            setNeedRefetch={setNeedRefetch}
                                         />
                                     </SwiperSlide>
                                 );
