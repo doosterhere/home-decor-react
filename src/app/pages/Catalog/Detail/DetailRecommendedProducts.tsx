@@ -1,17 +1,23 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
-import {productAPI} from "../../../store";
+import {productAPI, setCartCount} from "../../../store";
 import {useProducts} from "../../../hooks/useProducts";
+import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 import {ProductCard, SliderButtons} from "../../../components";
 
 const DetailRecommendedProducts = () => {
     const {data: recommendedProductsData} = productAPI.useGetBestProductsQuery();
     const products = useProducts(recommendedProductsData);
-
     const swiperRecommendedRef = useRef<SwiperRef>(null);
+    const dispatcher = useAppDispatch();
+    const cart = useCartRefetch();
+
+    useEffect(() => {
+        dispatcher(setCartCount(cart.itemsCount));
+    }, [cart, dispatcher]);
 
     return (
         <div className='recommended-products'>
@@ -46,9 +52,15 @@ const DetailRecommendedProducts = () => {
                 >
                     {
                         products.map(product => {
+                            const foundItem = cart.items.find(item => item.productId === product.id);
+                            const countInCart = foundItem ? foundItem.quantity : 0;
+
                             return (
                                 <SwiperSlide key={product.id}>
-                                    <ProductCard product={product}/>
+                                    <ProductCard
+                                        product={product}
+                                        countInCart={countInCart}
+                                    />
                                 </SwiperSlide>
                             );
                         })
