@@ -38,12 +38,15 @@ export const ProductCard: FC<IProductCardProps> =
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
         const [updateCart] = cartAPI.useUpdateCartMutation();
+        const [isFirstRender, setIsFirstRender] = useState(true);
 
         useEffect(() => {
-            if (countInCart) {
+            if (countInCart && !isFirstRender) {
                 addToCart(debouncedCount)
                     .catch(err => console.log('err when updated quantity: ' + err));
             }
+
+            setIsFirstRender(false);
         }, [debouncedCount]);
 
         const navigate = () => {
@@ -71,7 +74,7 @@ export const ProductCard: FC<IProductCardProps> =
             }
         };
 
-        const addToCart = async (quantity = count) => {
+        const addToCart = async (quantity: number = count) => {
             if (product && updateCart) {
                 await updateCart({
                     productId: product.id,
