@@ -3,14 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {
-    cartAPI,
-    enqueueErrorMessage,
-    favoritesApi,
-    selectIsLogged,
-    setCart,
-    setNeedCartRefetch
-} from "../../store";
+import {cartAPI, enqueueErrorMessage, favoritesApi, selectIsLogged, setCart, setNeedCartRefetch} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
 import {useAppDispatch, useAppSelector, useDebounceValue} from "../../hooks";
 
@@ -31,7 +24,7 @@ export const ProductCard: FC<IProductCardProps> =
          countInCart
      }) => {
         const isLogged = useAppSelector(selectIsLogged);
-        const [count, setCount] = useState(1);
+        const [count, setCount] = useState(countInCart || 1);
         const debouncedCount = useDebounceValue(count, 500);
         const navigator = useNavigate();
         const dispatcher = useAppDispatch();
@@ -93,7 +86,7 @@ export const ProductCard: FC<IProductCardProps> =
                         dispatcher(enqueueErrorMessage('Произошла ошибка, попробуйте позже'));
                     });
             }
-        };
+        }
 
         const removeFromCart = async () => {
             if (product && updateCart) {
@@ -116,12 +109,6 @@ export const ProductCard: FC<IProductCardProps> =
                 setCount(1);
             }
         };
-
-        useEffect(() => {
-            if (countInCart) {
-                setCount(countInCart);
-            }
-        }, [countInCart]);
 
         if (product) {
             return (
