@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import {Menu, MenuItem} from "@mui/material";
 
 import {
     authApi,
-    cartAPI,
     enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
     selectCartCount,
     selectIsLogged,
     selectRefreshToken,
-    setCartCount,
     setIsLogged
 } from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
@@ -31,23 +29,7 @@ const HeaderActions = () => {
     const currentLocation = useLocation().pathname;
     const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
-    const count = useAppSelector(selectCartCount);
-    const {refetch: cartCountRefetch} = cartAPI.useGetCartCountQuery();
-
-    useEffect(() => {
-        async function reFetchCartCountData() {
-            const result = await cartCountRefetch()
-                .unwrap();
-
-            if (result && 'count' in result) {
-                dispatcher(setCartCount(result.count));
-            } else {
-                dispatcher(setCartCount(0));
-            }
-        }
-
-        reFetchCartCountData().catch(fetchCartCountError => console.log(fetchCartCountError));
-    }, [isLogged, dispatcher, cartCountRefetch]);
+    const cartCount = useAppSelector(selectCartCount);
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorMenuEl(event.currentTarget);
@@ -127,7 +109,7 @@ const HeaderActions = () => {
             }
             <Link to={ROUTES.CART}>
                 <Icon name={IconName.cart}/>
-                <span>{count}</span>
+                <span>{cartCount}</span>
             </Link>
         </div>
     );
