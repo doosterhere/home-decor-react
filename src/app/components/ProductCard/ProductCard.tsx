@@ -1,13 +1,20 @@
-import React, {FC, SetStateAction, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {cartAPI, enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
+import {
+    cartAPI,
+    enqueueErrorMessage,
+    favoritesApi,
+    selectIsLogged,
+    setCart,
+    setNeedCartRefetch
+} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
 import {useAppDispatch, useAppSelector, useDebounceValue} from "../../hooks";
 
-import {CartType, IconName, ProductType} from "../../types";
+import {IconName, ProductType} from "../../types";
 
 import {CountSelector, Icon} from "../../components";
 
@@ -15,17 +22,13 @@ interface IProductCardProps {
     product: ProductType | null;
     isLight?: boolean;
     countInCart: number;
-    setCart: (value: SetStateAction<CartType>) => void;
-    setNeedRefetch: (value: SetStateAction<boolean>) => void;
 }
 
 export const ProductCard: FC<IProductCardProps> =
     ({
          product,
          isLight,
-         countInCart,
-         setCart,
-         setNeedRefetch
+         countInCart
      }) => {
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(1);
@@ -76,11 +79,11 @@ export const ProductCard: FC<IProductCardProps> =
                 })
                     .then(res => {
                         if (res && 'data' in res && 'items' in res.data) {
-                            setCart(res.data);
+                            dispatcher(setCart(res.data));
                             return;
                         }
 
-                        setNeedRefetch(true);
+                        dispatcher(setNeedCartRefetch());
                         dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
                     })
                     .catch(() => {
@@ -97,11 +100,11 @@ export const ProductCard: FC<IProductCardProps> =
                 })
                     .then(res => {
                         if (res && 'data' in res && 'items' in res.data) {
-                            setCart(res.data);
+                            dispatcher(setCart(res.data));
                             return;
                         }
 
-                        setNeedRefetch(true);
+                        dispatcher(setNeedCartRefetch());
                         dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
                     })
                     .catch(() => {
