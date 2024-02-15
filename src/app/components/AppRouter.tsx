@@ -6,6 +6,7 @@ import {ROUTES} from "../constants";
 import {useAppSelector} from "../hooks";
 
 import {Layout} from "../components";
+import Order from "../pages/Order/Order/Order";
 
 const Main = lazy(() => import('../pages/Main/Main'));
 const Catalog = lazy(() => import('../pages/Catalog/Catalog'));
@@ -46,6 +47,7 @@ export const AppRouter = () => {
                            }
                     />
                     <Route path={ROUTES.CART} element={<Cart/>}/>
+                    <Route path={ROUTES.ORDER} element={<Order/>}/>
                     <Route path='*' element={<PageNotFound/>}/>
                 </Route>
             </Routes>
