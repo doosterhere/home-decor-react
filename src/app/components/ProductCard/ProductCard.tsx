@@ -32,15 +32,13 @@ export const ProductCard: FC<IProductCardProps> =
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
         const [updateCart] = cartAPI.useUpdateCartMutation();
-        const [isFirstRender, setIsFirstRender] = useState(true);
 
         useEffect(() => {
-            if (countInCart && !isFirstRender && debouncedCount !== previousDebouncedCount) {
-                addToCart(debouncedCount)
+            if (countInCart && debouncedCount !== previousDebouncedCount && product) {
+                updateCountOfProductInCart(debouncedCount)
                     .catch(err => console.log('err when updated quantity: ' + err));
             }
 
-            setIsFirstRender(false);
             setPreviousDebouncedCount(debouncedCount);
         }, [debouncedCount]);
 
@@ -69,8 +67,8 @@ export const ProductCard: FC<IProductCardProps> =
             }
         };
 
-        const addToCart = async (quantity: number = count) => {
-            if (product && updateCart) {
+        const updateCountOfProductInCart = async (quantity: number) => {
+            if (product) {
                 await updateCart({
                     productId: product.id,
                     quantity: quantity
@@ -78,6 +76,9 @@ export const ProductCard: FC<IProductCardProps> =
                     .then(res => {
                         if (res && 'data' in res && 'items' in res.data) {
                             dispatcher(setCart(res.data));
+                            if (!quantity) {
+                                setCount(1);
+                            }
                             return;
                         }
 
@@ -87,28 +88,6 @@ export const ProductCard: FC<IProductCardProps> =
                     .catch(() => {
                         dispatcher(enqueueErrorMessage('Произошла ошибка, попробуйте позже'));
                     });
-            }
-        }
-
-        const removeFromCart = async () => {
-            if (product && updateCart) {
-                await updateCart({
-                    productId: product.id,
-                    quantity: 0
-                })
-                    .then(res => {
-                        if (res && 'data' in res && 'items' in res.data) {
-                            dispatcher(setCart(res.data));
-                            return;
-                        }
-
-                        dispatcher(setNeedCartRefetch());
-                        dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
-                    })
-                    .catch(() => {
-                        dispatcher(enqueueErrorMessage('Произошла ошобка, попробуйте позже'));
-                    });
-                setCount(1);
             }
         };
 
@@ -135,11 +114,12 @@ export const ProductCard: FC<IProductCardProps> =
                                 <div className='product-card__price'>{product.price} BYN</div>
                                 <div className='product-card__action'>
                                     {countInCart === 0 &&
-                                        <button className='button' onClick={() => addToCart()}>В корзину</button>
+                                        <button className='button' onClick={() => updateCountOfProductInCart(count)}>В
+                                            корзину</button>
                                     }
                                     {countInCart > 0 &&
                                         <button className='button button_transparent button_in-cart'
-                                                onClick={removeFromCart}>
+                                                onClick={() => updateCountOfProductInCart(0)}>
                                             <span>В корзине</span>
                                             <span>Удалить</span>
                                         </button>
