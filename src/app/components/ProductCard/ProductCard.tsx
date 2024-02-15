@@ -3,9 +3,9 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {cartAPI, enqueueErrorMessage, favoritesApi, selectIsLogged, setCart, setNeedCartRefetch} from "../../store";
+import {enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppDispatch, useAppSelector, useDebounceValue} from "../../hooks";
+import {useAppDispatch, useAppSelector, useDebounceValue, useUpdateCountOfProductInCart} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
@@ -31,11 +31,11 @@ export const ProductCard: FC<IProductCardProps> =
         const dispatcher = useAppDispatch();
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
-        const [updateCart] = cartAPI.useUpdateCartMutation();
+        const updateCart = useUpdateCountOfProductInCart();
 
         useEffect(() => {
-            if (countInCart && debouncedCount !== previousDebouncedCount && product) {
-                void updateCountOfProductInCart(debouncedCount);
+            if (countInCart && debouncedCount !== previousDebouncedCount) {
+                void updateCart(product?.id, debouncedCount);
             }
 
             setPreviousDebouncedCount(debouncedCount);
@@ -64,28 +64,12 @@ export const ProductCard: FC<IProductCardProps> =
             }
         };
 
-        const updateCountOfProductInCart = async (quantity: number) => {
-            if (product) {
-                await updateCart({
-                    productId: product.id,
-                    quantity: quantity
-                })
-                    .then(res => {
-                        if (res && 'data' in res && 'items' in res.data) {
-                            dispatcher(setCart(res.data));
-                            if (!quantity) {
-                                setCount(1);
-                            }
-                            return;
-                        }
+        const handleAddToCart = async () => {
+            await updateCart(product?.id, count);
+        };
 
-                        dispatcher(setNeedCartRefetch());
-                        dispatcher(enqueueErrorMessage('Произошла ошибка, обновите страницу и повторите попытку'));
-                    })
-                    .catch(() => {
-                        dispatcher(enqueueErrorMessage('Произошла ошибка, попробуйте позже'));
-                    });
-            }
+        const handleRemoveFromCart = async () => {
+            await updateCart(product?.id, 0).then(() => setCount(1));
         };
 
         if (product) {
@@ -111,12 +95,14 @@ export const ProductCard: FC<IProductCardProps> =
                                 <div className='product-card__price'>{product.price} BYN</div>
                                 <div className='product-card__action'>
                                     {countInCart === 0 &&
-                                        <button className='button' onClick={() => updateCountOfProductInCart(count)}>В
-                                            корзину</button>
+                                        <button className='button' onClick={handleAddToCart}>
+                                            В корзину
+                                        </button>
                                     }
                                     {countInCart > 0 &&
                                         <button className='button button_transparent button_in-cart'
-                                                onClick={() => updateCountOfProductInCart(0)}>
+                                                onClick={handleRemoveFromCart}
+                                        >
                                             <span>В корзине</span>
                                             <span>Удалить</span>
                                         </button>
