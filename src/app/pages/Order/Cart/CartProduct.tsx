@@ -1,7 +1,7 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 
 import {SERVER_STATIC_PATH} from "../../../constants";
-import {useUpdateCountOfProductInCart} from "../../../hooks";
+import {useDebounceValue, useUpdateCountOfProductInCart} from "../../../hooks";
 
 import {CartProductType, IconName} from "../../../types";
 
@@ -14,7 +14,17 @@ interface ICartProduct {
 
 const CartProduct: FC<ICartProduct> = ({product, quantity}) => {
     const [count, setCount] = useState(quantity);
+    const debouncedCount = useDebounceValue(count, 500);
+    const [previousDebouncedCount, setPreviousDebouncedCount] = useState(debouncedCount);
     const updateCart = useUpdateCountOfProductInCart();
+
+    useEffect(() => {
+        if (debouncedCount !== previousDebouncedCount) {
+            void updateCart(product?.id, debouncedCount);
+        }
+
+        setPreviousDebouncedCount(debouncedCount);
+    }, [debouncedCount]);
 
     const handleRemoveFromCart = async () => {
         await updateCart(product?.id, 0);
