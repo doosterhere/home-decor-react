@@ -14,6 +14,7 @@ const Login = lazy(() => import('../pages/User/Login/Login'));
 const Terms = lazy(() => import('../pages/User/Terms/Terms'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound/PageNotFound'));
 const Favorites = lazy(() => import('../pages/Personal/Favorites/Favorites'));
+const Cart = lazy(() => import('../pages/Order/Cart/Cart'));
 
 export const AppRouter = () => {
     const isLogged = useAppSelector(selectIsLogged);
@@ -44,6 +45,7 @@ export const AppRouter = () => {
                                : <Navigate to={ROUTES.HOME}/>
                            }
                     />
+                    <Route path={ROUTES.CART} element={<Cart/>}/>
                     <Route path='*' element={<PageNotFound/>}/>
                 </Route>
             </Routes>
