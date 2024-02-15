@@ -1,12 +1,14 @@
 export type CartType = {
     items: {
-        product: {
-            id: string,
-            name: string,
-            url: string,
-            image: string,
-            price: number
-        },
+        product: CartProductType,
         quantity: number
     }[]
+}
+
+export type CartProductType = {
+    id: string,
+    name: string,
+    url: string,
+    image: string,
+    price: number
 }
