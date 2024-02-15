@@ -51,7 +51,6 @@ export const ProductCard: FC<IProductCardProps> =
         const updateFavorites = () => {
             if (product && product.inFavorites) {
                 removeFromFavorites(product.id)
-                    .unwrap()
                     .catch(() => {
                         dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
                     });
@@ -60,7 +59,6 @@ export const ProductCard: FC<IProductCardProps> =
 
             if (product) {
                 addToFavorites(product.id)
-                    .unwrap()
                     .catch(() => {
                         dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
                     });
