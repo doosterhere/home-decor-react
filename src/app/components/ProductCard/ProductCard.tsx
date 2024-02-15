@@ -35,8 +35,7 @@ export const ProductCard: FC<IProductCardProps> =
 
         useEffect(() => {
             if (countInCart && debouncedCount !== previousDebouncedCount && product) {
-                updateCountOfProductInCart(debouncedCount)
-                    .catch(err => console.log('err when updated quantity: ' + err));
+                void updateCountOfProductInCart(debouncedCount);
             }
 
             setPreviousDebouncedCount(debouncedCount);
