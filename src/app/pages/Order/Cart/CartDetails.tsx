@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useNavigate} from "react-router-dom";
 
-import {setCartCount} from "../../../store";
+import {selectCart, selectCartCount} from "../../../store";
 import {ROUTES} from "../../../constants";
-import {useAppDispatch, useCartRefetch} from "../../../hooks";
+import {useAppSelector} from "../../../hooks";
 
 const CartDetails = () => {
     const navigator = useNavigate();
-    const dispatcher = useAppDispatch();
-    const cart = useCartRefetch();
-    const totalAmount = 0;
+    const cart = useAppSelector(selectCart);
+    const totalCount = useAppSelector(selectCartCount);
 
-    useEffect(() => {
-        dispatcher(setCartCount(cart.itemsCount));
-    }, [cart, dispatcher]);
+    const totalAmount = () => {
+        return cart.items.reduce(
+            (acc, current) => acc + current.product.price * current.quantity, 0
+        );
+    }
 
     return (
         <div className="cart__details">
@@ -22,12 +23,12 @@ const CartDetails = () => {
 
                 <div className="cart__details-info-item first">
                     <div className="cart__detail-info-item-text">Товаров:</div>
-                    <div className="cart__detail-info-item-data">{cart.itemsCount}</div>
+                    <div className="cart__detail-info-item-data">{totalCount}</div>
                 </div>
 
                 <div className="cart__details-info-item">
                     <div className="cart__detail-info-item-text">Общая стоимость:</div>
-                    <div className="cart__detail-info-item-data">{totalAmount} BYN</div>
+                    <div className="cart__detail-info-item-data">{totalAmount()} BYN</div>
                 </div>
 
                 <div className="cart__detail-info-note">* без учёта доставки</div>
