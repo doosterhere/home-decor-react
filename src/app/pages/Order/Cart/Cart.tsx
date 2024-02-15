@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
 
 import './Cart.scss';
 
-import {selectCart} from "../../../store";
+import {setCartCount} from "../../../store";
 import {ROUTES} from "../../../constants";
-import {useAppSelector} from "../../../hooks";
+import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 import CartProducts from "./CartProducts";
 import CartDetails from "./CartDetails";
 
 const Cart = () => {
     const navigator = useNavigate();
-    const cart = useAppSelector(selectCart);
+    const dispatcher = useAppDispatch();
+    const cart = useCartRefetch();
+
+    useEffect(() => {
+        dispatcher(setCartCount(cart.itemsCount));
+    }, [cart, dispatcher]);
 
     return (
         <div className="cart">
@@ -32,6 +37,7 @@ const Cart = () => {
                         <CartDetails/>
                     </div>
                 }
+                
             </div>
         </div>
     );
