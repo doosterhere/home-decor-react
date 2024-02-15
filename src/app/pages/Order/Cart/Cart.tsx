@@ -9,6 +9,7 @@ import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 import CartProducts from "./CartProducts";
 import CartDetails from "./CartDetails";
+import CartExtraProducts from "./CartExtraProducts";
 
 const Cart = () => {
     const navigator = useNavigate();
@@ -37,7 +38,8 @@ const Cart = () => {
                         <CartDetails/>
                     </div>
                 }
-                
+
+                <CartExtraProducts/>
             </div>
         </div>
     );
