@@ -11,13 +11,17 @@ import {IconName, ProductType} from "../../types";
 
 import {CountSelector, Icon} from "../../components";
 
-interface IProductCardProps {
+type ProductCardProps = {
     product: ProductType | null;
-    isLight?: boolean;
+    isLight?: never;
     countInCart: number;
+} | {
+    product: ProductType | null;
+    isLight: boolean;
+    countInCart?: never;
 }
 
-export const ProductCard: FC<IProductCardProps> =
+export const ProductCard: FC<ProductCardProps> =
     ({
          product,
          isLight,
@@ -75,7 +79,9 @@ export const ProductCard: FC<IProductCardProps> =
         if (product) {
             return (
                 <div onClick={navigate}
-                     className={isLight ? 'product-card is-light' : 'product-card'}>
+                     className={isLight ? 'product-card is-light' : 'product-card'}
+                >
+
                     {(isLogged && !isLight) &&
                         <div className='product-card__favorite' onClick={updateFavorites}>
                             {!product.inFavorites &&
@@ -86,9 +92,11 @@ export const ProductCard: FC<IProductCardProps> =
                             }
                         </div>
                     }
+
                     <div className='product-card__image'
                          style={{backgroundImage: `url(${SERVER_STATIC_PATH + product.image})`}}></div>
                     <div className='product-card__name'>{product.name}</div>
+
                     {!isLight &&
                         <>
                             <div className='product-card__info'>
@@ -99,7 +107,7 @@ export const ProductCard: FC<IProductCardProps> =
                                             В корзину
                                         </button>
                                     }
-                                    {countInCart > 0 &&
+                                    {Number(countInCart) > 0 &&
                                         <button className='button button_transparent button_in-cart'
                                                 onClick={handleRemoveFromCart}
                                         >
@@ -118,6 +126,7 @@ export const ProductCard: FC<IProductCardProps> =
                             </div>
                         </>
                     }
+
                 </div>
             );
         }
