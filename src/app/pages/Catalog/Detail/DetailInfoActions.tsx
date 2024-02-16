@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
-import {Icon} from '../../../components';
+import {CountSelector, Icon} from '../../../components';
 
 const DetailInfoActions = () => {
     const params = useParams();
@@ -21,6 +21,7 @@ const DetailInfoActions = () => {
     const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
     const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
     const dispatcher = useAppDispatch();
+    const [count, setCount] = useState(1);
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -54,40 +55,49 @@ const DetailInfoActions = () => {
 
     if (product) {
         return (
-            <div className='detail__info-actions'>
-                {isLogged &&
-                    <button className='button button_transparent button_with-icon'
-                            onClick={handleUpdateFavorites}>
+            <>
+                <div className='detail__info-params'>
+                    <div className='detail__info-params-count'>
+                        <span>Количество: </span>
+                        <CountSelector count={count} updateCount={setCount}/>
+                    </div>
+                    <div className='detail__info-params-price'>{product.price} BYN</div>
+                </div>
+                <div className='detail__info-actions'>
+                    {isLogged &&
+                        <button className='button button_transparent button_with-icon'
+                                onClick={handleUpdateFavorites}>
 
-                        {!isInFavorites &&
-                            <>
-                                <Icon name={IconName.heart} needParentHover/>
-                                <span>В избранное</span>
-                            </>
-                        }
+                            {!isInFavorites &&
+                                <>
+                                    <Icon name={IconName.heart} needParentHover/>
+                                    <span>В избранное</span>
+                                </>
+                            }
 
-                        {isInFavorites &&
-                            <>
-                                <Icon name={IconName.heartFilled} needParentHover/>
-                                <span>В избранном</span>
-                            </>
-                        }
+                            {isInFavorites &&
+                                <>
+                                    <Icon name={IconName.heartFilled} needParentHover/>
+                                    <span>В избранном</span>
+                                </>
+                            }
 
-                    </button>
-                }
+                        </button>
+                    }
 
-                {!product.countInCart &&
-                    <button className='button' onClick={handleAddToCart}>В корзину</button>
-                }
+                    {!product.countInCart &&
+                        <button className='button' onClick={handleAddToCart}>В корзину</button>
+                    }
 
-                {!!product.countInCart &&
-                    <button className='button button_transparent button_in-cart'
-                            onClick={handleRemoveFromCart}>
-                        <span>В корзине</span>
-                        <span>Удалить</span>
-                    </button>
-                }
-            </div>
+                    {!!product.countInCart &&
+                        <button className='button button_transparent button_in-cart'
+                                onClick={handleRemoveFromCart}>
+                            <span>В корзине</span>
+                            <span>Удалить</span>
+                        </button>
+                    }
+                </div>
+            </>
         );
     }
 

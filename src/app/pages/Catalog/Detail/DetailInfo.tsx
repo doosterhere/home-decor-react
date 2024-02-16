@@ -28,13 +28,6 @@ const DetailInfo = () => {
                     </div>
                 }
 
-                <div className='detail__info-params'>
-                    <div className='detail__info-params-count'>
-                        <span>Количество: </span>
-                        {/*<CountSelector count={} updateCount={} [count]="count" (onCountChange)="updateCount($event)"/>*/}
-                    </div>
-                    <div className='detail__info-params-price'>{product.price} BYN</div>
-                </div>
                 <DetailInfoActions/>
             </div>
         );
