@@ -29,10 +29,9 @@ const DetailInfoActions = () => {
         }
     }, [favoritesData, fulfilledTimeStamp, isFavoritesRequestSuccess, product?.id]);
 
-    const handleUpdateFavorite = () => {
+    const handleUpdateFavorites = () => {
         if (isInFavorites && product) {
             removeFromFavorites(product.id)
-                .unwrap()
                 .catch(() => {
                     dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
                 });
@@ -41,7 +40,6 @@ const DetailInfoActions = () => {
 
         if (product) {
             addToFavorites(product.id)
-                .unwrap()
                 .catch(() => {
                     dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
                 });
@@ -59,7 +57,7 @@ const DetailInfoActions = () => {
             <div className='detail__info-actions'>
                 {isLogged &&
                     <button className='button button_transparent button_with-icon'
-                            onClick={handleUpdateFavorite}>
+                            onClick={handleUpdateFavorites}>
 
                         {!isInFavorites &&
                             <>
