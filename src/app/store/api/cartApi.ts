@@ -26,6 +26,12 @@ export const cartAPI = createApi({
             query: () => ({
                 url: 'cart/count'
             })
+        }),
+        clearCart: builder.mutation<DefaultResponseType, void>({
+            query: () => ({
+                url: 'cart',
+                method: 'DELETE'
+            })
         })
     })
 });
