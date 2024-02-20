@@ -52,19 +52,13 @@ const MainBestProducts = () => {
                         }}
                     >
                         {
-                            bestProducts?.map(product => {
-                                const foundItem = cart.items.find(item => item.productId === product.id);
-                                const countInCart = foundItem ? foundItem.quantity : 0;
-
-                                return (
-                                    <SwiperSlide key={product.id}>
-                                        <ProductCard
-                                            product={product}
-                                            countInCart={countInCart}
-                                        />
-                                    </SwiperSlide>
-                                );
-                            })
+                            bestProducts?.map(product =>
+                                <SwiperSlide key={product.id}>
+                                    <ProductCard
+                                        product={product}
+                                    />
+                                </SwiperSlide>
+                            )
                         }
                     </Swiper>
                 </div>
