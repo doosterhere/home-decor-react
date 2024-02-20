@@ -5,6 +5,7 @@ import {Menu, MenuItem} from "@mui/material";
 
 import {
     authApi,
+    cartAPI,
     enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
@@ -30,6 +31,7 @@ const HeaderActions = () => {
     const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
     const cartCount = useAppSelector(selectCartCount);
+    const [clearCart] = cartAPI.useClearCartMutation();
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorMenuEl(event.currentTarget);
@@ -45,9 +47,13 @@ const HeaderActions = () => {
         } finally {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
-            dispatcher(setIsLogged(false));
-            dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
-            navigator(currentLocation);
+            await clearCart()
+                .catch(res => console.log(res))
+                .finally(() => {
+                    dispatcher(setIsLogged(false));
+                    dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
+                    navigator(currentLocation);
+                });
         }
     };
 
