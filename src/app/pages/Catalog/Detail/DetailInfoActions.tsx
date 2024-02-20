@@ -2,7 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
 import {enqueueErrorMessage, favoritesApi, productAPI, selectIsLogged} from "../../../store";
-import {useAppDispatch, useAppSelector} from "../../../hooks";
+import {
+    useAppDispatch,
+    useAppSelector,
+    useDebounceValue,
+    useGetCountInCart,
+    useUpdateCountOfProductInCart
+} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
@@ -10,9 +16,10 @@ import {CountSelector, Icon} from '../../../components';
 
 const DetailInfoActions = () => {
     const params = useParams();
+    const dispatcher = useAppDispatch();
+    const updateCart = useUpdateCountOfProductInCart();
     const isLogged = useAppSelector(selectIsLogged);
     const {data: product} = productAPI.useGetProductQuery(params['url'] as string);
-    const [isInFavorites, setIsInFavorites] = useState(false);
     const {
         data: favoritesData,
         isSuccess: isFavoritesRequestSuccess,
@@ -20,8 +27,19 @@ const DetailInfoActions = () => {
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
     const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
     const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
-    const dispatcher = useAppDispatch();
-    const [count, setCount] = useState(1);
+    const [isInFavorites, setIsInFavorites] = useState(false);
+    const [countInCart, isInCart] = useGetCountInCart(product?.id);
+    const [count, setCount] = useState(countInCart || 1);
+    const debouncedCount = useDebounceValue(count, 500);
+    const [previousDebouncedCount, setPreviousDebouncedCount] = useState(debouncedCount);
+
+    useEffect(() => {
+        if (countInCart && debouncedCount !== previousDebouncedCount) {
+            void updateCart(product?.id, debouncedCount);
+        }
+
+        setPreviousDebouncedCount(debouncedCount);
+    }, [debouncedCount]);
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -47,10 +65,13 @@ const DetailInfoActions = () => {
         }
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
+        await updateCart(product?.id, count);
     };
 
-    const handleRemoveFromCart = () => {
+    const handleRemoveFromCart = async () => {
+        await updateCart(product?.id, 0)
+            .then(() => setCount(1));
     };
 
     if (product) {
@@ -85,11 +106,11 @@ const DetailInfoActions = () => {
                         </button>
                     }
 
-                    {!product.countInCart &&
+                    {!isInCart &&
                         <button className='button' onClick={handleAddToCart}>В корзину</button>
                     }
 
-                    {!!product.countInCart &&
+                    {isInCart &&
                         <button className='button button_transparent button_in-cart'
                                 onClick={handleRemoveFromCart}>
                             <span>В корзине</span>
