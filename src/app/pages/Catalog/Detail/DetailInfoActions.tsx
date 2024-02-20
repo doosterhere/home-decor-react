@@ -42,6 +42,12 @@ const DetailInfoActions = () => {
     }, [debouncedCount]);
 
     useEffect(() => {
+        if (countInCart !== count) {
+            setCount(countInCart || 1);
+        }
+    }, [countInCart]);
+
+    useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
             const result = (favoritesData as FavoritesType[]).some(item => item.id === product?.id);
             setIsInFavorites(result);
