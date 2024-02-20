@@ -41,18 +41,12 @@ const CatalogLayout: FC<ICatalogLayout> =
                 {(productsData && isProductsRequestSuccess) &&
                     <div className='catalog__items' ref={itemsRef}>
                         {
-                            products.map(product => {
-                                const foundItem = cart.items.find(item => item.productId === product.id);
-                                const countInCart = foundItem ? foundItem.quantity : 0;
-
-                                return (
-                                    <ProductCard
-                                        key={product.id}
-                                        product={product}
-                                        countInCart={countInCart}
-                                    />
-                                );
-                            })
+                            products.map(product =>
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                />
+                            )
                         }
                     </div>
                 }
