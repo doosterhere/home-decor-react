@@ -5,28 +5,29 @@ import './ProductCard.scss';
 
 import {enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppDispatch, useAppSelector, useDebounceValue, useUpdateCountOfProductInCart} from "../../hooks";
+import {
+    useAppDispatch,
+    useAppSelector,
+    useDebounceValue,
+    useGetCountInCart,
+    useUpdateCountOfProductInCart
+} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
 import {CountSelector, Icon} from "../../components";
 
-type ProductCardProps = {
+interface IProductCard {
     product: ProductType | null;
-    isLight?: never;
-    countInCart: number;
-} | {
-    product: ProductType | null;
-    isLight: boolean;
-    countInCart?: never;
+    isLight?: boolean;
 }
 
-export const ProductCard: FC<ProductCardProps> =
+export const ProductCard: FC<IProductCard> =
     ({
          product,
-         isLight,
-         countInCart
+         isLight
      }) => {
+        const [countInCart] = useGetCountInCart(product?.id);
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(countInCart || 1);
         const debouncedCount = useDebounceValue(count, 500);
@@ -36,6 +37,12 @@ export const ProductCard: FC<ProductCardProps> =
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
         const updateCart = useUpdateCountOfProductInCart();
+
+        useEffect(() => {
+            if (countInCart !== count) {
+                setCount(countInCart || 1);
+            }
+        }, [countInCart]);
 
         useEffect(() => {
             if (countInCart && debouncedCount !== previousDebouncedCount) {
@@ -73,7 +80,8 @@ export const ProductCard: FC<ProductCardProps> =
         };
 
         const handleRemoveFromCart = async () => {
-            await updateCart(product?.id, 0).then(() => setCount(1));
+            await updateCart(product?.id, 0)
+                .then(() => setCount(1));
         };
 
         if (product) {
