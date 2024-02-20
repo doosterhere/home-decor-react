@@ -2,8 +2,7 @@ import React, {useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
-import {productAPI, selectCart} from "../../../store";
-import {useAppSelector} from "../../../hooks";
+import {productAPI} from "../../../store";
 import {useProducts} from "../../../hooks/useProducts";
 
 import {ProductCard, SliderButtons} from "../../../components";
@@ -12,7 +11,6 @@ const DetailRecommendedProducts = () => {
     const {data: recommendedProductsData} = productAPI.useGetBestProductsQuery();
     const products = useProducts(recommendedProductsData);
     const swiperRecommendedRef = useRef<SwiperRef>(null);
-    const cart = useAppSelector(selectCart);
 
     return (
         <div className='recommended-products'>
@@ -46,19 +44,13 @@ const DetailRecommendedProducts = () => {
                     }}
                 >
                     {
-                        products.map(product => {
-                            const foundItem = cart.items.find(item => item.product.id === product.id);
-                            const countInCart = foundItem ? foundItem.quantity : 0;
-
-                            return (
-                                <SwiperSlide key={product.id}>
-                                    <ProductCard
-                                        product={product}
-                                        countInCart={countInCart}
-                                    />
-                                </SwiperSlide>
-                            );
-                        })
+                        products.map(product =>
+                            <SwiperSlide key={product.id}>
+                                <ProductCard
+                                    product={product}
+                                />
+                            </SwiperSlide>
+                        )
                     }
                 </Swiper>
             </div>
