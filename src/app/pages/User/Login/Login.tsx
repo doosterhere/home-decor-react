@@ -13,7 +13,8 @@ import {
     setRefreshToken,
     enqueueErrorMessage,
     enqueueSuccessMessage,
-    authApi
+    authApi,
+    setCartToSync
 } from "../../../store";
 import {ROUTES} from "../../../constants";
 import {useAppDispatch} from "../../../hooks";
@@ -88,6 +89,7 @@ const Login = () => {
                 dispatcher(setIsLogged(true));
                 dispatcher(setAccessToken(userData.accessToken));
                 dispatcher(setRefreshToken(userData.refreshToken));
+                dispatcher(setCartToSync());
                 navigator(-1);
             }
         } catch (error) {
