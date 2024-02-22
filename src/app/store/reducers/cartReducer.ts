@@ -34,6 +34,9 @@ export const cartReducer = createSlice({
         }),
         setCartToSync: create.reducer((state) => {
             state.cartToSync = structuredClone(state.cart) as CartType;
+        }),
+        resetCartToSync: create.reducer((state) => {
+            state.cartToSync = {items: []};
         })
     }),
     selectors: {
@@ -49,6 +52,7 @@ export const {
     setCart,
     setNeedCartRefetch,
     resetNeedCartRefetch,
-    setCartToSync
+    setCartToSync,
+    resetCartToSync
 } = cartReducer.actions;
 export const {selectCartCount, selectCart, selectNeedRefetch, selectCartToSync} = cartReducer.selectors;
