@@ -1,9 +1,8 @@
-import React, {FC, RefObject, useEffect} from 'react';
+import React, {FC, RefObject} from 'react';
 import {useLocation} from "react-router-dom";
 
-import {productAPI, setCartCount} from "../../store";
+import {productAPI} from "../../store";
 import {useProducts} from "../../hooks/useProducts";
-import {useAppDispatch, useCartRefetch} from "../../hooks";
 
 import {IActiveParams} from "../../types";
 
@@ -25,12 +24,6 @@ const CatalogLayout: FC<ICatalogLayout> =
             isSuccess: isProductsRequestSuccess,
         } = productAPI.useGetProductsQuery(search);
         const products = useProducts(productsData?.items);
-        const dispatcher = useAppDispatch();
-        const cart = useCartRefetch();
-
-        useEffect(() => {
-            dispatcher(setCartCount(cart.itemsCount));
-        }, [cart, dispatcher]);
 
         return (
             <div className='catalog__layout'>
