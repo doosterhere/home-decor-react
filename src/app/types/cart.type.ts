@@ -1,8 +1,10 @@
 export type CartType = {
-    items: {
-        product: CartProductType,
-        quantity: number
-    }[]
+    items: CartItemType[]
+}
+
+export type CartItemType = {
+    product: CartProductType,
+    quantity: number
 }
 
 export type CartProductType = {
