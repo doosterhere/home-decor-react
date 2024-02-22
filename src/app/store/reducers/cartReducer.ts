@@ -1,16 +1,19 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
 import {CartType} from "../../types";
 
 interface ICartState {
     count: number;
     cart: CartType;
     needRefetch: boolean;
+    cartToSync: CartType;
 }
 
 const initialState: ICartState = {
     count: 0,
     cart: {items: []},
-    needRefetch: false
+    needRefetch: false,
+    cartToSync: {items: []}
 }
 
 export const cartReducer = createSlice({
@@ -28,14 +31,24 @@ export const cartReducer = createSlice({
         }),
         resetNeedCartRefetch: create.reducer((state) => {
             state.needRefetch = false;
+        }),
+        setCartToSync: create.reducer((state) => {
+            state.cartToSync = structuredClone(state.cart) as CartType;
         })
     }),
     selectors: {
         selectCartCount: (state) => state.count,
         selectCart: (state) => state.cart,
-        selectNeedRefetch: (state) => state.needRefetch
+        selectNeedRefetch: (state) => state.needRefetch,
+        selectCartToSync: (state) => state.cartToSync
     }
 });
 
-export const {setCartCount, setCart, setNeedCartRefetch, resetNeedCartRefetch} = cartReducer.actions;
-export const {selectCartCount, selectCart, selectNeedRefetch} = cartReducer.selectors;
+export const {
+    setCartCount,
+    setCart,
+    setNeedCartRefetch,
+    resetNeedCartRefetch,
+    setCartToSync
+} = cartReducer.actions;
+export const {selectCartCount, selectCart, selectNeedRefetch, selectCartToSync} = cartReducer.selectors;
