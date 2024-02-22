@@ -9,7 +9,7 @@ import {
     enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
-    selectCartCount,
+    selectCartCount, selectCartToSync,
     selectIsLogged,
     selectRefreshToken,
     setIsLogged
@@ -31,6 +31,7 @@ const HeaderActions = () => {
     const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
     const cartCount = useAppSelector(selectCartCount);
+    const cartToSync = useAppSelector(selectCartToSync);
     const [clearCart] = cartAPI.useClearCartMutation();
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -47,13 +48,18 @@ const HeaderActions = () => {
         } finally {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
-            await clearCart()
-                .catch(res => console.log(res))
-                .finally(() => {
-                    dispatcher(setIsLogged(false));
-                    dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
-                    navigator(currentLocation);
-                });
+            if (!cartToSync.items.length) {
+                await clearCart()
+                    .then(res => {
+                        if ('error' in res && !res.error && 'message' in res) {
+                            console.log(res.message);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+            dispatcher(setIsLogged(false));
+            dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
+            navigator(currentLocation);
         }
     };
 
