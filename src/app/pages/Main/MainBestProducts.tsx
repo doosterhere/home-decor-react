@@ -1,10 +1,9 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
-import {productAPI, setCartCount} from "../../store";
+import {productAPI} from "../../store";
 import {useProducts} from "../../hooks/useProducts";
-import {useAppDispatch, useCartRefetch} from "../../hooks";
 
 import {ProductCard, SliderButtons} from "../../components";
 
@@ -12,12 +11,6 @@ const MainBestProducts = () => {
     const {data: bestProductsData} = productAPI.useGetBestProductsQuery();
     const bestProducts = useProducts(bestProductsData);
     const swiperBestRef = useRef<SwiperRef>(null);
-    const dispatcher = useAppDispatch();
-    const cart = useCartRefetch();
-
-    useEffect(() => {
-        dispatcher(setCartCount(cart.itemsCount));
-    }, [cart, dispatcher]);
 
     return (
         <section className="best-products">
