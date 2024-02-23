@@ -3,10 +3,13 @@ import {useEffect} from "react";
 import {
     enqueueErrorMessage,
     resetNeedCartRefetch,
+    resetUserHasBeenChanged,
     selectCart,
     selectIsLogged,
     selectNeedRefetch,
-    setCart
+    selectUserHasBeenChanged,
+    setCart,
+    setNewCartHasBeenReceived
 } from "../store";
 import {useAppDispatch, useAppSelector, useCart} from "../hooks";
 import {fetchCart} from "../utils";
@@ -16,12 +19,18 @@ export function useCartRefetch() {
     const isLogged = useAppSelector(selectIsLogged);
     const needRefetch = useAppSelector(selectNeedRefetch);
     const cart = useAppSelector(selectCart);
+    const hasUserBeenChanged = useAppSelector(selectUserHasBeenChanged);
 
     useEffect(() => {
         fetchCart(dispatcher)
             .then((data) => {
                 if ('items' in data) {
                     dispatcher(setCart(data));
+
+                    if (hasUserBeenChanged) {
+                        dispatcher(setNewCartHasBeenReceived());
+                        dispatcher(resetUserHasBeenChanged());
+                    }
 
                     return;
                 }
