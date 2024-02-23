@@ -9,10 +9,12 @@ import {
     enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
-    selectCartCount, selectCartToSync,
+    selectCartCount,
+    selectCartToSync,
     selectIsLogged,
     selectRefreshToken,
-    setIsLogged
+    setIsLogged,
+    setUserHasBeenChanged
 } from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {ROUTES} from "../../../constants";
@@ -40,28 +42,53 @@ const HeaderActions = () => {
 
     const handleLogoutClick = async () => {
         handleCloseClick();
+        await logoutUser();
+        const result = await clearAnonymousCart();
 
+        if (result) {
+            console.log('Корзина анонимного пользователя была очищена');
+        }
+
+        navigator(currentLocation);
+    };
+
+    const logoutUser = async () => {
         try {
             if (refreshToken) {
                 await logout({refreshToken});
             }
+        } catch (e) {
+            console.warn(e);
         } finally {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
-            if (!cartToSync.items.length) {
-                await clearCart()
-                    .then(res => {
-                        if ('error' in res && !res.error && 'message' in res) {
-                            console.log(res.message);
-                        }
-                    })
-                    .catch(err => console.log(err));
-            }
             dispatcher(setIsLogged(false));
             dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
-            navigator(currentLocation);
+            dispatcher(setUserHasBeenChanged());
         }
-    };
+    }
+
+    const clearAnonymousCart = async () => {
+        if (!cartToSync.items.length) {
+            try {
+                const response = await clearCart();
+
+                if (response && 'data' in response) {
+                    console.log(response.data.message);
+
+                    return !response.data.error;
+                }
+
+                return false;
+            } catch (e) {
+                console.error(e);
+
+                return false;
+            }
+        }
+
+        return false;
+    }
 
     const handleProfileClick = () => {
         navigator(ROUTES.PROFILE);
