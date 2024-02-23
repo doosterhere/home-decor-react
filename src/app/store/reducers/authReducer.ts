@@ -4,12 +4,14 @@ interface IAuthState {
     isLogged: boolean;
     accessToken: string | null;
     refreshToken: string | null;
+    userHasBeenChanged: boolean;
 }
 
 const initialState: IAuthState = {
     isLogged: false,
     accessToken: null,
-    refreshToken: null
+    refreshToken: null,
+    userHasBeenChanged: true
 }
 
 export const authReducer = createSlice({
@@ -31,11 +33,18 @@ export const authReducer = createSlice({
             removeRefreshToken: create.reducer((state) => {
                 state.refreshToken = null;
             }),
+            setUserHasBeenChanged: create.reducer((state) => {
+                state.userHasBeenChanged = true;
+            }),
+            resetUserHasBeenChanged: create.reducer((state) => {
+                state.userHasBeenChanged = false;
+            })
         }),
         selectors: {
             selectIsLogged: (state) => state.isLogged,
             selectAuthToken: (state) => state.accessToken,
-            selectRefreshToken: (state) => state.refreshToken
+            selectRefreshToken: (state) => state.refreshToken,
+            selectUserHasBeenChanged: (state) => state.userHasBeenChanged
         }
     }
 );
@@ -45,6 +54,8 @@ export const {
     setAccessToken,
     removeAccessToken,
     setRefreshToken,
-    removeRefreshToken
+    removeRefreshToken,
+    setUserHasBeenChanged,
+    resetUserHasBeenChanged
 } = authReducer.actions;
-export const {selectIsLogged, selectAuthToken, selectRefreshToken} = authReducer.selectors;
+export const {selectIsLogged, selectAuthToken, selectRefreshToken, selectUserHasBeenChanged} = authReducer.selectors;
