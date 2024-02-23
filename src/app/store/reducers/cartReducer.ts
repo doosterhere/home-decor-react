@@ -7,13 +7,15 @@ interface ICartState {
     cart: CartType;
     needRefetch: boolean;
     cartToSync: CartType;
+    newCartHasBeenReceived: boolean;
 }
 
 const initialState: ICartState = {
     count: 0,
     cart: {items: []},
     needRefetch: false,
-    cartToSync: {items: []}
+    cartToSync: {items: []},
+    newCartHasBeenReceived: false
 }
 
 export const cartReducer = createSlice({
@@ -37,13 +39,20 @@ export const cartReducer = createSlice({
         }),
         resetCartToSync: create.reducer((state) => {
             state.cartToSync = {items: []};
+        }),
+        setNewCartHasBeenReceived: create.reducer((state) => {
+            state.newCartHasBeenReceived = true;
+        }),
+        resetNewCartHasBeenReceived: create.reducer((state) => {
+            state.newCartHasBeenReceived = false;
         })
     }),
     selectors: {
         selectCartCount: (state) => state.count,
         selectCart: (state) => state.cart,
         selectNeedRefetch: (state) => state.needRefetch,
-        selectCartToSync: (state) => state.cartToSync
+        selectCartToSync: (state) => state.cartToSync,
+        selectNewCartHasBeenReceived: (state) => state.newCartHasBeenReceived
     }
 });
 
@@ -53,6 +62,14 @@ export const {
     setNeedCartRefetch,
     resetNeedCartRefetch,
     setCartToSync,
-    resetCartToSync
+    resetCartToSync,
+    setNewCartHasBeenReceived,
+    resetNewCartHasBeenReceived
 } = cartReducer.actions;
-export const {selectCartCount, selectCart, selectNeedRefetch, selectCartToSync} = cartReducer.selectors;
+export const {
+    selectCartCount,
+    selectCart,
+    selectNeedRefetch,
+    selectCartToSync,
+    selectNewCartHasBeenReceived
+} = cartReducer.selectors;
