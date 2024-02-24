@@ -1,11 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
-import {enqueueErrorMessage, favoritesApi, productAPI, selectIsLogged} from "../../../store";
+import {
+    enqueueErrorMessage,
+    favoritesApi,
+    productAPI,
+    resetNewCartHasBeenReceived,
+    selectIsLogged,
+    selectNewCartHasBeenReceived
+} from "../../../store";
 import {
     useAppDispatch,
     useAppSelector,
-    useDebounceValue,
+    useDebounceFunction,
     useGetCountInCart,
     useUpdateCountOfProductInCart
 } from "../../../hooks";
@@ -30,22 +37,15 @@ const DetailInfoActions = () => {
     const [isInFavorites, setIsInFavorites] = useState(false);
     const [countInCart, isInCart] = useGetCountInCart(product?.id);
     const [count, setCount] = useState(countInCart || 1);
-    const debouncedCount = useDebounceValue(count, 500);
-    const [previousDebouncedCount, setPreviousDebouncedCount] = useState(debouncedCount);
+    const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
+    const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
 
     useEffect(() => {
-        if (countInCart && debouncedCount !== previousDebouncedCount) {
-            void updateCart(product?.id, debouncedCount);
-        }
-
-        setPreviousDebouncedCount(debouncedCount);
-    }, [debouncedCount]);
-
-    useEffect(() => {
-        if (countInCart !== count) {
+        if (countInCart !== count && hasNewCartBeenReceivedAfterUserChange) {
             setCount(countInCart || 1);
+            dispatcher(resetNewCartHasBeenReceived());
         }
-    }, [countInCart]);
+    }, [countInCart, hasNewCartBeenReceivedAfterUserChange]);
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -80,13 +80,24 @@ const DetailInfoActions = () => {
             .then(() => setCount(1));
     };
 
+    function updateCountInCart(count: number) {
+        if (countInCart) {
+            void updateCart(product?.id, count);
+        }
+    }
+
+    const updateCount = (count: number) => {
+        setCount(count);
+        debouncedUpdateCart(count)
+    }
+
     if (product) {
         return (
             <>
                 <div className='detail__info-params'>
                     <div className='detail__info-params-count'>
                         <span>Количество: </span>
-                        <CountSelector count={count} updateCount={setCount}/>
+                        <CountSelector count={count} updateCount={updateCount}/>
                     </div>
                     <div className='detail__info-params-price'>{product.price} BYN</div>
                 </div>
