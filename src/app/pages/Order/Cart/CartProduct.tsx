@@ -1,14 +1,7 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 
 import {SERVER_STATIC_PATH} from "../../../constants";
-import {resetNewCartHasBeenReceived, selectNewCartHasBeenReceived} from "../../../store";
-import {
-    useAppDispatch,
-    useAppSelector,
-    useDebounceFunction,
-    useGetCountInCart,
-    useUpdateCountOfProductInCart
-} from "../../../hooks";
+import {useCartInteractions} from "../../../hooks";
 
 import {CartProductType, IconName} from "../../../types";
 
@@ -19,34 +12,7 @@ interface ICartProduct {
 }
 
 const CartProduct: FC<ICartProduct> = ({product}) => {
-    const [countInCart] = useGetCountInCart(product?.id);
-    const [count, setCount] = useState(countInCart || 1);
-    const updateCart = useUpdateCountOfProductInCart();
-    const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
-    const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
-    const dispatcher = useAppDispatch();
-
-    useEffect(() => {
-        if (countInCart !== count && hasNewCartBeenReceivedAfterUserChange) {
-            setCount(countInCart || 1);
-            dispatcher(resetNewCartHasBeenReceived());
-        }
-    }, [countInCart, hasNewCartBeenReceivedAfterUserChange]);
-
-    const handleRemoveFromCart = async () => {
-        await updateCart(product?.id, 0);
-    };
-
-    function updateCountInCart(count: number) {
-        if (countInCart) {
-            void updateCart(product?.id, count);
-        }
-    }
-
-    const updateCount = (count: number) => {
-        setCount(count);
-        debouncedUpdateCart(count)
-    }
+    const {count, updateCount, handleRemoveFromCart} = useCartInteractions(product);
 
     return (
         <div className="cart__product">
