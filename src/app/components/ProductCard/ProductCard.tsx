@@ -1,18 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {resetNewCartHasBeenReceived, selectIsLogged, selectNewCartHasBeenReceived} from "../../store";
+import {selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {
-    useAppDispatch,
-    useAppSelector,
-    useDebounceFunction,
-    useGetCountInCart,
-    useUpdateCountOfProductInCart,
-    useUpdateFavorites
-} from "../../hooks";
+import {useAppSelector, useCartInteractions, useGetCountInCart, useUpdateFavorites} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
@@ -30,46 +23,15 @@ export const ProductCard: FC<IProductCard> =
      }) => {
         const [countInCart] = useGetCountInCart(product?.id);
         const isLogged = useAppSelector(selectIsLogged);
-        const [count, setCount] = useState(countInCart || 1);
         const navigator = useNavigate();
-        const dispatcher = useAppDispatch();
         const updateFavorites = useUpdateFavorites(product, product?.inFavorites);
-        const updateCart = useUpdateCountOfProductInCart();
-        const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
-        const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
-
-        useEffect(() => {
-            if (countInCart !== count && hasNewCartBeenReceivedAfterUserChange) {
-                setCount(countInCart || 1);
-                dispatcher(resetNewCartHasBeenReceived());
-            }
-        }, [countInCart, hasNewCartBeenReceivedAfterUserChange]);
+        const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
 
         const navigate = () => {
             if (isLight && product) {
                 navigator(`${ROUTES.PRODUCT}/${product.url}`);
             }
         };
-
-        const handleAddToCart = async () => {
-            await updateCart(product?.id, count);
-        };
-
-        const handleRemoveFromCart = async () => {
-            await updateCart(product?.id, 0)
-                .then(() => setCount(1));
-        };
-
-        function updateCountInCart(count: number) {
-            if (countInCart) {
-                void updateCart(product?.id, count);
-            }
-        }
-
-        const updateCount = (count: number) => {
-            setCount(count);
-            debouncedUpdateCart(count)
-        }
 
         if (product) {
             return (
