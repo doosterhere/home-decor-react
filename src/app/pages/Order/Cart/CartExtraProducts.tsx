@@ -3,7 +3,7 @@ import React, {useRef} from 'react';
 import {Swiper, SwiperRef, SwiperSlide} from "swiper/react";
 
 import {productAPI} from "../../../store";
-import {useProducts} from "../../../hooks/useProducts";
+import {useProducts} from "../../../hooks";
 
 import {ProductCard, SliderButtons} from "../../../components";
 

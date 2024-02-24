@@ -2,7 +2,7 @@ import React, {FC, RefObject} from 'react';
 import {useLocation} from "react-router-dom";
 
 import {productAPI} from "../../store";
-import {useProducts} from "../../hooks/useProducts";
+import {useProducts} from "../../hooks";
 
 import {IActiveParams} from "../../types";
 
