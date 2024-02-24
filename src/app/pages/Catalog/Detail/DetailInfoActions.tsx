@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
 import {
-    enqueueErrorMessage,
     favoritesApi,
     productAPI,
     resetNewCartHasBeenReceived,
@@ -14,7 +13,8 @@ import {
     useAppSelector,
     useDebounceFunction,
     useGetCountInCart,
-    useUpdateCountOfProductInCart
+    useUpdateCountOfProductInCart,
+    useUpdateFavorites
 } from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
@@ -32,9 +32,8 @@ const DetailInfoActions = () => {
         isSuccess: isFavoritesRequestSuccess,
         fulfilledTimeStamp
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
-    const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
-    const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
     const [isInFavorites, setIsInFavorites] = useState(false);
+    const handleUpdateFavorites = useUpdateFavorites(product, isInFavorites);
     const [countInCart, isInCart] = useGetCountInCart(product?.id);
     const [count, setCount] = useState(countInCart || 1);
     const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
@@ -53,23 +52,6 @@ const DetailInfoActions = () => {
             setIsInFavorites(result);
         }
     }, [favoritesData, fulfilledTimeStamp, isFavoritesRequestSuccess, product?.id]);
-
-    const handleUpdateFavorites = () => {
-        if (isInFavorites && product) {
-            removeFromFavorites(product.id)
-                .catch(() => {
-                    dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
-                });
-            return;
-        }
-
-        if (product) {
-            addToFavorites(product.id)
-                .catch(() => {
-                    dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
-                });
-        }
-    };
 
     const handleAddToCart = async () => {
         await updateCart(product?.id, count);
