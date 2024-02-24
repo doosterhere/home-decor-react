@@ -3,20 +3,15 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {
-    enqueueErrorMessage,
-    favoritesApi,
-    resetNewCartHasBeenReceived,
-    selectIsLogged,
-    selectNewCartHasBeenReceived
-} from "../../store";
+import {resetNewCartHasBeenReceived, selectIsLogged, selectNewCartHasBeenReceived} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
 import {
     useAppDispatch,
     useAppSelector,
     useDebounceFunction,
     useGetCountInCart,
-    useUpdateCountOfProductInCart
+    useUpdateCountOfProductInCart,
+    useUpdateFavorites
 } from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
@@ -38,8 +33,7 @@ export const ProductCard: FC<IProductCard> =
         const [count, setCount] = useState(countInCart || 1);
         const navigator = useNavigate();
         const dispatcher = useAppDispatch();
-        const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
-        const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
+        const updateFavorites = useUpdateFavorites(product, product?.inFavorites);
         const updateCart = useUpdateCountOfProductInCart();
         const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
         const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
@@ -54,23 +48,6 @@ export const ProductCard: FC<IProductCard> =
         const navigate = () => {
             if (isLight && product) {
                 navigator(`${ROUTES.PRODUCT}/${product.url}`);
-            }
-        };
-
-        const updateFavorites = () => {
-            if (product && product.inFavorites) {
-                removeFromFavorites(product.id)
-                    .catch(() => {
-                        dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
-                    });
-                return;
-            }
-
-            if (product) {
-                addToFavorites(product.id)
-                    .catch(() => {
-                        dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
-                    });
             }
         };
 
