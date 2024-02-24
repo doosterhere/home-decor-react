@@ -1,21 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
-import {
-    favoritesApi,
-    productAPI,
-    resetNewCartHasBeenReceived,
-    selectIsLogged,
-    selectNewCartHasBeenReceived
-} from "../../../store";
-import {
-    useAppDispatch,
-    useAppSelector,
-    useDebounceFunction,
-    useGetCountInCart,
-    useUpdateCountOfProductInCart,
-    useUpdateFavorites
-} from "../../../hooks";
+import {favoritesApi, productAPI, selectIsLogged} from "../../../store";
+import {useAppSelector, useCartInteractions, useGetCountInCart, useUpdateFavorites} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
@@ -23,8 +10,6 @@ import {CountSelector, Icon} from '../../../components';
 
 const DetailInfoActions = () => {
     const params = useParams();
-    const dispatcher = useAppDispatch();
-    const updateCart = useUpdateCountOfProductInCart();
     const isLogged = useAppSelector(selectIsLogged);
     const {data: product} = productAPI.useGetProductQuery(params['url'] as string);
     const {
@@ -34,17 +19,8 @@ const DetailInfoActions = () => {
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
     const [isInFavorites, setIsInFavorites] = useState(false);
     const handleUpdateFavorites = useUpdateFavorites(product, isInFavorites);
-    const [countInCart, isInCart] = useGetCountInCart(product?.id);
-    const [count, setCount] = useState(countInCart || 1);
-    const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
-    const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
-
-    useEffect(() => {
-        if (countInCart !== count && hasNewCartBeenReceivedAfterUserChange) {
-            setCount(countInCart || 1);
-            dispatcher(resetNewCartHasBeenReceived());
-        }
-    }, [countInCart, hasNewCartBeenReceivedAfterUserChange]);
+    const [, isInCart] = useGetCountInCart(product?.id);
+    const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -52,26 +28,6 @@ const DetailInfoActions = () => {
             setIsInFavorites(result);
         }
     }, [favoritesData, fulfilledTimeStamp, isFavoritesRequestSuccess, product?.id]);
-
-    const handleAddToCart = async () => {
-        await updateCart(product?.id, count);
-    };
-
-    const handleRemoveFromCart = async () => {
-        await updateCart(product?.id, 0)
-            .then(() => setCount(1));
-    };
-
-    function updateCountInCart(count: number) {
-        if (countInCart) {
-            void updateCart(product?.id, count);
-        }
-    }
-
-    const updateCount = (count: number) => {
-        setCount(count);
-        debouncedUpdateCart(count)
-    }
 
     if (product) {
         return (
