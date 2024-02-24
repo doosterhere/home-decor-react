@@ -2,7 +2,7 @@ import {enqueueErrorMessage, favoritesApi} from "../store";
 import {ProductType} from "../types";
 import {useAppDispatch} from "./redux";
 
-export function useUpdateFavorites(product: ProductType | null, isInFavorites: boolean | undefined) {
+export function useUpdateFavorites(product: ProductType | null | undefined, isInFavorites: boolean | undefined) {
     const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
     const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
     const dispatcher = useAppDispatch();
