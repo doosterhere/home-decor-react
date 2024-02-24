@@ -11,7 +11,7 @@ import {
 
 import {CartProductType, ProductType} from "../types";
 
-export function useCartInteractions(product: ProductType | CartProductType | null) {
+export function useCartInteractions(product: ProductType | CartProductType | null | undefined) {
     const [countInCart] = useGetCountInCart(product?.id);
     const [count, setCount] = useState(countInCart || 1);
     const updateCart = useUpdateCountOfProductInCart();
@@ -48,7 +48,6 @@ export function useCartInteractions(product: ProductType | CartProductType | nul
 
     return {
         count,
-        setCount,
         handleAddToCart,
         handleRemoveFromCart,
         updateCount
