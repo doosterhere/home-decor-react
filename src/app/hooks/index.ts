@@ -1,5 +1,6 @@
 export * from './redux';
 export * from './useCart';
+export * from './useCartInteractions';
 export * from './useCartRefetch';
 export * from './useDebounce';
 export * from './useGetCountInCart';
