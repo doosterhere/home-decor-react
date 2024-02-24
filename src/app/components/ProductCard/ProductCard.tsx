@@ -3,12 +3,18 @@ import {Link, useNavigate} from "react-router-dom";
 
 import './ProductCard.scss';
 
-import {enqueueErrorMessage, favoritesApi, selectIsLogged} from "../../store";
+import {
+    enqueueErrorMessage,
+    favoritesApi,
+    resetNewCartHasBeenReceived,
+    selectIsLogged,
+    selectNewCartHasBeenReceived
+} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
 import {
     useAppDispatch,
     useAppSelector,
-    useDebounceValue,
+    useDebounceFunction,
     useGetCountInCart,
     useUpdateCountOfProductInCart
 } from "../../hooks";
@@ -30,27 +36,20 @@ export const ProductCard: FC<IProductCard> =
         const [countInCart] = useGetCountInCart(product?.id);
         const isLogged = useAppSelector(selectIsLogged);
         const [count, setCount] = useState(countInCart || 1);
-        const debouncedCount = useDebounceValue(count, 500);
-        const [previousDebouncedCount, setPreviousDebouncedCount] = useState(debouncedCount);
         const navigator = useNavigate();
         const dispatcher = useAppDispatch();
         const [addToFavorites] = favoritesApi.useAddToFavoritesMutation();
         const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
         const updateCart = useUpdateCountOfProductInCart();
+        const debouncedUpdateCart = useDebounceFunction(updateCountInCart, 500);
+        const hasNewCartBeenReceivedAfterUserChange = useAppSelector(selectNewCartHasBeenReceived);
 
         useEffect(() => {
-            if (countInCart !== count) {
+            if (countInCart !== count && hasNewCartBeenReceivedAfterUserChange) {
                 setCount(countInCart || 1);
+                dispatcher(resetNewCartHasBeenReceived());
             }
-        }, [countInCart]);
-
-        useEffect(() => {
-            if (countInCart && debouncedCount !== previousDebouncedCount) {
-                void updateCart(product?.id, debouncedCount);
-            }
-
-            setPreviousDebouncedCount(debouncedCount);
-        }, [debouncedCount]);
+        }, [countInCart, hasNewCartBeenReceivedAfterUserChange]);
 
         const navigate = () => {
             if (isLight && product) {
@@ -83,6 +82,17 @@ export const ProductCard: FC<IProductCard> =
             await updateCart(product?.id, 0)
                 .then(() => setCount(1));
         };
+
+        function updateCountInCart(count: number) {
+            if (countInCart) {
+                void updateCart(product?.id, count);
+            }
+        }
+
+        const updateCount = (count: number) => {
+            setCount(count);
+            debouncedUpdateCart(count)
+        }
 
         if (product) {
             return (
@@ -126,7 +136,7 @@ export const ProductCard: FC<IProductCard> =
                                 </div>
                             </div>
                             <div className='product-card__extra'>
-                                <CountSelector count={count} updateCount={setCount}/>
+                                <CountSelector count={count} updateCount={updateCount}/>
                                 <Link to={`${ROUTES.PRODUCT}/${product.url}`} className='product-card__detail'>
                                     <Icon name={IconName.dots} needParentHover/>
                                     <span>Подробнее</span>
