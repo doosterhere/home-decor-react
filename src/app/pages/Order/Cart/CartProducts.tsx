@@ -12,11 +12,10 @@ const CartProducts = () => {
         <div className="cart__products">
             {
                 cart.items.map(
-                    ({product, quantity}) =>
+                    ({product}) =>
                         <CartProduct
                             key={product.id}
                             product={product}
-                            quantity={quantity}
                         />
                 )
             }
