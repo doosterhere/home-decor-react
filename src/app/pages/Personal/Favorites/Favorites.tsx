@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import './Favorites.scss';
 
-import {favoritesApi} from "../../../store";
+import {favoritesApi, setCartCount} from "../../../store";
 
 import {FavoritesType} from "../../../types";
 
 import FavoritesProductsList from "./FavoritesProductsList";
+import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 const Favorites = () => {
     const {
@@ -14,6 +15,12 @@ const Favorites = () => {
         isSuccess: isRequestSuccess,
         isError: isRequestError
     } = favoritesApi.useGetFavoritesQuery();
+    const dispatcher = useAppDispatch();
+    const cart = useCartRefetch();
+
+    useEffect(() => {
+        dispatcher(setCartCount(cart.itemsCount));
+    }, [cart, dispatcher]);
 
     return (
         <div className="favorites">
