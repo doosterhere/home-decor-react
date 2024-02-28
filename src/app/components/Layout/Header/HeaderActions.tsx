@@ -9,6 +9,7 @@ import {
     enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
+    resetCartToSync,
     selectCartCount,
     selectCartToSync,
     selectIsLogged,
@@ -46,8 +47,12 @@ const HeaderActions = () => {
         const result = await clearAnonymousCart();
 
         if (result) {
-            console.log('Корзина анонимного пользователя была очищена');
+            dispatcher(resetCartToSync());
         }
+
+        dispatcher(setIsLogged(false));
+        dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
+        dispatcher(setUserHasBeenChanged());
 
         navigator(currentLocation);
     };
@@ -62,9 +67,6 @@ const HeaderActions = () => {
         } finally {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
-            dispatcher(setIsLogged(false));
-            dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
-            dispatcher(setUserHasBeenChanged());
         }
     }
 
@@ -74,8 +76,6 @@ const HeaderActions = () => {
                 const response = await clearCart();
 
                 if (response && 'data' in response) {
-                    console.log(response.data.message);
-
                     return !response.data.error;
                 }
 
