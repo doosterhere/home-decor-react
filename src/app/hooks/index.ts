@@ -2,6 +2,7 @@ export * from './redux';
 export * from './useCart';
 export * from './useCartInteractions';
 export * from './useCartRefetch';
+export * from './useCartSync';
 export * from './useDebounce';
 export * from './useGetCountInCart';
 export * from './useMatchMedia';
