@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 import {enqueueErrorMessage, enqueueSuccessMessage, favoritesApi} from "../../../store";
-import {useAppDispatch} from "../../../hooks";
+import {useAppDispatch, useCartInteractions, useGetCountInCart} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
 import {FavoritesType, IconName} from "../../../types";
@@ -14,23 +14,11 @@ interface IFavoritesProduct {
 }
 
 const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
+    const [countInCart] = useGetCountInCart(product?.id);
     const navigator = useNavigate();
     const dispatcher = useAppDispatch();
     const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
-
-    //dummy section
-    const count = 1;
-    const countInCart = 0;
-
-    const addToCart = () => {
-    };
-
-    const updateCount = () => {
-    };
-
-    const removeFromCart = () => {
-    };
-    //end dummy section
+    const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
 
     const handleRemoveFromFavorites = () => {
         removeFromFavorites(product.id).unwrap()
@@ -41,7 +29,8 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
             })
             .catch(() => {
                 dispatcher(enqueueErrorMessage('Ошибка при удалении'));
-            });
+            })
+            .finally();
 
     };
 
@@ -55,17 +44,17 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
             <div className="favorites__product-price">{product.price} BYN</div>
             <div className="favorites__product-action">
                 {!countInCart &&
-                    <button className="button" onClick={addToCart}>В корзину</button>
+                    <button className="button" onClick={handleAddToCart}>В корзину</button>
                 }
                 {!!countInCart &&
-                    <CountSelector count={count} updateCount={updateCount}/>
-                }
-                {!!countInCart &&
-                    <button className="button button_transparent button_in-cart"
-                            onClick={removeFromCart}>
-                        <span>В корзине</span>
-                        <span>Удалить</span>
-                    </button>
+                    <>
+                        <CountSelector count={count} updateCount={updateCount}/>
+                        <button className="button button_transparent button_in-cart"
+                                onClick={handleRemoveFromCart}>
+                            <span>В корзине</span>
+                            <span>Удалить</span>
+                        </button>
+                    </>
                 }
             </div>
             <div className="favorites__product-remove" onClick={handleRemoveFromFavorites}>
