@@ -8,17 +8,19 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import './Login.scss';
 
 import {
-    setAccessToken,
-    setIsLogged,
-    setRefreshToken,
+    authApi,
     enqueueErrorMessage,
     enqueueSuccessMessage,
-    authApi
+    setAccessToken,
+    setCartToSync,
+    setIsLogged,
+    setRefreshToken,
+    setUserHasBeenChanged
 } from "../../../store";
 import {ROUTES} from "../../../constants";
 import {useAppDispatch} from "../../../hooks";
 
-import {LoginResponseType, DefaultResponseType} from "../../../types";
+import {DefaultResponseType, LoginResponseType} from "../../../types";
 
 const Login = () => {
     const isSignupPage = useLocation().pathname.slice(1) === 'signup';
@@ -88,6 +90,8 @@ const Login = () => {
                 dispatcher(setIsLogged(true));
                 dispatcher(setAccessToken(userData.accessToken));
                 dispatcher(setRefreshToken(userData.refreshToken));
+                dispatcher(setUserHasBeenChanged());
+                dispatcher(setCartToSync());
                 navigator(-1);
             }
         } catch (error) {
