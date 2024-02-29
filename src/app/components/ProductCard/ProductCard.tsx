@@ -5,7 +5,7 @@ import './ProductCard.scss';
 
 import {selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppSelector, useCartInteractions, useGetCountInCart, useUpdateFavorites} from "../../hooks";
+import {useAppSelector, useCartInteractions, useGetCountInCart, useFavoritesInteractions} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
@@ -24,7 +24,7 @@ export const ProductCard: FC<IProductCard> =
         const [countInCart] = useGetCountInCart(product?.id);
         const isLogged = useAppSelector(selectIsLogged);
         const navigator = useNavigate();
-        const updateFavorites = useUpdateFavorites(product, product?.inFavorites);
+        const {updateFavorites} = useFavoritesInteractions(product, product?.inFavorites);
         const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
 
         const navigate = () => {
