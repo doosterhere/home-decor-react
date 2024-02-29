@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-import {enqueueErrorMessage, enqueueSuccessMessage, favoritesApi} from "../../../store";
-import {useAppDispatch, useCartInteractions, useGetCountInCart} from "../../../hooks";
+import {enqueueErrorMessage, favoritesApi} from "../../../store";
+import {useAppDispatch, useCartInteractions, useDisabled, useGetCountInCart} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
 import {FavoritesType, IconName} from "../../../types";
@@ -19,20 +19,18 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
     const dispatcher = useAppDispatch();
     const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
     const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
+    const {state: disabled, disable, enable} = useDisabled();
 
     const handleRemoveFromFavorites = () => {
+        disable();
         removeFromFavorites(product.id).unwrap()
-            .then(res => {
-                if (!res.error) {
-                    dispatcher(enqueueSuccessMessage('Удалёно из избранного'));
-                }
-            })
             .catch(() => {
-                dispatcher(enqueueErrorMessage('Ошибка при удалении'));
-            })
-            .finally();
-
-    };
+                dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
+            }).finally(() => {
+                enable();
+            }
+        );
+    }
 
     return (
         <div className="favorites__product">
@@ -57,7 +55,9 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
                     </>
                 }
             </div>
-            <div className="favorites__product-remove" onClick={handleRemoveFromFavorites}>
+            <div className={disabled ? "favorites__product-remove disabled" : "favorites__product-remove"}
+                 onClick={handleRemoveFromFavorites}
+            >
                 <Icon name={IconName.closeCross} needHover/>
             </div>
         </div>
