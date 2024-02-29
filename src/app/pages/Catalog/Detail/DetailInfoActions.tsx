@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
 import {favoritesApi, productAPI, selectIsLogged} from "../../../store";
-import {useAppSelector, useCartInteractions, useGetCountInCart, useUpdateFavorites} from "../../../hooks";
+import {useAppSelector, useCartInteractions, useGetCountInCart, useFavoritesInteractions} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
@@ -18,7 +18,7 @@ const DetailInfoActions = () => {
         fulfilledTimeStamp
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
     const [isInFavorites, setIsInFavorites] = useState(false);
-    const handleUpdateFavorites = useUpdateFavorites(product, isInFavorites);
+    const {updateFavorites: handleUpdateFavorites} = useFavoritesInteractions(product, isInFavorites);
     const [, isInCart] = useGetCountInCart(product?.id);
     const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
 
