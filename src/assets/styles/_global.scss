@@ -149,8 +149,12 @@ input[type='number'] {
   }
 
   &:disabled {
+    border-color: $color-button-disabled;
+
+    color: dimgray;
+
     background-color: $color-button-disabled;
-    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
