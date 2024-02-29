@@ -4,6 +4,7 @@ export * from './useCartInteractions';
 export * from './useCartRefetch';
 export * from './useCartSync';
 export * from './useDebounce';
+export * from './useDisabled';
 export * from './useFavoritesInteractions';
 export * from './useGetCountInCart';
 export * from './useMatchMedia';
