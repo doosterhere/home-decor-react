@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, SetStateAction} from 'react';
+import React, {FC} from 'react';
 
 import './CountSelector.scss';
 
@@ -6,9 +6,9 @@ import {IconName} from "../../types";
 
 import {Icon} from "../../components";
 
-interface ICounterProps extends PropsWithChildren {
+interface ICounterProps {
     count: number;
-    updateCount: (value: SetStateAction<number>) => void;
+    updateCount: (count: number) => void;
 }
 
 export const CountSelector: FC<ICounterProps> = ({count, updateCount}) => {

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import 'swiper/css';
 import './Main.scss';
 
-import {useScrollToAnchor} from "../../hooks";
+import {setCartCount} from "../../store";
+import {useAppDispatch, useCartRefetch, useScrollToAnchor} from "../../hooks";
 
 import MainOffers from "./MainOffers";
 import MainBestProducts from "./MainBestProducts";
@@ -12,6 +13,13 @@ import MainReview from "./MainReview";
 import MainMap from "./MainMap";
 
 const Main = () => {
+    const dispatcher = useAppDispatch();
+    const cart = useCartRefetch();
+
+    useEffect(() => {
+        dispatcher(setCartCount(cart.itemsCount));
+    }, [cart, dispatcher]);
+
     useScrollToAnchor();
 
     return (

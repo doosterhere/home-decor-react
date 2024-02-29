@@ -7,24 +7,24 @@ import {useProducts} from "../../../hooks";
 
 import {ProductCard, SliderButtons} from "../../../components";
 
-const DetailRecommendedProducts = () => {
-    const {data: recommendedProductsData} = productAPI.useGetBestProductsQuery();
-    const products = useProducts(recommendedProductsData);
-    const swiperRecommendedRef = useRef<SwiperRef>(null);
+const CartExtraProducts = () => {
+    const {data: extraProductsData} = productAPI.useGetBestProductsQuery();
+    const extraProducts = useProducts(extraProductsData);
+    const swiperExtraRef = useRef<SwiperRef>(null);
 
     return (
-        <div className='recommended-products'>
-            <div className='carousel__header'>
-                <div className='carousel__title'>Рекомендуемые товары</div>
+        <div className="extra-products">
+            <div className="carousel__header">
+                <div className="carousel__title">С этими товарами также покупают</div>
                 <SliderButtons
-                    wrapperClass='carousel__arrows'
-                    swiperRef={swiperRecommendedRef}
+                    wrapperClass={"carousel__arrows"}
+                    swiperRef={swiperExtraRef}
                     withLoop={false}
                 />
             </div>
-            <div className='carousel__items'>
+            <div className="carousel__items">
                 <Swiper
-                    ref={swiperRecommendedRef}
+                    ref={swiperExtraRef}
                     spaceBetween={25}
                     grabCursor={true}
                     speed={700}
@@ -44,12 +44,15 @@ const DetailRecommendedProducts = () => {
                     }}
                 >
                     {
-                        products.map(product =>
-                            <SwiperSlide key={product.id}>
-                                <ProductCard
-                                    product={product}
-                                />
-                            </SwiperSlide>
+                        extraProducts?.map(product =>
+                            (
+                                <SwiperSlide key={product.id}>
+                                    <ProductCard
+                                        product={product}
+                                        isLight
+                                    />
+                                </SwiperSlide>
+                            )
                         )
                     }
                 </Swiper>
@@ -58,4 +61,4 @@ const DetailRecommendedProducts = () => {
     );
 };
 
-export default DetailRecommendedProducts;
+export default CartExtraProducts;

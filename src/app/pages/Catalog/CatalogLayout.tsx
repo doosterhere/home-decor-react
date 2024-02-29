@@ -1,10 +1,10 @@
-import React, {FC, RefObject, useState} from 'react';
+import React, {FC, RefObject} from 'react';
 import {useLocation} from "react-router-dom";
 
-import {cartAPI, productAPI} from "../../store";
-import {useProducts} from "../../hooks/useProducts";
+import {productAPI} from "../../store";
+import {useProducts} from "../../hooks";
 
-import {CartType, IActiveParams} from "../../types";
+import {IActiveParams} from "../../types";
 
 import {FilterList, ProductCard} from "../../components";
 
@@ -19,8 +19,6 @@ const CatalogLayout: FC<ICatalogLayout> =
          itemsRef
      }) => {
         const search = useLocation().search;
-        const [updateCart] = cartAPI.useUpdateCartMutation();
-        const [cart, setCart] = useState<CartType | null>(null);
         const {
             data: productsData,
             isSuccess: isProductsRequestSuccess,
@@ -36,12 +34,11 @@ const CatalogLayout: FC<ICatalogLayout> =
                 {(productsData && isProductsRequestSuccess) &&
                     <div className='catalog__items' ref={itemsRef}>
                         {
-                            products.map(item =>
+                            products.map(product =>
                                 <ProductCard
-                                    key={item.id}
-                                    product={item}
-                                    countInCart={item.countInCart ? item.countInCart : 0}
-                                    updateCart={updateCart}/>
+                                    key={product.id}
+                                    product={product}
+                                />
                             )
                         }
                     </div>

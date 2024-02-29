@@ -4,13 +4,18 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {Menu, MenuItem} from "@mui/material";
 
 import {
-    setIsLogged,
+    authApi,
+    cartAPI,
+    enqueueSuccessMessage,
     removeAccessToken,
     removeRefreshToken,
+    resetCartToSync,
+    selectCartCount,
+    selectCartToSync,
     selectIsLogged,
     selectRefreshToken,
-    enqueueSuccessMessage,
-    authApi
+    setIsLogged,
+    setUserHasBeenChanged
 } from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {ROUTES} from "../../../constants";
@@ -24,11 +29,13 @@ const HeaderActions = () => {
     const refreshToken = useAppSelector(selectRefreshToken);
     const [logout] = authApi.useLogoutMutation();
     const dispatcher = useAppDispatch();
-    const [count, setCount] = useState(0);
     const navigator = useNavigate();
     const currentLocation = useLocation().pathname;
     const [anchorMenuEl, setAnchorMenuEl] = useState<null | HTMLDivElement>(null);
     const isMenuOpened = Boolean(anchorMenuEl);
+    const cartCount = useAppSelector(selectCartCount);
+    const cartToSync = useAppSelector(selectCartToSync);
+    const [clearCart] = cartAPI.useClearCartMutation();
 
     const handleUserClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorMenuEl(event.currentTarget);
@@ -36,19 +43,52 @@ const HeaderActions = () => {
 
     const handleLogoutClick = async () => {
         handleCloseClick();
+        await logoutUser();
+        const result = await clearAnonymousCart();
 
+        if (result) {
+            dispatcher(resetCartToSync());
+        }
+
+        dispatcher(setIsLogged(false));
+        dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
+        dispatcher(setUserHasBeenChanged());
+
+        navigator(currentLocation);
+    };
+
+    const logoutUser = async () => {
         try {
             if (refreshToken) {
                 await logout({refreshToken});
             }
+        } catch (e) {
+            console.warn(e);
         } finally {
             dispatcher(removeAccessToken());
             dispatcher(removeRefreshToken());
-            dispatcher(setIsLogged(false));
-            dispatcher(enqueueSuccessMessage('Вы вышли из системы'));
-            navigator(currentLocation);
         }
-    };
+    }
+
+    const clearAnonymousCart = async () => {
+        if (!cartToSync.items.length) {
+            try {
+                const response = await clearCart();
+
+                if (response && 'data' in response) {
+                    return !response.data.error;
+                }
+
+                return false;
+            } catch (e) {
+                console.error(e);
+
+                return false;
+            }
+        }
+
+        return false;
+    }
 
     const handleProfileClick = () => {
         navigator(ROUTES.PROFILE);
@@ -108,7 +148,7 @@ const HeaderActions = () => {
             }
             <Link to={ROUTES.CART}>
                 <Icon name={IconName.cart}/>
-                <span>{count}</span>
+                <span>{cartCount}</span>
             </Link>
         </div>
     );

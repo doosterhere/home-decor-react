@@ -3,7 +3,8 @@ import {useSearchParams} from "react-router-dom";
 
 import './Catalog.scss';
 
-import {useDebounceValue, useMatchMedia} from "../../hooks";
+import {setCartCount} from "../../store";
+import {useAppDispatch, useCartRefetch, useDebounceValue, useMatchMedia} from "../../hooks";
 import {getActiveParams, serializeActiveParams} from "../../utils";
 
 import {ActiveParamsType} from "../../types";
@@ -21,6 +22,12 @@ const Catalog = () => {
     const titleRef = useRef<HTMLDivElement>(null);
     const itemsRef = useRef<HTMLDivElement>(null);
     const {isDesktop} = useMatchMedia();
+    const dispatcher = useAppDispatch();
+    const cart = useCartRefetch();
+
+    useEffect(() => {
+        dispatcher(setCartCount(cart.itemsCount));
+    }, [cart, dispatcher]);
 
     useEffect(() => {
         setActiveParams(getActiveParams(searchParams));

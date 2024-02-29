@@ -16,6 +16,7 @@ import {DefaultResponseType, LoginResponseType} from "../types";
 
 const baseQueryWithAuthHeaders = fetchBaseQuery({
     baseUrl: BASE_API,
+    credentials: 'include',
     prepareHeaders: (headers, {getState}) => {
         const token = (getState() as RootState).auth.accessToken;
 
