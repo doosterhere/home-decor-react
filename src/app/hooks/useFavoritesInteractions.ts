@@ -4,20 +4,15 @@ import {useAppDispatch} from "./redux";
 import {ProductType} from "../types";
 
 export function useFavoritesInteractions(product: ProductType | null | undefined, isInFavorites?: boolean | undefined) {
-    const [add] = favoritesApi.useAddToFavoritesMutation();
-    const [remove] = favoritesApi.useRemoveFromFavoritesMutation();
+    const [add, {isLoading: isAdding}] = favoritesApi.useAddToFavoritesMutation();
+    const [remove, {isLoading: isRemoving}] = favoritesApi.useRemoveFromFavoritesMutation();
     const dispatcher = useAppDispatch();
 
     async function removeFromFavorites() {
         if (product) {
             try {
-                const result = await remove(product.id);
-
-                if ((result && 'error' in result) ||
-                    (result && 'data' in result && 'error' in result.data && result.data.error)) {
-                    dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
-                }
-            } catch (error) {
+                await remove(product.id).unwrap();
+            } catch (e) {
                 dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
             }
         }
@@ -26,13 +21,8 @@ export function useFavoritesInteractions(product: ProductType | null | undefined
     async function addToFavorites() {
         if (product) {
             try {
-                const result = await add(product.id);
-
-                if ((result && 'error' in result && 'status' in result.error && result.error.status === 400) ||
-                    (result && 'data' in result && 'error' in result.data && result.data.error)) {
-                    dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
-                }
-            } catch (error) {
+                await add(product.id).unwrap();
+            } catch (e) {
                 dispatcher(enqueueErrorMessage('Не удалось добавить товар в избранное'));
             }
         }
@@ -48,5 +38,5 @@ export function useFavoritesInteractions(product: ProductType | null | undefined
         await addToFavorites();
     }
 
-    return {addToFavorites, removeFromFavorites, updateFavorites};
+    return {addToFavorites, removeFromFavorites, updateFavorites, isLoading: isAdding || isRemoving};
 }
