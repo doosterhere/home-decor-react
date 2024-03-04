@@ -1,17 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-export function useDisabled() {
-    const [state, setState] = useState(false);
+export const useDisabled = (value: boolean) => {
+    const [state, setState] = useState(value);
 
-    const disable = () => {
-        setState(true);
-    }
+    useEffect(() => {
+        if (value) {
+            setState(value);
+        }
 
-    const enable = () => {
-        setTimeout(() => {
-            setState(false);
-        }, 1000);
-    }
+        if (!value) {
+            setTimeout(() => setState(value), 500);
+        }
+    }, [value]);
 
-    return {state, disable, enable};
+    return {state}
 }
