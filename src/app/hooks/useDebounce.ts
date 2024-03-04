@@ -20,17 +20,21 @@ export function useDebounceValue<T>(value: T, delay: number): T {
 }
 
 export function useDebounceFunction<Func extends SomeFunction>(func: Func, delay: number) {
-    const timer = useRef<Timer>();
+    const timer = useRef<Timer | null>(null);
 
     useEffect(() => {
         return () => {
-            if (!timer.current) return;
-            clearTimeout(timer.current);
+            if (timer.current) {
+                clearTimeout(timer.current);
+            }
         };
     }, []);
 
-    return (function (...args) {
-        clearTimeout(timer.current);
+    return (function (...args: any[]) {
+        if (timer.current) {
+            clearTimeout(timer.current);
+        }
+
         timer.current = setTimeout(() => {
             func(...args);
         }, delay);
