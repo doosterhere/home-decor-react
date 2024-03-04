@@ -22,6 +22,8 @@ import {useAppDispatch} from "../../../hooks";
 
 import {DefaultResponseType, LoginResponseType} from "../../../types";
 
+import {Button} from "../../../components";
+
 const Login = () => {
     const isSignupPage = useLocation().pathname.slice(1) === 'signup';
     const navigator = useNavigate();
@@ -41,6 +43,7 @@ const Login = () => {
     const [signup] = authApi.useSignupMutation();
     const [login] = authApi.useLoginMutation();
     const dispatcher = useAppDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleAgree = () => {
         setIsChecked(current => !current);
@@ -60,6 +63,7 @@ const Login = () => {
     };
 
     const onSubmit = async (data: FieldValues) => {
+        setIsLoading(true);
         try {
             const result = isSignupPage
                 ? await signup({
@@ -102,6 +106,8 @@ const Login = () => {
             }
 
             dispatcher(enqueueErrorMessage(message));
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -224,9 +230,12 @@ const Login = () => {
                         }
                     </div>
                     <div className="auth-form__button">
-                        <button className="button" disabled={!isValid}>
+                        <Button
+                            disabled={!isValid || isLoading}
+                            isLoading={isLoading}
+                        >
                             {isSignupPage ? "Зарегистрироваться" : "Войти"}
-                        </button>
+                        </Button>
                     </div>
 
                     <div className="auth-form__link" onClick={resetFormState}>
