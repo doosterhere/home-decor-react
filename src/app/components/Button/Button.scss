@@ -67,7 +67,8 @@
     background-color: $color-button-pressed;
   }
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled="true"] {
     border-color: $color-button-disabled;
 
     color: $color-white;

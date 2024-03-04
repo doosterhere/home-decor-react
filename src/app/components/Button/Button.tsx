@@ -36,6 +36,10 @@ export const Button: FC<IButtonProps> = memo(
         const handle = (event: MouseEvent<HTMLButtonElement>
             | KeyboardEvent<HTMLButtonElement>
             | MouseEvent<HTMLAnchorElement>) => {
+            if (disabled) {
+                event.preventDefault();
+            }
+
             if (!isLoading && onClick) {
                 onClick(event);
             }
@@ -59,6 +63,7 @@ export const Button: FC<IButtonProps> = memo(
             <a
                 className={classes}
                 onClick={handle}
+                data-disabled={disabled}
                 {...attributes}
             >
                 {children}
