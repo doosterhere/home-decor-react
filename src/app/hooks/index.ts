@@ -11,4 +11,3 @@ export * from './useMatchMedia';
 export * from './useProducts';
 export * from './useScrollToAnchor';
 export * from './useSetCategories';
-export * from './useUpdateCountOfProductInCart';
