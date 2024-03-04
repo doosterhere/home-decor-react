@@ -13,20 +13,8 @@ interface ICartProduct {
 }
 
 const CartProduct: FC<ICartProduct> = ({product}) => {
-    const {count, updateCount, handleRemoveFromCart: removeFromCart} = useCartInteractions(product);
-    const {state: disabled, disable, enable} = useDisabled();
-
-    //testing section
-
-    const handleRemoveFromCart = () => {
-        disable();
-        void removeFromCart()
-            .finally(() => {
-                enable();
-            });
-    }
-
-    //end testing section
+    const {count, isUpdating, updateCount, handleRemoveFromCart} = useCartInteractions(product);
+    const {state: disabled} = useDisabled(isUpdating);
 
     return (
         <div className="cart__product">
