@@ -8,6 +8,7 @@
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.14.17",
     "@reduxjs/toolkit": "^2.0.1",
+    "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
@@ -69,9 +70,6 @@
   "devDependencies": {
     "@rsbuild/core": "^0.3.3",
     "@rsbuild/plugin-react": "^0.3.3",
-    "@typescript-eslint/eslint-plugin": "^6.19.1",
-    "@typescript-eslint/parser": "^6.19.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -80,6 +78,9 @@
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
     "@types/react-redux": "^7.1.28",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "sass": "^1.69.5",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
