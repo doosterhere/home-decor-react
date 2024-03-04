@@ -1,9 +1,9 @@
 import {enqueueErrorMessage, favoritesApi} from "../store";
 import {useAppDispatch} from "./redux";
 
-import {ProductType} from "../types";
+import {FavoritesType, ProductType} from "../types";
 
-export function useFavoritesInteractions(product: ProductType | null | undefined, isInFavorites?: boolean | undefined) {
+export function useFavoritesInteractions(product: ProductType | FavoritesType| null | undefined, isInFavorites?: boolean | undefined) {
     const [add, {isLoading: isAdding}] = favoritesApi.useAddToFavoritesMutation();
     const [remove, {isLoading: isRemoving}] = favoritesApi.useRemoveFromFavoritesMutation();
     const dispatcher = useAppDispatch();
@@ -38,5 +38,5 @@ export function useFavoritesInteractions(product: ProductType | null | undefined
         await addToFavorites();
     }
 
-    return {addToFavorites, removeFromFavorites, updateFavorites, isLoading: isAdding || isRemoving};
+    return {addToFavorites, removeFromFavorites, updateFavorites, isUpdating: isAdding || isRemoving};
 }
