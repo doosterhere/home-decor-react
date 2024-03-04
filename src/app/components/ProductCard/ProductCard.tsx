@@ -5,11 +5,17 @@ import './ProductCard.scss';
 
 import {selectIsLogged} from "../../store";
 import {ROUTES, SERVER_STATIC_PATH} from "../../constants";
-import {useAppSelector, useCartInteractions, useGetCountInCart, useFavoritesInteractions} from "../../hooks";
+import {
+    useAppSelector,
+    useCartInteractions,
+    useDisabled,
+    useFavoritesInteractions,
+    useGetCountInCart
+} from "../../hooks";
 
 import {IconName, ProductType} from "../../types";
 
-import {CountSelector, Icon} from "../../components";
+import {Button, CountSelector, Icon} from "../../components";
 
 interface IProductCard {
     product: ProductType | null;
@@ -25,7 +31,14 @@ export const ProductCard: FC<IProductCard> =
         const isLogged = useAppSelector(selectIsLogged);
         const navigator = useNavigate();
         const {updateFavorites} = useFavoritesInteractions(product, product?.inFavorites);
-        const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
+        const {
+            count,
+            isUpdating: isCartUpdating,
+            updateCount,
+            handleAddToCart,
+            handleRemoveFromCart
+        } = useCartInteractions(product);
+        const {state: disabledCart} = useDisabled(isCartUpdating);
 
         const navigate = () => {
             if (isLight && product) {
@@ -60,17 +73,24 @@ export const ProductCard: FC<IProductCard> =
                                 <div className='product-card__price'>{product.price} BYN</div>
                                 <div className='product-card__action'>
                                     {countInCart === 0 &&
-                                        <button className='button' onClick={handleAddToCart}>
+                                        <Button
+                                            onClick={handleAddToCart}
+                                            disabled={disabledCart}
+                                            isLoading={isCartUpdating}
+                                        >
                                             В корзину
-                                        </button>
+                                        </Button>
                                     }
                                     {Number(countInCart) > 0 &&
-                                        <button className='button button_transparent button_in-cart'
-                                                onClick={handleRemoveFromCart}
+                                        <Button
+                                            className='button_transparent button_in-cart'
+                                            onClick={handleRemoveFromCart}
+                                            disabled={disabledCart}
+                                            isLoading={isCartUpdating}
                                         >
                                             <span>В корзине</span>
                                             <span>Удалить</span>
-                                        </button>
+                                        </Button>
                                     }
                                 </div>
                             </div>
