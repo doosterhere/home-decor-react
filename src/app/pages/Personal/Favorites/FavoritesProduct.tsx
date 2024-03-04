@@ -1,13 +1,11 @@
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
-
-import {enqueueErrorMessage, favoritesApi} from "../../../store";
-import {useAppDispatch, useCartInteractions, useDisabled, useGetCountInCart} from "../../../hooks";
+import {useCartInteractions, useDisabled, useFavoritesInteractions, useGetCountInCart} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
 import {FavoritesType, IconName} from "../../../types";
 
-import {CountSelector, Icon} from "../../../components";
+import {Button, CountSelector, Icon} from "../../../components";
 
 interface IFavoritesProduct {
     product: FavoritesType
@@ -16,21 +14,18 @@ interface IFavoritesProduct {
 const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
     const [countInCart] = useGetCountInCart(product?.id);
     const navigator = useNavigate();
-    const dispatcher = useAppDispatch();
-    const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
-    const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
-    const {state: disabled, disable, enable} = useDisabled();
-
-    const handleRemoveFromFavorites = () => {
-        disable();
-        removeFromFavorites(product.id).unwrap()
-            .catch(() => {
-                dispatcher(enqueueErrorMessage('Не удалось удалить товар из избранного'));
-            }).finally(() => {
-                enable();
-            }
-        );
-    }
+    const {
+        isUpdating: isFavoritesUpdating,
+        removeFromFavorites: handleRemoveFromFavorites
+    } = useFavoritesInteractions(product);
+    const {
+        count,
+        isUpdating: isCartUpdating,
+        updateCount,
+        handleAddToCart,
+        handleRemoveFromCart
+    } = useCartInteractions(product);
+    const {state: disabledFavorites} = useDisabled(isFavoritesUpdating);
 
     return (
         <div className="favorites__product">
@@ -41,21 +36,29 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
             <div className="favorites__product-name">{product.name}</div>
             <div className="favorites__product-price">{product.price} BYN</div>
             <div className="favorites__product-action">
+                <CountSelector count={count} updateCount={updateCount}/>
                 {!countInCart &&
-                    <button className="button" onClick={handleAddToCart}>В корзину</button>
+                    <Button
+                        onClick={handleAddToCart}
+                        disabled={isCartUpdating}
+                        isLoading={isCartUpdating}
+                    >
+                        В корзину
+                    </Button>
                 }
                 {!!countInCart &&
-                    <>
-                        <CountSelector count={count} updateCount={updateCount}/>
-                        <button className="button button_transparent button_in-cart"
-                                onClick={handleRemoveFromCart}>
-                            <span>В корзине</span>
-                            <span>Удалить</span>
-                        </button>
-                    </>
+                    <Button
+                        className="button_transparent button_in-cart"
+                        onClick={handleRemoveFromCart}
+                        disabled={isCartUpdating}
+                        isLoading={isCartUpdating}
+                    >
+                        <span>В корзине</span>
+                        <span>Удалить</span>
+                    </Button>
                 }
             </div>
-            <div className={disabled ? "favorites__product-remove disabled" : "favorites__product-remove"}
+            <div className={disabledFavorites ? "favorites__product-remove disabled" : "favorites__product-remove"}
                  onClick={handleRemoveFromFavorites}
             >
                 <Icon name={IconName.closeCross} needHover/>
