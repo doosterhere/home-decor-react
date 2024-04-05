@@ -1,5 +1,8 @@
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
+
+import CircularProgress from "@mui/material/CircularProgress";
+
 import {useCartInteractions, useDisabled, useFavoritesInteractions, useGetCountInCart} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
@@ -61,7 +64,12 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
             <div className={disabledFavorites ? "favorites__product-remove disabled" : "favorites__product-remove"}
                  onClick={handleRemoveFromFavorites}
             >
-                <Icon name={IconName.closeCross} needHover/>
+                {!disabledFavorites &&
+                    <Icon name={IconName.closeCross} needHover/>
+                }
+                {disabledFavorites &&
+                    <CircularProgress size={16}/>
+                }
             </div>
         </div>
     );
