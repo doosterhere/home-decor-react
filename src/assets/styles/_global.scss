@@ -80,86 +80,6 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.button {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  box-sizing: border-box;
-  border: 1px solid transparent;
-  border-radius: 5px;
-
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  color: $color-white;
-  text-align: center;
-
-  background: $color-button-default;
-  cursor: pointer;
-  user-select: none;
-
-  &.button_transparent {
-    border: 1px solid $color-button-hover;
-
-    color: $color-primary;
-
-    background-color: transparent;
-
-    &:hover {
-      color: $color-white;
-    }
-  }
-
-  &.button_with-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-
-    &:hover svg path {
-      fill: $color-white;
-    }
-  }
-
-  &.button_in-cart {
-    span:first-child {
-      display: inline;
-    }
-
-    span:last-child {
-      display: none;
-    }
-
-    &:hover {
-      span:first-child {
-        display: none;
-      }
-
-      span:last-child {
-        display: inline;
-      }
-    }
-  }
-
-  &:hover {
-    background-color: $color-button-hover;
-  }
-
-  &:active {
-    background-color: $color-button-pressed;
-  }
-
-  &:disabled {
-    background-color: $color-button-disabled;
-    cursor: not-allowed;
-  }
-}
-
-a.button {
-  display: inline-block;
-
-  text-decoration: none;
-}
-
 .mat-mdc-menu-item[role='menuitem'] {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -335,6 +255,11 @@ input[type='checkbox']:checked + span::before {
 
 .mat-mdc-progress-spinner {
   --mdc-circular-progress-active-indicator-color: $color-secondary-02;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
 }
 
 @media screen and (max-width: 1300px) {

@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 
 import {ROUTES} from "../../constants";
 
+import {Button} from "../../components";
+
 const MainOffers = () => (
     <section className='offers'>
         <div className='container'>
@@ -17,13 +19,13 @@ const MainOffers = () => (
                             Подпишись на наш аккаунт и напиши в direct “хочу промокод”
                         </div>
                         <div className='offer__button'>
-                            <a href="https://www.instagram.com"
-                               target="_blank"
-                               rel="noreferrer"
-                               className='button'
+                            <Button
+                                href="https://www.instagram.com"
+                                target="_blank"
+                                rel="noreferrer"
                             >
                                 Получить промокод
-                            </a>
+                            </Button>
                         </div>
                     </div>
                 </div>

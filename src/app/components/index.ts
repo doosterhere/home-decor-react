@@ -1,10 +1,11 @@
 export {AppRouter} from './AppRouter';
+export {Button} from './Button/Button';
 export {CategoryFilter} from './CategoryFilter/CategoryFilter';
 export {CountSelector} from './CountSelector/CountSelector';
 export {FilterList} from './FilterList/FilterList';
 export {Icon} from './Icon/Icon';
-export {Loader} from './Loader/Loader';
 export {Layout} from './Layout/Layout';
+export {Loader} from './Loader/Loader';
 export {Logo, colorType} from './Logo/Logo';
 export {Message} from './Message/Message';
 export {Pagination} from './Pagination/Pagination';

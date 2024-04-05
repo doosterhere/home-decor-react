@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
-import {useCartInteractions} from "../../../hooks";
+import {useCartInteractions, useDisabled} from "../../../hooks";
 
 import {CartProductType, IconName} from "../../../types";
 import {CountSelector, Icon} from "../../../components";
@@ -13,7 +13,8 @@ interface ICartProduct {
 }
 
 const CartProduct: FC<ICartProduct> = ({product}) => {
-    const {count, updateCount, handleRemoveFromCart} = useCartInteractions(product);
+    const {count, isUpdating, updateCount, handleRemoveFromCart} = useCartInteractions(product);
+    const {state: disabled} = useDisabled(isUpdating);
 
     return (
         <div className="cart__product">
@@ -24,7 +25,9 @@ const CartProduct: FC<ICartProduct> = ({product}) => {
             <div className="cart__product-name">{product.name}</div>
             <CountSelector count={count} updateCount={updateCount}/>
             <div className="cart__product-price">{product.price} BYN</div>
-            <div className="cart__product-remove" onClick={handleRemoveFromCart}>
+            <div className={disabled ? "cart__product-remove disabled" : "cart__product-remove"}
+                 onClick={handleRemoveFromCart}
+            >
                 <Icon name={IconName.closeCross} needHover/>
             </div>
         </div>

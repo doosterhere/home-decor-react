@@ -2,11 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 
 import {favoritesApi, productAPI, selectIsLogged} from "../../../store";
-import {useAppSelector, useCartInteractions, useGetCountInCart, useUpdateFavorites} from "../../../hooks";
+import {
+    useAppSelector,
+    useCartInteractions,
+    useDisabled,
+    useFavoritesInteractions,
+    useGetCountInCart
+} from "../../../hooks";
 
 import {FavoritesType, IconName} from "../../../types";
 
-import {CountSelector, Icon} from '../../../components';
+import {Button, CountSelector, Icon} from '../../../components';
 
 const DetailInfoActions = () => {
     const params = useParams();
@@ -18,9 +24,19 @@ const DetailInfoActions = () => {
         fulfilledTimeStamp
     } = favoritesApi.useGetFavoritesQuery(undefined, {skip: !isLogged});
     const [isInFavorites, setIsInFavorites] = useState(false);
-    const handleUpdateFavorites = useUpdateFavorites(product, isInFavorites);
+    const {
+        updateFavorites: handleUpdateFavorites,
+        isUpdating: isFavoritesUpdating
+    } = useFavoritesInteractions(product, isInFavorites);
     const [, isInCart] = useGetCountInCart(product?.id);
-    const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
+    const {
+        count,
+        isUpdating: isCartUpdating,
+        updateCount,
+        handleAddToCart,
+        handleRemoveFromCart
+    } = useCartInteractions(product);
+    const {state: disabledFavorites} = useDisabled(isFavoritesUpdating);
 
     useEffect(() => {
         if (isFavoritesRequestSuccess && favoritesData) {
@@ -41,9 +57,12 @@ const DetailInfoActions = () => {
                 </div>
                 <div className='detail__info-actions'>
                     {isLogged &&
-                        <button className='button button_transparent button_with-icon'
-                                onClick={handleUpdateFavorites}>
-
+                        <Button
+                            className='button_transparent button_with-icon'
+                            onClick={handleUpdateFavorites}
+                            disabled={disabledFavorites}
+                            isLoading={disabledFavorites}
+                        >
                             {!isInFavorites &&
                                 <>
                                     <Icon name={IconName.heart} needParentHover/>
@@ -57,20 +76,29 @@ const DetailInfoActions = () => {
                                     <span>В избранном</span>
                                 </>
                             }
-
-                        </button>
+                        </Button>
                     }
 
                     {!isInCart &&
-                        <button className='button' onClick={handleAddToCart}>В корзину</button>
+                        <Button
+                            onClick={handleAddToCart}
+                            disabled={isCartUpdating}
+                            isLoading={isCartUpdating}
+                        >
+                            В корзину
+                        </Button>
                     }
 
                     {isInCart &&
-                        <button className='button button_transparent button_in-cart'
-                                onClick={handleRemoveFromCart}>
+                        <Button
+                            className='button_transparent button_in-cart'
+                            onClick={handleRemoveFromCart}
+                            disabled={isCartUpdating}
+                            isLoading={isCartUpdating}
+                        >
                             <span>В корзине</span>
                             <span>Удалить</span>
-                        </button>
+                        </Button>
                     }
                 </div>
             </>

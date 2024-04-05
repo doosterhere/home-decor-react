@@ -17,12 +17,12 @@ interface ICategoryCheckboxesState {
     checked: boolean;
 }
 
-const fillCheckboxesInitialState = (category: CategoryWithTypesType | null): ICategoryCheckboxesState[] | null => {
+const fillCheckboxesInitialState = (category: CategoryWithTypesType | null): ICategoryCheckboxesState[] => {
     if (category) {
         return [...category.types.map(type => ({url: type.url, checked: false}))];
     }
 
-    return null;
+    return [] as ICategoryCheckboxesState[];
 }
 
 export const CategoryFilter: FC<ICategoryFilter> =
@@ -34,7 +34,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
      }) => {
         const [open, setOpen] = useState(false);
         const [inputsState, setInputsState] =
-            useState<ICategoryCheckboxesState[] | null>(() => fillCheckboxesInitialState(category));
+            useState<ICategoryCheckboxesState[]>(() => fillCheckboxesInitialState(category));
         const [from, setFrom] = useState('');
         const [to, setTo] = useState('');
         const [isNotFirstRender, setIsNotFirstRender] = useState(false);
@@ -44,7 +44,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
             if (isNotFirstRender && category?.types?.length &&
                 category.types.some(type => activeParams.types?.find(item => item === type.url))) {
                 setInputsState((initial) => {
-                    if (initial && activeParams.types) {
+                    if (activeParams.types) {
                         const newState = [...initial];
 
                         newState.forEach(state => {
@@ -107,7 +107,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
             }
 
             setInputsState(current => {
-                if (current) {
+                if (current.length) {
                     const newState = [...current];
 
                     newState.forEach(state => {
@@ -142,7 +142,7 @@ export const CategoryFilter: FC<ICategoryFilter> =
         };
 
         const updateFilterParam = (typeUrl: string, checked: boolean) => {
-            if (activeParams.types && inputsState) {
+            if (activeParams.types) {
                 const existingTypeInParams: string | undefined = activeParams.types.find(item => item === typeUrl);
 
                 if (existingTypeInParams && !checked) {
@@ -236,9 +236,8 @@ export const CategoryFilter: FC<ICategoryFilter> =
                                         type="checkbox"
                                         name={type.name}
                                         checked={
-                                            inputsState
-                                                ? inputsState.find(input => input.url === type.url)?.checked
-                                                : false
+                                            inputsState.find(input => input.url === type.url)?.checked
+                                            || false
                                         }
                                         onChange={(e) => updateFilterParam(type.url, e.target.checked)}
                                     />

@@ -15,7 +15,7 @@ export const favoritesApi = createApi({
             }),
             providesTags: ['favorites']
         }),
-        addToFavorites: builder.mutation<DefaultResponseType, string>({
+        addToFavorites: builder.mutation<DefaultResponseType | FavoritesType, string>({
             query: (productId) => ({
                 method: 'POST',
                 url: 'favorites',

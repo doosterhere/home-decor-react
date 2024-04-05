@@ -1,13 +1,11 @@
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
-
-import {enqueueErrorMessage, enqueueSuccessMessage, favoritesApi} from "../../../store";
-import {useAppDispatch, useCartInteractions, useGetCountInCart} from "../../../hooks";
+import {useCartInteractions, useDisabled, useFavoritesInteractions, useGetCountInCart} from "../../../hooks";
 import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 
 import {FavoritesType, IconName} from "../../../types";
 
-import {CountSelector, Icon} from "../../../components";
+import {Button, CountSelector, Icon} from "../../../components";
 
 interface IFavoritesProduct {
     product: FavoritesType
@@ -16,23 +14,18 @@ interface IFavoritesProduct {
 const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
     const [countInCart] = useGetCountInCart(product?.id);
     const navigator = useNavigate();
-    const dispatcher = useAppDispatch();
-    const [removeFromFavorites] = favoritesApi.useRemoveFromFavoritesMutation();
-    const {count, updateCount, handleAddToCart, handleRemoveFromCart} = useCartInteractions(product);
-
-    const handleRemoveFromFavorites = () => {
-        removeFromFavorites(product.id).unwrap()
-            .then(res => {
-                if (!res.error) {
-                    dispatcher(enqueueSuccessMessage('Удалёно из избранного'));
-                }
-            })
-            .catch(() => {
-                dispatcher(enqueueErrorMessage('Ошибка при удалении'));
-            })
-            .finally();
-
-    };
+    const {
+        isUpdating: isFavoritesUpdating,
+        removeFromFavorites: handleRemoveFromFavorites
+    } = useFavoritesInteractions(product);
+    const {
+        count,
+        isUpdating: isCartUpdating,
+        updateCount,
+        handleAddToCart,
+        handleRemoveFromCart
+    } = useCartInteractions(product);
+    const {state: disabledFavorites} = useDisabled(isFavoritesUpdating);
 
     return (
         <div className="favorites__product">
@@ -43,21 +36,31 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
             <div className="favorites__product-name">{product.name}</div>
             <div className="favorites__product-price">{product.price} BYN</div>
             <div className="favorites__product-action">
+                <CountSelector count={count} updateCount={updateCount}/>
                 {!countInCart &&
-                    <button className="button" onClick={handleAddToCart}>В корзину</button>
+                    <Button
+                        onClick={handleAddToCart}
+                        disabled={isCartUpdating}
+                        isLoading={isCartUpdating}
+                    >
+                        В корзину
+                    </Button>
                 }
                 {!!countInCart &&
-                    <>
-                        <CountSelector count={count} updateCount={updateCount}/>
-                        <button className="button button_transparent button_in-cart"
-                                onClick={handleRemoveFromCart}>
-                            <span>В корзине</span>
-                            <span>Удалить</span>
-                        </button>
-                    </>
+                    <Button
+                        className="button_transparent button_in-cart"
+                        onClick={handleRemoveFromCart}
+                        disabled={isCartUpdating}
+                        isLoading={isCartUpdating}
+                    >
+                        <span>В корзине</span>
+                        <span>Удалить</span>
+                    </Button>
                 }
             </div>
-            <div className="favorites__product-remove" onClick={handleRemoveFromFavorites}>
+            <div className={disabledFavorites ? "favorites__product-remove disabled" : "favorites__product-remove"}
+                 onClick={handleRemoveFromFavorites}
+            >
                 <Icon name={IconName.closeCross} needHover/>
             </div>
         </div>
