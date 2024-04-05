@@ -1,11 +1,13 @@
 import React, {FC} from 'react';
 import {Link} from "react-router-dom";
 
-import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
+import CircularProgress from "@mui/material/CircularProgress";
 
+import {ROUTES, SERVER_STATIC_PATH} from "../../../constants";
 import {useCartInteractions, useDisabled} from "../../../hooks";
 
 import {CartProductType, IconName} from "../../../types";
+
 import {CountSelector, Icon} from "../../../components";
 
 interface ICartProduct {
@@ -28,7 +30,12 @@ const CartProduct: FC<ICartProduct> = ({product}) => {
             <div className={disabled ? "cart__product-remove disabled" : "cart__product-remove"}
                  onClick={handleRemoveFromCart}
             >
-                <Icon name={IconName.closeCross} needHover/>
+                {!disabled &&
+                    <Icon name={IconName.closeCross} needHover/>
+                }
+                {disabled &&
+                    <CircularProgress size={16}/>
+                }
             </div>
         </div>
     );
