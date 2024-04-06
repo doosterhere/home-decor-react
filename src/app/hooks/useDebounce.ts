@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 
 type Timer = ReturnType<typeof setTimeout>;
-type SomeFunction = (...args: any[]) => void;
+type AnyFunction<T extends any[] = any[], R = any> = (...args: T) => R;
 
 export function useDebounceValue<T>(value: T, delay: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -19,7 +19,7 @@ export function useDebounceValue<T>(value: T, delay: number): T {
     return debouncedValue;
 }
 
-export function useDebounceFunction<Func extends SomeFunction>(func: Func, delay: number) {
+export function useDebounceFunction<Func extends AnyFunction>(func: Func, delay: number): Func {
     const timer = useRef<Timer | null>(null);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export function useDebounceFunction<Func extends SomeFunction>(func: Func, delay
         };
     }, []);
 
-    return (function (...args: any[]) {
+    return (function (...args) {
         if (timer.current) {
             clearTimeout(timer.current);
         }
