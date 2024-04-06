@@ -42,7 +42,6 @@ export function useCartInteractions(product: ProductType | CartProductType | nul
                     dispatcher(enqueueErrorMessage('Произошла ошибка, повторите попытку'));
                 }
             } catch (error) {
-                console.error(error);
                 dispatcher(enqueueErrorMessage('Произошла ошибка, попробуйте позже'));
             }
         }
