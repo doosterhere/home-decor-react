@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import './Cart.scss';
 
@@ -12,7 +12,6 @@ import CartDetails from "./CartDetails";
 import CartExtraProducts from "./CartExtraProducts";
 
 const Cart = () => {
-    const navigator = useNavigate();
     const dispatcher = useAppDispatch();
     const cart = useCartRefetch();
 
@@ -28,7 +27,9 @@ const Cart = () => {
                 {cart.items.length === 0 &&
                     <div className="cart__cart-is-empty-info">
                         <div>В корзине пусто</div>
-                        <button className="button" onClick={() => navigator(ROUTES.CATALOG)}>Перейти в каталог</button>
+                        <Link to={ROUTES.CATALOG} className="button">
+                            Перейти в каталог
+                        </Link>
                     </div>
                 }
 
