@@ -1,12 +1,11 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {selectCart, selectCartCount} from "../../../store";
 import {ROUTES} from "../../../constants";
 import {useAppSelector} from "../../../hooks";
 
 const CartDetails = () => {
-    const navigator = useNavigate();
     const cart = useAppSelector(selectCart);
     const totalCount = useAppSelector(selectCartCount);
 
@@ -34,14 +33,12 @@ const CartDetails = () => {
                 <div className="cart__detail-info-note">* без учёта доставки</div>
             </div>
             <div className="cart__details-actions">
-                <button className="button button_transparent"
-                        onClick={() => navigator(ROUTES.CATALOG)}>
+                <Link to={ROUTES.CATALOG} className="button button_transparent">
                     Продолжить покупки
-                </button>
-                <button className="button"
-                        onClick={() => navigator(ROUTES.ORDER)}>
+                </Link>
+                <Link to={ROUTES.ORDER} className="button">
                     Оформить заказ
-                </button>
+                </Link>
             </div>
         </div>
     );
