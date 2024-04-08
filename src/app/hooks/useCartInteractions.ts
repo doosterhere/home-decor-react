@@ -12,7 +12,7 @@ import {useAppDispatch, useAppSelector, useDebounceFunction, useGetCountInCart} 
 
 import {CartProductType, ProductType} from "../types";
 
-export function useCartInteractions(product: ProductType | CartProductType | null | undefined) {
+export function useCartInteractions(product: ProductType | CartProductType | null | undefined, quantity?: number) {
     const [countInCart] = useGetCountInCart(product?.id);
     const [count, setCount] = useState<number>(countInCart || 1);
     const [updateCart, {isLoading: isUpdating}] = cartAPI.useUpdateCartMutation();
@@ -26,6 +26,12 @@ export function useCartInteractions(product: ProductType | CartProductType | nul
             dispatcher(resetNewCartHasBeenReceived());
         }
     }, [countInCart, hasNewCartBeenReceivedAfterUserChange, dispatcher]);
+
+    useEffect(() => {
+        if (quantity) {
+            setCount(quantity);
+        }
+    }, [quantity]);
 
     const update = useCallback(async (id: string | undefined, quantity: number) => {
         if (id) {
