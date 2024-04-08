@@ -179,9 +179,12 @@
         margin-bottom: 120px;
         flex-direction: column;
         justify-content: unset;
+        align-items: flex-end;
         gap: 50px;
 
         .cart__products {
+          width: 100%;
+
           .cart__product {
             gap: 20px;
 
@@ -208,10 +211,6 @@
   .cart {
     .container {
       .cart__info {
-        .cart__products {
-          width: 100%;
-        }
-
         .cart__details {
           margin-left: auto;
         }
