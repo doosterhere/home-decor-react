@@ -12,10 +12,11 @@ import {CountSelector, Icon} from "../../../components";
 
 interface ICartProduct {
     product: CartProductType;
+    quantity: number;
 }
 
-const CartProduct: FC<ICartProduct> = ({product}) => {
-    const {count, isUpdating, updateCount, handleRemoveFromCart} = useCartInteractions(product);
+const CartProduct: FC<ICartProduct> = ({product, quantity}) => {
+    const {count, isUpdating, updateCount, handleRemoveFromCart} = useCartInteractions(product, quantity);
     const {state: disabled} = useDisabled(isUpdating);
 
     return (
