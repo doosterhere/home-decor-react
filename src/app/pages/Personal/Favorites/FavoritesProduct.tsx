@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -16,7 +16,6 @@ interface IFavoritesProduct {
 
 const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
     const [countInCart] = useGetCountInCart(product?.id);
-    const navigator = useNavigate();
     const {
         isUpdating: isFavoritesUpdating,
         removeFromFavorites: handleRemoveFromFavorites
@@ -32,10 +31,10 @@ const FavoritesProduct: FC<IFavoritesProduct> = ({product}) => {
 
     return (
         <div className="favorites__product">
-            <div className="favorites__product-image"
-                 style={{backgroundImage: `url(${SERVER_STATIC_PATH}/${product.image})`}}
-                 onClick={() => navigator(`${ROUTES.PRODUCT}/${product.url}`)}
-            ></div>
+            <Link to={`${ROUTES.PRODUCT}/${product.url}`}
+                  className="favorites__product-image"
+                  style={{backgroundImage: `url(${SERVER_STATIC_PATH + product.image})`}}
+            />
             <div className="favorites__product-name">{product.name}</div>
             <div className="favorites__product-price">{product.price} BYN</div>
             <div className="favorites__product-action">
