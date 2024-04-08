@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {ROUTES} from "../../../constants";
 
@@ -16,30 +16,26 @@ const FavoritesProductsList: FC<IFavoriteProductList> =
     ({
          data,
          isRequestSuccess
-     }) => {
-        const navigate = useNavigate();
-
-        return (
-            <>
-                {isRequestSuccess &&
-                    <div className={data?.length ? "favorites__products" : "favorites__empty"}>
-                        {!data.length &&
-                            <>
-                                <div>Вы ещё ничего не добавили в избранное</div>
-                                <button className="button" onClick={() => navigate(ROUTES.CATALOG)}>
-                                    Перейти в каталог
-                                </button>
-                            </>
-                        }
-                        {!!data.length &&
-                            data.map(product =>
-                                <FavoritesProduct key={product.id} product={product}/>
-                            )
-                        }
-                    </div>
-                }
-            </>
-        );
-    };
+     }) => (
+        <>
+            {isRequestSuccess &&
+                <div className={data?.length ? "favorites__products" : "favorites__empty"}>
+                    {!data.length &&
+                        <>
+                            <div>Вы ещё ничего не добавили в избранное</div>
+                            <Link to={ROUTES.CATALOG} className="button">
+                                Перейти в каталог
+                            </Link>
+                        </>
+                    }
+                    {!!data.length &&
+                        data.map(product =>
+                            <FavoritesProduct key={product.id} product={product}/>
+                        )
+                    }
+                </div>
+            }
+        </>
+    );
 
 export default FavoritesProductsList;
