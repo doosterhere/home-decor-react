@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2020",
     "lib": [
-      "ES2022",
+      "ES2020",
       "dom",
       "dom.iterable",
       "esnext"
@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "module": "ES2022",
+    "module": "ES2020",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -25,10 +25,11 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-  ],
-  "exclude": [
+    "./.eslintrc.js",
+    "./src/**/*",
     "./jest.config.ts",
-    "./babel.config.js"
+    "./babel.config.js",
+    "./__tests__/**/*",
+    "./__mocks__/**/*"
   ]
 }
