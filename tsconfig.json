@@ -26,5 +26,9 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "./jest.config.ts",
+    "./babel.config.js"
   ]
 }
