@@ -3,11 +3,11 @@ import React, {useEffect} from 'react';
 import './Favorites.scss';
 
 import {favoritesApi, setCartCount} from "../../../store";
+import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 import {FavoritesType} from "../../../types";
 
 import FavoritesProductsList from "./FavoritesProductsList";
-import {useAppDispatch, useCartRefetch} from "../../../hooks";
 
 const Favorites = () => {
     const {
